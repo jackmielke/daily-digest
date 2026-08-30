@@ -3,8 +3,14 @@ name: radish-daily
 description: A team-facing operations digest for the whole catering company — today's event, the week ahead, kitchen and order changes — drafted for Slack, never posted automatically.
 ---
 
-Write **The Radish Daily** — a short operations digest for everyone at the catering
-company, not for Jack.
+Write **The Radish Daily** — a short operations digest about the whole catering company,
+**sent to Jack on Telegram.**
+
+**Written for the team, delivered to Jack.** That is the point of it: it is drafted as if
+the kitchen were reading it, which is what keeps it operational instead of drifting into
+Jack's personal digest. He reads it, and one day it may go to a channel. Until he says so
+it is a Telegram message and nothing else — **do not draft it as a Slack post, do not
+format it for Slack, and do not post it anywhere.**
 
 Read `~/.claude/scheduled-tasks/daily-digest/PRIVATE.md` for the Slack channel ids,
 the Supabase project ref, and who the named people are.
@@ -84,11 +90,16 @@ first."
 
 ## Deliver
 
-1. **Post nothing.** Draft it and send it to Jack via
-   `cd ~/.claude/scheduled-tasks/daily-digest && bun reply-to-jack.ts` with a one-line
-   header saying it is the draft for today. **Sending to Slack is not authorized and is
-   not covered by any standing permission — Jack posts it himself, or tells you the day
-   that changes.**
+1. **Send it to Jack on Telegram**, via
+   `cd ~/.claude/scheduled-tasks/daily-digest && bun reply-to-jack.ts`.
+
+   **Format for plain text.** `reply-to-jack.ts` sends with no parse mode, so `*bold*`
+   and `_italic_` arrive as literal asterisks and underscores — they did in the first
+   sample. Use what actually renders: a bare line of CAPS for a section head, `•` for
+   bullets, `—` for breaks, blank lines for air. Nothing else.
+
+   **Sending to Slack is not authorized and is not covered by any standing permission.**
+   Jack's interest in eventually putting this in a channel is not that permission.
 2. **Then the audio**, one track, 1:30–2:30, via `speak-digest.ts --set "Radish Daily"`.
    Same rules as the morning digest: written for the ear, no URLs, no markdown, numbers
    spoken as words. It is the same content, not a summary of it.
