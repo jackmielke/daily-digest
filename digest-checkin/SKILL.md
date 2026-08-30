@@ -23,6 +23,11 @@ The morning digest is a forecast. This is the record. They belong on the same pa
 
 ---
 
+
+## Before anything: read `PRIVATE.md`
+
+It sits beside this file and holds the account identifiers this one refers to. **This file is the method and it is public; that one is the address book and it is not.**
+
 ## Step 1: What he actually worked on — the Claude Code sessions
 
 ```
@@ -77,11 +82,11 @@ Pair it with Step 1: the interesting gap is between **what he asked for** and **
 
 ## Step 3: Did the morning's claims survive?
 
-Fetch today's row from the **Daily Digest** database (data source `<data-source-id>`)
+Fetch today's row from the **Daily Digest** database (data source see `PRIVATE.md`)
 with `notion-fetch`. The date property is queried as `date:Date:start`:
 
 ```
-SELECT id, url, "Title" FROM "collection://<data-source-id>"
+SELECT id, url, "Title" FROM "collection://…"
 WHERE "date:Date:start" >= '<today>'
 ```
 
@@ -94,8 +99,8 @@ watchlist. Then re-poll only the fast movers, since about 6am PT:
 - **Gmail**: `newer_than:1d`, and read anything from a party named in Flagged.
 - **Telegram**: `cd ~/dev/telegram-cli-scripts && bun list-recent.ts`, then the 1:1s
   that relate to a flagged item.
-- **Supabase**, only if a flagged item was a database fact. the client `<project-ref>`,
-  Vibe `<project-ref>`. **Read-only, always.**
+- **Supabase**, only if a flagged item was a database fact. Radish `cjjapnirqwzhnvvrslhn`,
+  Vibe `efdqqnubowgwsnwvlalp`. **Read-only, always.**
 
 ### Step 3b: Check the state, not the story
 
@@ -124,7 +129,7 @@ here** — if he asked something, answer it in this review rather than leaving i
 
 ## Step 4b: Close the board
 
-`Work Board`, data source `collection://<data-source-id>`.
+`Work Board`, data source see `PRIVATE.md`.
 
 **This is the step that makes the board trustworthy.** The morning digest opens rows; this
 closes them, the same evening, while the evidence is fresh.
@@ -221,7 +226,7 @@ The full report — the Notion section is the summary of it, not the other way r
 
 | Style | Template | Stable artifact URL — always publish to this |
 |---|---|---|
-| **Last Light** 🌙 | `templates/lastlight.html` | https://claude.ai/code/artifact/<data-source-id> |
+| **Last Light** 🌙 | `templates/lastlight.html` | https://… |
 
 Read `templates/README.md` before touching it — it lists what must not drift and which block earns
 its place when. The short version:

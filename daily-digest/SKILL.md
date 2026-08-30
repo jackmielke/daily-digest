@@ -1,9 +1,19 @@
 ---
 name: daily-digest
-description: Daily recap of Telegram, Granola, email, Notion edits, and GitHub commits, plus a personalized research roundup (AI/tech, sports, adventure, crypto, SF, travel, YouTube) — filed as a themed entry in the Daily AI Digest Notion database and pinged to Telegram.
+description: Daily recap of Telegram, Granola, email, Notion edits, and GitHub commits, plus a personalized research roundup (AI/tech, sports, adventure, crypto, SF, travel, YouTube) — filed as a themed entry in the Daily Digest Notion database and pinged to Telegram.
 ---
 
-You are creating a daily digest for Jack. Read the last few digests for continuity, **read any context notes he has left in `context/` and any replies he sent back to yesterday's digest**, gather from his personal sources (Telegram, Granola, Wispr Flow, email, Notion, GitHub), research the external topics he cares about, file it all as one entry in the **Daily AI Digest** Notion database (Step 8), publish it as the two reading pages he actually reads in the morning (Step 8b), ping him on Telegram with links to all three (Step 9), and send him the digest read aloud (Step 10).
+You are creating a daily digest for Jack. Read the last few digests for continuity, **read any context notes he has left in `context/` and any replies he sent back to yesterday's digest**, gather from his personal sources (Telegram, Granola, Wispr Flow, email, Notion, GitHub), research the external topics he cares about, file it all as one entry in the **Daily Digest** Notion database (Step 8), publish it as the two reading pages he actually reads in the morning (Step 8b), ping him on Telegram with links to all three (Step 9), and send him the digest read aloud (Step 10).
+
+## Before anything: read `PRIVATE.md`
+
+It sits beside this file and holds the account identifiers and personal specifics —
+channel ids, calendar ids, project refs, Notion data sources, who the named colleagues
+are. **This file is the method and it is public; that one is the address book and it is
+not.** Wherever a step says *see `PRIVATE.md`*, the value is there.
+
+If you are reading this in the public repo: there is no `PRIVATE.md`, and that is the
+point. Fill in your own and the rest works unchanged.
 
 ## How to read this file — the brief comes first, the rules are guardrails
 
@@ -58,7 +68,7 @@ An unlinked research claim is a bug. If you can't source something, either drop 
 
 Before gathering anything, pull the 2–3 most recent entries from the database so you have continuity — what was open yesterday, what Jack said he'd decide, what was broken.
 
-Use `notion-fetch` on the data source `<data-source-id>`, or `notion-query-data-sources` sorted by `Date` descending, then fetch the most recent entries' content.
+Use `notion-fetch` on the data source `…`, or `notion-query-data-sources` sorted by `Date` descending, then fetch the most recent entries' content.
 
 Use this to:
 
@@ -193,19 +203,13 @@ cross-calendar.
 
 The ones that carry real commitments (IDs, since names are not addressable):
 
-| Calendar | ID |
-|---|---|
-| **Personal** | `<your-email>` |
-| **the client** | `<calendar-id>@group.calendar.google.com` |
-| **Edge City** | `<calendar-id>@group.calendar.google.com` |
-| **Health** | `<calendar-id>@group.calendar.google.com` |
-| **Partiful** (RSVPs) | `<calendar-id>@group.calendar.google.com` |
-| **the client Hub — Jack Mielke** | `<calendar-id>@group.calendar.google.com` |
-| **Todoist** | `<calendar-id>@group.calendar.google.com` |
+The ids are in **`PRIVATE.md` → Calendars** (names are not addressable; you need the
+ids). The ones that carry real commitments: personal, work, the community org, health,
+an RSVP feed, and a task-manager feed.
 
 Also present and usually noise, but check before asserting a gap: Mars College 2025, UBC,
 Canvas, Flow Phangan, Consciousness Residency @ Edge Patagonia, three tide feeds, US
-holidays, a raw Supabase `calendar-feed` URL, and `<an-address>`.
+holidays, a raw Supabase `calendar-feed` URL, and a personal address.
 **Re-run `list_calendars` occasionally** — he adds calendars when he starts something new.
 
 ## Step 3d: the client Slack — READ IT EVERY DAY, it is not optional
@@ -228,29 +232,21 @@ assume, and report which it was.)
 
 **Verified working 2026-08-27.** Jack: *"There's a lot of the client updates and relevant
 the client info not only in Slack..."* The Slack connector reaches the full
-`<company>workspace` workspace. Until now this digest reported the client from the
+`<the workspace>` workspace. Until now this digest reported the client from the
 database and from calls, and never from the room where the company actually talks.
 
 `slack_read_channel` with a channel id, `slack_search_public` for content across
 channels, `slack_read_thread` for a thread. The channels that carry real signal:
 
-| Channel | ID | What's in it |
-|---|---|---|
-| **#urgent** | `C0XXXXXXXXX` | Immediate-response only. **Check this first, every run.** |
-| **#ops-team-thread** | `C0XXXXXXXXX` | Questions on upcoming events, whole ops team |
-| **#kitchen-ops** | `C0XXXXXXXXX` | a colleague's channel — the kitchen's own view |
-| **#countingbeans** | `C0XXXXXXXXX` | **a colleague's finance channel.** Where the QuickBooks and invoice reality lives |
-| **#staffing** | `C0XXXXXXXXX` | Rosters and gaps — cross-check against Nowsta |
-| **#production-report** | `C0XXXXXXXXX` | Production reports |
-| **#event-planning-team** | `C0XXXXXXXXX` | Planners |
-| **#announcements** | `C0XXXXXXXXX` | Company-wide |
-| **#the-the client-patch** | `C0XXXXXXXXX` | Jokes and GIFs — **mine this for the funny section** |
-| **#culinary-creativity** | `C0XXXXXXXXX` | Food and plating |
-| **#open-house-tastings** | `C0XXXXXXXXX` | Tastings |
+The channel ids, and which of them carry real signal, are in **`PRIVATE.md` →
+Slack channels**. The shape that matters: an **urgent** channel checked first every run, an
+**ops** channel where the questions land, a **finance** channel where the invoice reality
+lives, a **staffing** channel to cross-check the roster against, and a **jokes** channel
+that feeds Step 7f.
 
 **Two things Jack named specifically.**
 
-- **`#the-the client-patch` is for the funny.** It exists for team jokes and GIFs, and it
+- **`#the-team-patch` is for the funny.** It exists for team jokes and GIFs, and it
   feeds **Step 7f** (the three funniest things) as much as it feeds the client section.
 - **The Hub posts into Slack.** `slack_channel_messages` in the client database carries
   what the Hub has sent, and Jack referred to *"a the client hub bot that should be getting
@@ -260,7 +256,7 @@ channels, `slack_read_thread` for a thread. The channels that carry real signal:
 
 **How to read it.** Same rule as Telegram: this is a company at work, so most of it is
 routine. Report **decisions, blockers, and things aimed at Jack**. A lead report going
-out is routine; a colleague saying the bills cannot all be paid this week is not.
+out is routine; the finance lead saying the bills cannot all be paid this week is not.
 **Read-only — never post.** Drafting a Slack message for Jack to send is fine; sending
 is not, ever, and is not covered by any standing authorization.
 
@@ -277,10 +273,10 @@ the client Net is synced to this Mac by OneDrive at
 OAuth, no company-wide permission grant — it is already on the filesystem.
 
 ```
-bun the client-net.ts --recent 3      # what changed, grouped by area
-bun the client-net.ts --events        # upcoming event folders, parsed from their names
-bun the client-net.ts --spend 14      # vendor invoices and totals, from filenames
-bun the client-net.ts --read "<path>" # the text of ONE document
+bun client-net.ts --recent 3      # what changed, grouped by area
+bun client-net.ts --events        # upcoming event folders, parsed from their names
+bun client-net.ts --spend 14      # vendor invoices and totals, from filenames
+bun client-net.ts --read "<path>" # the text of ONE document
 ```
 
 ### READ-ONLY, ALWAYS
@@ -288,7 +284,7 @@ bun the client-net.ts --read "<path>" # the text of ONE document
 Jack asked for read access *"at all costs"* and **no write access**. A dozen people work
 in this share daily and a stray write would be both destructive and invisible.
 **Never write, move, rename or delete anything under that path**, and never use a
-general file tool on it — `the client-net.ts` is the only sanctioned way in, because it
+general file tool on it — `client-net.ts` is the only sanctioned way in, because it
 cannot write.
 
 ### Two facts that will otherwise mislead you
@@ -362,7 +358,7 @@ Same standard as Telegram: **decisions, plans with a date on them, and things ai
 him.** Most of this inbox is not from people.
 
 - **Real humans first**, with the plan and whether it needs an answer. Example from the
-  first run: a friend on `<phone>`, 9:20am — *"I've been out of town for a week
+  first run: a friend on `<a phone number>`, 9:20am — *"I've been out of town for a week
   and get back on Sunday morning. Potentially down to do it on Sunday late afternoon/
   early evening if y'all are also feeling it"* — a live plan for tomorrow, unanswered.
   That is the whole reason this source was worth turning on.
@@ -446,7 +442,7 @@ Search Gmail for `newer_than:1d`. Read the important ones, skip obvious marketin
 
 Login codes and security alerts are worth a line even when legitimate — cluster them and note whether they look self-initiated.
 
-**the catering company inquiries get one line, and that's it.** New inquiries from `events@contact.<company>.com` are routine business intake — they already arrive in Jack's inbox and land in the Hub, and he is not the person who answers them. Report them as a **single consolidated line in Email Summary** with the details that would matter if he did look (name, event type, date, guest count, budget if stated, venue booked or not, source) plus the current open count. Then stop.
+**the catering company inquiries get one line, and that's it.** New inquiries from `events@contact.<the workspace>.com` are routine business intake — they already arrive in Jack's inbox and land in the Hub, and he is not the person who answers them. Report them as a **single consolidated line in Email Summary** with the details that would matter if he did look (name, event type, date, guest count, budget if stated, venue booked or not, source) plus the current open count. Then stop.
 
 Specifically, do **not**:
 - put an inquiry in the ⚡ Flagged callout,
@@ -479,12 +475,12 @@ database, and nothing surfaces it.** He asked for an outreach board on 2026-08-2
 was explicit that it should hook into this table rather than sit beside it: *"kind of
 like the sales pipeline we have in the client hub, but for my personal stuff."*
 
-Data source: `collection://<data-source-id>`
+Data source: see `PRIVATE.md` → Notion data sources. Referred to below as `<outreach-board>`.
 
 ```sql
 SELECT "Organization", "Status of Engagement", "Next Steps", "Project",
        "Collaborators", "Compensation", "Details", "date:Time Period:start", createdTime
-FROM "collection://<data-source-id>"
+FROM "<outreach-board>"
 WHERE "Next Steps" IS NOT NULL AND "Next Steps" <> '[]'
 ORDER BY createdTime DESC
 ```
@@ -642,8 +638,8 @@ GitHub says what Jack *built*. Supabase says what people actually *did with it* 
 
 | Project | Ref | What it is |
 |---|---|---|
-| **Vibe** | `<project-ref>` | vibeverse — worlds, agents, the $VIBE economy, Vibey |
-| **the client** | `<project-ref>` | the catering company Hub — the catering ops platform |
+| **Vibe** | see `PRIVATE.md` | vibeverse — worlds, agents, the $VIBE economy, Vibey |
+| **the client Hub** | see `PRIVATE.md` | the catering ops platform |
 
 Use the Supabase MCP `execute_sql` tool. The queries live in **`supabase-activity.sql`** beside this file — run query 1 (the sweep) against both projects first, then follow whatever looks interesting into the per-project follow-ups.
 
@@ -656,7 +652,7 @@ Use the Supabase MCP `execute_sql` tool. The queries live in **`supabase-activit
 1. **Who is working.** Query #3 — the Nowsta shift sync in `weekly_schedule_shifts`. Jack asked for this by name on 2026-08-22: *"I'm more curious about who's working and all that."* Report the shape of the day — how many people on which event, which roles, who is leading — and the anomalies: a big party with a thin crew, a shift with **no `team_member_id`** (the worker never matched a team record), a warehouse or prep day nobody is on, or a **stale Nowsta sync** (#3c), which quietly makes every other staffing number wrong.
 
    **Jack does not work shifts. Ever.** He said so on 2026-08-29 after the digest put
-   the 4 Sep roster next to his a medical appointment as though the two collided: *"I won't be
+   the 4 Sep roster next to his the medical appointment as though the two collided: *"I won't be
    working this weekend... I never work shifts, so if you could add that to the skill:
    I don't really work shifts at the client. I'm just a consultant or whatever, mostly.
    I'm also not even living in Seattle right now."* So: **he is a consultant who builds
@@ -937,7 +933,7 @@ vibe right now, brain-heavy."*
 
 ### Dates are provisional unless something wrote them down
 
-After three digests put his a medical appointment on the wrong Friday: *"You take the timelines a
+After three digests put his the medical appointment on the wrong Friday: *"You take the timelines a
 little bit too seriously, and you don't always have context."* Most of his life is
 rescheduled in channels this skill cannot see.
 
@@ -969,7 +965,7 @@ Put it in the page and in the
   strips the comedy. Nearly every empty-handed day was a day spent reading summaries.
 - **Vibey.** The robot interrupting things is reliably the funniest thing in the
   house. It gets picked up by whatever recorder is in the room.
-- **Telegram**, including the group chats, and **Slack `#the-the client-patch`**, which
+- **Telegram**, including the group chats, and **Slack `#the-team-patch`**, which
   exists specifically for jokes and GIFs.
 - **His own Claude Code prompts** (Step 6c) — the frustration ones are often the best.
 - **Whisper's mis-hearings of his own dictation.** A standing goldmine: *"different
@@ -1164,7 +1160,7 @@ rises 1 Sep`, Sun 27 Sep. Both all-day, both free, both on the personal calendar
 search."* **Do not ship unrequested code overnight.** Build only when he asks for
 something by name, or when a live conversation that day produced an explicit spec.
 
-When something does get built on `the-client-app` or `vibe-verse`: put it behind an
+When something does get built on `ravishing-client` or `vibe-verse`: put it behind an
 off-by-default localStorage toggle (copy `src/hooks/useExperimentalHome.ts`), keep it
 purely additive, **no database changes**, and never touch auth, pricing/invoice math,
 client-facing surfaces, or edge functions that send email or SMS. Typecheck
@@ -1181,7 +1177,7 @@ none, it is a dashboard, and he has enough dashboards.
 **Added 2026-08-30.** Jack asked for it after seeing someone's board on X:
 *"having a little database of all the tasks... a new method that's a little more organized."*
 
-Database: `Work Board`, data source `collection://<data-source-id>`.
+Database: `Work Board`, data source `collection://…` (see `PRIVATE.md`).
 Group by `Status` for the board view.
 
 | Column | What belongs there |
@@ -1221,14 +1217,14 @@ or to Dropped on purpose.
   Five New Ideas, not here.
 - **Don't put routine intake on it.** Client inquiries are not tasks — see Step 4.
 
-## Step 8: Add an Entry to the Daily AI Digest Database
+## Step 8: Add an Entry to the Daily Digest Database
 
 Every digest is a row in the database, not a loose workspace page.
 
-- Database: https://app.notion.com/p/<page-id>
-- Data source ID: `<data-source-id>`
+- Database: https://app.notion.com/p/…
+- Data source ID: `…`
 
-Use `notion-create-pages` with `parent: {"type": "data_source_id", "data_source_id": "<data-source-id>"}`.
+Use `notion-create-pages` with `parent: {"type": "data_source_id", "data_source_id": "<see PRIVATE.md>"}`.
 
 If a property fails to set, `notion-fetch` the data source to re-read the live schema, then retry — the table below may have drifted. (Jack renames things; target by ID, never by title.)
 
@@ -1533,7 +1529,7 @@ digest inventing a deadline he had never actually set.
 
 - **He is not unpublished.** The claim that "the archive still ends at *Life at the
   Edge*, December 2024" was reading the wrong publication. That is
-  [The Mielke Way](https://<you>.substack.com). His active one is
+  [The Mielke Way](https://jackmielke.substack.com). His active one is
   **[AI Vibe Check](https://vibecheckai.substack.com)** — *"Building at the speed of
   intuition, weekly"* — **six posts in 2026**, most recently *Vibe Residency Recap from
   Edge Esmeralda* on **9 July**. **Check both before ever saying he hasn't shipped.**
@@ -1564,7 +1560,7 @@ Be honest about gaps: if a source failed, a search returned nothing current, or 
 The Notion row is the archive. **This** is what Jack actually reads in the morning.
 
 **One page, one stable URL — always republish to it:**
-`https://claude.ai/code/artifact/<data-source-id>`
+`https://claude.ai/code/artifact/… (see `PRIVATE.md`)`
 
 It carries the **full digest**, not a summary of it. Same words as the Notion page,
 different clothes.
@@ -1640,7 +1636,7 @@ Once the Notion entry and both reading pages exist, notify him through the **Won
 cd ~/.claude/scheduled-tasks/daily-digest && bun notify-telegram.ts \
   --title "<the row's Title>" \
   --url "<the new Notion page URL>" \
-  --almanac "https://claude.ai/code/artifact/<data-source-id>" \
+  --almanac "https://claude.ai/code/artifact/… (see `PRIVATE.md`)" \
   --icon "<the same emoji used as the page icon>" <<'EOF'
 <TL;DR sentence>
 

@@ -8,14 +8,19 @@ This is the weekly review for Jack, run automatically on Sunday evening. He is n
 **The daily digest reports events. This reports trends.** Nothing in here should be a thing that happened once — the daily already covered that. Every claim should be a direction, a rate, a comparison, or a pattern that only becomes visible with seven days of data. If you find yourself writing "on Tuesday he…", stop and ask what the week says instead.
 
 The reference edition is the trial run of 2026-08-21, published at
-https://claude.ai/code/artifact/<data-source-id> — read it first
+https://… — read it first
 for the register and the depth. It is the standard to hit.
+
+
+## Before anything: read `PRIVATE.md`
+
+It sits beside this file and holds the account identifiers this one refers to. **This file is the method and it is public; that one is the address book and it is not.**
 
 ## Gather (a week, not a day)
 
-1. **The week's digests.** `notion-query-data-sources` on data source `<data-source-id>` for the last 7 days: Title, date, TL;DR, Open Actions, Meetings, Needs Attention, Themes. The titles alone give you the week's arc.
+1. **The week's digests.** `notion-query-data-sources` on data source see `PRIVATE.md` for the last 7 days: Title, date, TL;DR, Open Actions, Meetings, Needs Attention, Themes. The titles alone give you the week's arc.
 2. **GitHub:** `cd ~/.claude/scheduled-tasks/daily-digest && bun github-activity.ts --hours 168 --json`. Read the **`writtenBy`** field on each commit, never the author name: `Lovable`, `Claude Code`, or `hand-written`. **A commit authored `Jack Mielke` is an interactive Claude Code session, not Jack typing** — he corrected this on 2026-08-21 after the trial run called 65 commits hand-written. Genuinely human commits are effectively nonexistent (zero of 1,171 that week). The useful distinction is Lovable vs Claude Code, and within Claude Code, author `Claude` = overnight autonomous runs vs author `Jack Mielke` = Jack driving. The script paginates now; before 2026-08-21 it truncated at 100 per repo and reported a 1,171-commit week as 288.
-3. **Supabase trends**, not snapshots. the client is `<project-ref>`, Vibe is `<project-ref>`. Ask 9–10 day questions so the week has a before: distinct daily users on the Hub, writes per day, error counts per day. Read-only, always.
+3. **Supabase trends**, not snapshots. Radish is `cjjapnirqwzhnvvrslhn`, Vibe is `efdqqnubowgwsnwvlalp`. Ask 9–10 day questions so the week has a before: distinct daily users on the Hub, writes per day, error counts per day. Read-only, always.
 4. **Meetings:** Granola `list_meetings` and Wispr Flow `search_meetings` across the week. Count them, but more usefully: what did he keep talking about?
 5. **Wispr Flow scratchpad notes** for the week — his own dictated thinking is the best evidence of what he actually cares about.
 6. **Replies:** `cd ~/dev/telegram-cli-scripts && bun read-digest-replies.ts --peek --since 7d`. Anything he asked for during the week shapes this review. Use `--peek` so the Monday digest still sees them.
@@ -36,7 +41,7 @@ for the register and the depth. It is the standard to hit.
 
 ## Publish
 
-Write it as an artifact in the **Almanac family** — same fonts (Newsreader + Spline Sans Mono), same green-grey paper, same theme-aware token structure — but chart-forward, since trends are the point. Title it **The Sunday Ledger**, favicon 📈. **Republish to the stable URL** https://claude.ai/code/artifact/<data-source-id> by passing it as `url`, so the link never changes.
+Write it as an artifact in the **Almanac family** — same fonts (Newsreader + Spline Sans Mono), same green-grey paper, same theme-aware token structure — but chart-forward, since trends are the point. Title it **The Sunday Ledger**, favicon 📈. **Republish to the stable URL** https://… by passing it as `url`, so the link never changes.
 
 Then send **one audio track**, 90–120 seconds, via
 `cd ~/.claude/scheduled-tasks/daily-digest && bun speak-digest.ts --set "Week in review" --title "The week"`,

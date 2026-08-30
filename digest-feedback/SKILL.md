@@ -20,7 +20,7 @@ Non-empty → keep the ids, and continue. Use `--peek` so a crash never loses a 
 
 ## Step 2 — classify each reply
 
-Jack's Wonder chat (`@<your-bot>`) exists only to deliver the digest, so **anything he
+Jack's Wonder chat (`@jack_mielke_ai_bot`) exists only to deliver the digest, so **anything he
 sends there is an instruction to it.** Voice notes arrive already transcribed. Sort each into
 exactly one bucket:
 
@@ -71,7 +71,7 @@ publishes. **If it refuses, say so in the Telegram reply**: the private change l
 the public mirror did not, and a rule needs adding to `sanitize-skill.ts`.
 
 Write real commit messages — subject line in the imperative, body explaining the change. The
-repo is private at github.com/<you>/scheduled-tasks and this history is how Jack audits
+repo is private at github.com/jackmielke/scheduled-tasks and this history is how Jack audits
 what the digest has become.
 
 ## Step 4 — tell him, in the same chat

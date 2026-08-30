@@ -11,7 +11,12 @@ rewrites markdown on save (escapes `~` and `$`, turns bare domains into links, s
 bold+italic into link spans), so a round trip corrupts the file a little more each pass and the
 damage is invisible until an agent reads a mangled rule and does the wrong thing.
 
-Notion database: `Skills`, data source `collection://<data-source-id>`.
+Notion database: `Skills`, data source see `PRIVATE.md`.
+
+
+## Before anything: read `PRIVATE.md`
+
+It sits beside this file and holds the account identifiers this one refers to. **This file is the method and it is public; that one is the address book and it is not.**
 
 ## Step 1 — has anything actually changed?
 
@@ -26,7 +31,7 @@ push, and re-run.
 Then query the database for each row's `Synced from commit`:
 
 ```sql
-SELECT "Name", "Synced from commit", "Lines" FROM "collection://<data-source-id>"
+SELECT "Name", "Synced from commit", "Lines" FROM "<the digest database>"
 ```
 
 **If every row already carries the current short sha, stop. Change nothing, say nothing.** Most
