@@ -36,20 +36,24 @@ you want to build your own, the parts worth stealing are:
   prohibitions by only ever being appended to, and the output went flat and careful. The
   preamble exists to stop that happening again.
 
-## What's redacted, and how
+## How the public/private split works
 
-A script mirrors these from a private repo and **refuses to publish if it finds anything
-it doesn't have a rule for** — long hex, uuids, api-key shapes, addresses, phone numbers,
-absolute home paths. It fails closed, so a new integration breaks the mirror instead of
-leaking through it. It has already caught a friend's phone number and a third party's
-email address that I would have missed.
+**Nothing here is redacted.** These files are byte-for-byte the ones that ran this
+morning. There is no laundered copy and no transform that could quietly go wrong.
 
-What's replaced: account and channel ids, calendar ids, project refs, my colleagues'
-names, one medical detail, and the client's identity. What's kept: everything about how
-it actually works — the techniques, the failure stories, the API gotchas, and my own
-words about how I want to be written to.
+The method is public because the method is the useful part. What isn't here is a
+`PRIVATE.md` beside each skill, holding the things that are just addresses — Slack channel
+ids, calendar ids, Supabase project refs, Notion data sources, which colleague is which,
+and one medical detail. Wherever a step says *see `PRIVATE.md`*, that's a value you'd fill
+in with your own.
 
-Placeholders look like `<project-ref>`, `C0XXXXXXXXX`, `the client`, `a colleague`.
+It turned out to be a small split: of 1,837 lines in the main skill, **33 carried anything
+private** — about 1.8%, nearly all of it in six id tables.
+
+A verifier runs before every push and **refuses on any hit** — long hex, uuids, api-key
+shapes, addresses, phone numbers, absolute home paths. So a new integration breaks the
+mirror instead of leaking through it. It has already caught a friend's phone number and a
+third party's email address that would otherwise have gone out.
 
 ## Licence
 
