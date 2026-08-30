@@ -3,7 +3,7 @@ name: sync-skills
 description: Mirrors the skills in the scheduled-tasks repo into the Notion Skills database, one way, whenever the repo has moved.
 ---
 
-Keep the Notion **Skills** database matching the `~/.claude/scheduled-tasks` repo.
+Keep the Notion **Skills** database matching the `~/dev/scheduled-tasks` repo.
 
 **One-way, always.** The repo is the source of truth. Notion is a readable, shareable mirror
 that gets overwritten. **Never copy anything from Notion back into a skill file** — Notion
@@ -21,7 +21,7 @@ It sits beside this file and holds the account identifiers this one refers to. *
 ## Step 1 — has anything actually changed?
 
 ```
-cd ~/.claude/scheduled-tasks && bun sync-skills-to-notion.ts --dry
+cd ~/dev/scheduled-tasks && bun sync-skills-to-notion.ts --dry
 ```
 
 That prints the current commit and every skill's line and character count. It **refuses to run

@@ -26,11 +26,11 @@ exactly one bucket:
 
 **A. A durable preference** — "stop doing X", "always Y", "I don't like Z", "less of this",
 "more of that". These change how the digest works from now on.
-→ Edit `~/.claude/scheduled-tasks/daily-digest/SKILL.md`.
+→ Edit `~/dev/scheduled-tasks/daily-digest/SKILL.md`.
 
 **B. A one-off for the next digest** — "chase that Network Solutions thing", "who was the
 Ukrainian guy", "more on the job hunt tomorrow". Not a rule, just a steer for tomorrow.
-→ Append to a dated file in `~/.claude/scheduled-tasks/daily-digest/context/`.
+→ Append to a dated file in `~/dev/scheduled-tasks/daily-digest/context/`.
 
 **C. A question** — he wants an answer, not a change.
 → Answer it in the Telegram reply. Research it properly first if it needs research.
@@ -57,7 +57,7 @@ For **A**, edit SKILL.md the way a careful editor would:
 Then, always:
 
 ```
-cd ~/.claude/scheduled-tasks
+cd ~/dev/scheduled-tasks
 git add -A daily-digest && git commit -m "<subject>
 
 <what he said, and what changed as a result>"

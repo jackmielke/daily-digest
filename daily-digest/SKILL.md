@@ -456,7 +456,7 @@ The exception is a genuine anomaly, not volume: an inquiry that arrives broken, 
 ## Step 5: Review Notion Activity
 
 ```
-cd ~/.claude/scheduled-tasks/daily-digest && bun notion-edits.ts --all
+cd ~/dev/scheduled-tasks/daily-digest && bun notion-edits.ts --all
 ```
 
 Lists everything created or edited in the workspace in the last 24 hours, with parent database/page for context. Flags: `--hours N`, `--json`, and dropping `--all` to filter to Jack's user only. Authenticates via the logged-in Notion CLI (`ntn`); if it fails on auth, `ntn login` fixes it.
@@ -516,7 +516,7 @@ a stale stage is worth flagging back to him so he fixes the row.
 ## Step 6: Review GitHub Commits
 
 ```
-cd ~/.claude/scheduled-tasks/daily-digest && bun github-activity.ts
+cd ~/dev/scheduled-tasks/daily-digest && bun github-activity.ts
 ```
 
 Lists commits pushed in the last 24 hours, grouped by repo, with messages, authors, and commit links. Flags: `--hours N`, `--json`. Uses the authenticated `gh` CLI and covers **private repos**.
@@ -1633,7 +1633,7 @@ links to both. If it fails, still send the ping — link what exists and say wha
 Once the Notion entry and both reading pages exist, notify him through the **Wonder** bot (`@<your-bot>`) so he can read the gist without opening anything — and pick a reading style from the message itself.
 
 ```
-cd ~/.claude/scheduled-tasks/daily-digest && bun notify-telegram.ts \
+cd ~/dev/scheduled-tasks/daily-digest && bun notify-telegram.ts \
   --title "<the row's Title>" \
   --url "<the new Notion page URL>" \
   --almanac "https://claude.ai/code/artifact/… (see `PRIVATE.md`)" \
@@ -1668,7 +1668,7 @@ read. After the Telegram ping, send the digest as **four short tracks** — sepa
 audio messages he can skip between — not one long file.
 
 ```
-cd ~/.claude/scheduled-tasks/daily-digest && bun speak-digest.ts \
+cd ~/dev/scheduled-tasks/daily-digest && bun speak-digest.ts \
   --set "<e.g. Friday 21 August>" <<'EOF'
 == Good morning ==
 <open with the words "Good morning." Then the whole day at a sweep, most

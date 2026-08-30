@@ -19,7 +19,7 @@ It sits beside this file and holds the account identifiers this one refers to. *
 ## Gather (a week, not a day)
 
 1. **The week's digests.** `notion-query-data-sources` on data source see `PRIVATE.md` for the last 7 days: Title, date, TL;DR, Open Actions, Meetings, Needs Attention, Themes. The titles alone give you the week's arc.
-2. **GitHub:** `cd ~/.claude/scheduled-tasks/daily-digest && bun github-activity.ts --hours 168 --json`. Read the **`writtenBy`** field on each commit, never the author name: `Lovable`, `Claude Code`, or `hand-written`. **A commit authored `Jack Mielke` is an interactive Claude Code session, not Jack typing** — he corrected this on 2026-08-21 after the trial run called 65 commits hand-written. Genuinely human commits are effectively nonexistent (zero of 1,171 that week). The useful distinction is Lovable vs Claude Code, and within Claude Code, author `Claude` = overnight autonomous runs vs author `Jack Mielke` = Jack driving. The script paginates now; before 2026-08-21 it truncated at 100 per repo and reported a 1,171-commit week as 288.
+2. **GitHub:** `cd ~/dev/scheduled-tasks/daily-digest && bun github-activity.ts --hours 168 --json`. Read the **`writtenBy`** field on each commit, never the author name: `Lovable`, `Claude Code`, or `hand-written`. **A commit authored `Jack Mielke` is an interactive Claude Code session, not Jack typing** — he corrected this on 2026-08-21 after the trial run called 65 commits hand-written. Genuinely human commits are effectively nonexistent (zero of 1,171 that week). The useful distinction is Lovable vs Claude Code, and within Claude Code, author `Claude` = overnight autonomous runs vs author `Jack Mielke` = Jack driving. The script paginates now; before 2026-08-21 it truncated at 100 per repo and reported a 1,171-commit week as 288.
 3. **Supabase trends**, not snapshots. Radish is `cjjapnirqwzhnvvrslhn`, Vibe is `efdqqnubowgwsnwvlalp`. Ask 9–10 day questions so the week has a before: distinct daily users on the Hub, writes per day, error counts per day. Read-only, always.
 4. **Meetings:** Granola `list_meetings` and Wispr Flow `search_meetings` across the week. Count them, but more usefully: what did he keep talking about?
 5. **Wispr Flow scratchpad notes** for the week — his own dictated thinking is the best evidence of what he actually cares about.
@@ -44,7 +44,7 @@ It sits beside this file and holds the account identifiers this one refers to. *
 Write it as an artifact in the **Almanac family** — same fonts (Newsreader + Spline Sans Mono), same green-grey paper, same theme-aware token structure — but chart-forward, since trends are the point. Title it **The Sunday Ledger**, favicon 📈. **Republish to the stable URL** https://… by passing it as `url`, so the link never changes.
 
 Then send **one audio track**, 90–120 seconds, via
-`cd ~/.claude/scheduled-tasks/daily-digest && bun speak-digest.ts --set "Week in review" --title "The week"`,
+`cd ~/dev/scheduled-tasks/daily-digest && bun speak-digest.ts --set "Week in review" --title "The week"`,
 following the script rules in Step 10 of the daily-digest skill: no URLs, no markdown, numbers written the way they are said. The weekly track should be the *judgement*, not the data — what moved, what did not, what to do about it.
 
 Finally a short Telegram note linking the page, via `notify-telegram.ts`.

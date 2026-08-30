@@ -31,7 +31,7 @@ It sits beside this file and holds the account identifiers this one refers to. *
 ## Step 1: What he actually worked on — the Claude Code sessions
 
 ```
-cd ~/.claude/scheduled-tasks/daily-digest && bun claude-sessions.ts --hours 12
+cd ~/dev/scheduled-tasks/daily-digest && bun claude-sessions.ts --hours 12
 ```
 
 **This is the point of the 5pm run and the reason it exists.** Jack asked for it on 2026-08-24:
@@ -68,7 +68,7 @@ check the state.** See Step 3b.
 ## Step 2: What landed
 
 ```
-cd ~/.claude/scheduled-tasks/daily-digest && bun github-activity.ts --hours 12
+cd ~/dev/scheduled-tasks/daily-digest && bun github-activity.ts --hours 12
 ```
 
 Read `writtenBy`, never the author name — Claude Code commits under whichever git identity is
@@ -247,7 +247,7 @@ clever, and never congratulatory about a thing that did not finish.
 ## Step 8: One Telegram message
 
 ```
-cd ~/.claude/scheduled-tasks/daily-digest && bun notify-telegram.ts \
+cd ~/dev/scheduled-tasks/daily-digest && bun notify-telegram.ts \
   --title "How today went" \
   --url "<today's Notion digest URL>" \
   --icon "🌙" <<'EOF'

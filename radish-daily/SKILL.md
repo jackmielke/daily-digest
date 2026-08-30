@@ -12,7 +12,7 @@ Jack's personal digest. He reads it, and one day it may go to a channel. Until h
 it is a Telegram message and nothing else — **do not draft it as a Slack post, do not
 format it for Slack, and do not post it anywhere.**
 
-Read `~/.claude/scheduled-tasks/daily-digest/PRIVATE.md` for the Slack channel ids,
+Read `~/dev/scheduled-tasks/daily-digest/PRIVATE.md` for the Slack channel ids,
 the Supabase project ref, and who the named people are.
 
 ## The one rule that matters most
@@ -48,7 +48,7 @@ Read-only, all of it.
 1. **Supabase (the Hub).** Won events for the next 10 days: name, date, guest count,
    service style, venue, and offering count. Then `weekly_schedule_shifts` for the next 7
    days: shifts, roles, and the event label.
-2. **The shared drive** — `cd ~/.claude/scheduled-tasks/daily-digest && bun radish-net.ts
+2. **The shared drive** — `cd ~/dev/scheduled-tasks/daily-digest && bun radish-net.ts
    --recent 2` for what changed, and `--spend 7` for vendor invoices.
 3. **Slack**, the channels in `PRIVATE.md`. Read `#the-radish-patch` for one warm human
    line. Read the ops channels for anything genuinely operational — a venue change, a
@@ -91,7 +91,7 @@ first."
 ## Deliver
 
 1. **Send it to Jack on Telegram**, via
-   `cd ~/.claude/scheduled-tasks/daily-digest && bun reply-to-jack.ts`.
+   `cd ~/dev/scheduled-tasks/daily-digest && bun reply-to-jack.ts`.
 
    **Format for plain text.** `reply-to-jack.ts` sends with no parse mode, so `*bold*`
    and `_italic_` arrive as literal asterisks and underscores — they did in the first
