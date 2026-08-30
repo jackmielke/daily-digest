@@ -245,10 +245,26 @@ Shape, and keep it short — he often reads only this:
 Send **once**, after the Notion update is verified and Last Light is published. If either failed,
 still send — link what exists and say which one failed. A silent failure is worse than a partial review.
 
-**Audio only if the day genuinely earned it** — something broke, something big shipped, or a flagged
-item went stale. Otherwise text alone. If you do send audio: one track, under 900 characters, via
-`speak-digest.ts`. **The ElevenLabs quota is shared with the morning set and is tight**; the morning
-digest is the priority, so if the balance is low, skip it and say so.
+**Send audio every evening.** Two tracks, via `speak-digest.ts` — same voice and register as the
+morning set, which is the broadcaster reading it straight.
+
+| Track | Holds | Target |
+|---|---|---|
+| **How today went** | What he actually did, what landed, what he wanted and did not get | 2:30–3:30 |
+| **Tomorrow** | What survived from the morning, what is now due, and the one thing waiting on him | 1:30–2:30 |
+
+**This used to say "audio only if the day earned it", and the reason it gave was an ElevenLabs quota
+that has not applied since 24 August** — audio moved to OpenAI at about 1.5 cents a minute, so a
+five-minute evening set costs under a dime. The rationing was real once and is now just a habit that
+made the evening review worse than the morning one. Jack noticed: *"it doesn't really send me audio
+recordings ever, and it's not nearly as good as the morning 6:00 a.m. digest."*
+
+The same rules as the morning set apply: **write a new script for the ear**, never the page read
+aloud. No URLs, no markdown, numbers spoken as words. **Each track under ~8,800 characters** (the
+hard per-request cap). Each stands alone — he may play the second and not the first.
+
+**A genuinely empty day gets one short track and says so**, rather than padding. But "he worked all
+day and nothing broke" is not an empty day — that is the day worth telling him about.
 
 ## Tone
 

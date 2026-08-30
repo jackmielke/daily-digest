@@ -62,7 +62,13 @@ git add -A daily-digest && git commit -m "<subject>
 
 <what he said, and what changed as a result>"
 git push origin main
+./mirror-public.sh          # keep the public mirror in step
 ```
+
+`mirror-public.sh` re-sanitizes and pushes the public copy. It **fails closed** — if the
+edit introduced an identifier the sanitizer has no rule for, it refuses and nothing
+publishes. **If it refuses, say so in the Telegram reply**: the private change landed,
+the public mirror did not, and a rule needs adding to `sanitize-skill.ts`.
 
 Write real commit messages — subject line in the imperative, body explaining the change. The
 repo is private at github.com/<you>/scheduled-tasks and this history is how Jack audits
