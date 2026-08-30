@@ -1176,6 +1176,51 @@ turn it on.
 workflow, not a readout. *"Which human keystrokes does this remove?"* If the answer is
 none, it is a dashboard, and he has enough dashboards.
 
+## Step 7i: The Work Board — the system of record for open threads
+
+**Added 2026-08-30.** Jack asked for it after seeing someone's board on X:
+*"having a little database of all the tasks... a new method that's a little more organized."*
+
+Database: `Work Board`, data source `collection://<data-source-id>`.
+Group by `Status` for the board view.
+
+| Column | What belongs there |
+|---|---|
+| **Blocked on me** | Needs Jack's own hands or voice. Nothing else can move it. |
+| **Waiting on someone** | Sent, and now it's on them. Put the name in `Waiting on`. |
+| **Backlog** | Real but unscheduled. His to pace — **never chase these.** |
+| **Complete** | Done, with the evidence in `Closed by`. |
+| **Dropped** | Deliberately abandoned. Say so once and stop carrying it. |
+
+### The board replaces the action-items toggle
+
+**The page keeps only the top three.** Everything else lives here. That fixes the thing
+the weekly review has been watching for: items used to *vanish* — the count stayed level
+because things got quietly dropped and replaced, and nobody could tell the difference
+between finished and forgotten. A row cannot vanish. It moves to Complete with evidence,
+or to Dropped on purpose.
+
+### Every run
+
+1. **Query the board first**, before writing anything. It is the truth about what is open;
+   yesterday's digest is not.
+2. **Close what landed.** A commit, a sent message, a database row, a calendar entry — put
+   it in `Closed by` and set Status to Complete. **Evidence or it stays open.**
+3. **Move what changed hands.** He replied to someone → Waiting on someone, with the name.
+   They replied to him → Blocked on me.
+4. **Add what today surfaced**, with `First asked` set to today. **Set `First asked` once
+   and never touch it again** — it is the only thing that makes staleness visible.
+5. **Never silently delete a row.** If something is genuinely dead, set it to Dropped and
+   say so in the digest once.
+
+### What not to do with it
+
+- **Don't nag from it.** A Backlog row nine months old gets mentioned once, flat, if at
+  all. The ledger rule in Step 7d governs the board exactly like everything else.
+- **Don't inflate it.** A thought is not a task. If it has no next action, it belongs in
+  Five New Ideas, not here.
+- **Don't put routine intake on it.** Client inquiries are not tasks — see Step 4.
+
 ## Step 8: Add an Entry to the Daily AI Digest Database
 
 Every digest is a row in the database, not a loose workspace page.
@@ -1388,7 +1433,9 @@ rewrites, and add the co-founder read. 4–8 bullets. See Step 6b.
 Omit only if both databases were genuinely quiet.]
 
 ## Action Items
-[ALWAYS inside a <details> toggle — see "Action items go in a toggle" below]
+[The **top three only**, in the open — the ones that are genuinely time-bound or that he'd
+regret missing. Three, not five. Everything else lives on the Work Board, not in a toggle
+on this page. Link the board once, underneath.]
 
 ## The Three Funniest Things That Happened Today
 [**A numbered top three. Every single day. Never omitted.** This is his favourite

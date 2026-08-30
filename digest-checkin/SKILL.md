@@ -122,6 +122,22 @@ cd ~/dev/telegram-cli-scripts && bun read-digest-replies.ts
 Anything he sent to the Wonder chat, text or voice, transcribed. **A reply outranks everything else
 here** — if he asked something, answer it in this review rather than leaving it for tomorrow.
 
+## Step 4b: Close the board
+
+`Work Board`, data source `collection://<data-source-id>`.
+
+**This is the step that makes the board trustworthy.** The morning digest opens rows; this
+closes them, the same evening, while the evidence is fresh.
+
+- Anything that landed today → **Complete**, with the evidence in `Closed by` — the commit,
+  the sent message, the row that appeared. **Evidence or it stays open.**
+- Anything he sent and is now waiting on → **Waiting on someone**, with the name.
+- Anything that came back to him → **Blocked on me**.
+- Never delete a row. Genuinely dead is **Dropped**, said once.
+
+Report the movement in the evening message as one line: *"three closed, one came back to
+you."* Not a list — he can open the board.
+
 ## Step 5: Check nothing already ran
 
 **Before writing anything, confirm today's review has not already been sent.**
