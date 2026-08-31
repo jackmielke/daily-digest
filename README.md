@@ -17,24 +17,34 @@ history: every commit is a thing that went wrong once and got fixed.
 | [`weekly-review`](weekly-review/SKILL.md) | Sundays | Trends, not events — and an audit of the action list |
 | [`sync-skills`](sync-skills/SKILL.md) | nightly | Mirrors these into Notion |
 
-## Reading this without copying it
+## Start here
 
-`daily-digest/SKILL.md` is about 1,800 lines and most of it is specific to my life. If
-you want to build your own, the parts worth stealing are:
+**[SETUP.md](SETUP.md)** — the 20-minute version: a Telegram bot, an OpenAI key, and the
+three scripts in `scripts/` that are genuinely reusable (audio, and two ways to message
+yourself). Get a test message onto your phone before anything else.
 
-- **Step 7d, the register.** Never write like a ledger — nothing is *owed*, *overdue* or
-  *finally* done. This one rule did more for how the digest reads than everything else
-  combined.
-- **The anti-repetition rule.** A story runs once; a repeat has to say what changed. The
-  topics you care about most are the ones it will restate most.
-- **"Dates are provisional unless something wrote them down."** Ranked sources: written
-  confirmation > calendar > transcript. Most of a life gets rescheduled in channels a
-  script cannot see.
-- **The feedback loop.** I reply in Telegram and the file edits itself, commits, and tells
-  me what changed. Without it a skill drifts and you never find out why.
-- **"How to read this file"** at the top. This document grew to 124KB and ~400
-  prohibitions by only ever being appended to, and the output went flat and careful. The
-  preamble exists to stop that happening again.
+**Then read `daily-digest/SKILL.md` for the method, not as a script to run.** It is ~1,800
+lines and most of it is specific to my life — my sources, my client, my interests. Pointed
+at literally, an agent will try to read my Slack. Point your agent at it and ask it to
+write *you* one.
+
+**What is not in this repo:** the scrapers for my Telegram, Granola, Gmail, Notion, GitHub,
+Supabase and the company drive. They are wired to my accounts and would do you no good.
+What the skills *do* give you is what each source returns and what it gets wrong — which is
+the part worth having. Your agent can write its own in an afternoon.
+
+## The parts worth stealing
+
+- **Step 7d, the register.** Never write like a ledger — nothing is *owed*, *overdue*, or
+  *finally* done. This one rule did more for how it reads than everything else combined.
+- **The anti-repetition rule.** A story runs once; a repeat has to say what changed.
+- **"Dates are provisional unless something wrote them down."** Written confirmation >
+  calendar > transcript.
+- **The feedback loop.** I reply in Telegram, the file edits itself, commits, and tells me
+  what changed with a sha so I can revert it.
+- **"How to read this file"** at the top of the main skill. It grew to 124KB and ~400
+  prohibitions by only ever being appended to, and the output went flat. That preamble
+  exists to stop it happening again.
 
 ## How the public/private split works
 

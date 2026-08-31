@@ -1,2 +1,5 @@
 PRIVATE.md
 */PRIVATE.md
+scripts/.env
+scripts/out/
+scripts/node_modules/
