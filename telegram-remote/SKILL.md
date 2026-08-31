@@ -72,6 +72,21 @@ arrive literally. Caps for a heading, `•` for bullets, blank lines for air.
   is far worse than a refusal — see the git history of this repo for what that costs.
 - **Never send more than two messages** for one request: the ack, and the answer.
 
+## Step 4b — if you changed a skill file, it mirrors itself
+
+A `post-commit` hook in `~/dev/scheduled-tasks` runs `mirror-public.sh` after every
+commit, so the public repo at `github.com/<you>/daily-digest` tracks this one
+automatically. **You do not need to run it**, and you should not skip committing in
+order to avoid it.
+
+**What you DO need to do: commit.** An edit that is never committed never mirrors, and
+the public history is the thing Jack sends to people. Real message, real subject line.
+
+`PRIVATE.md` files are gitignored in the mirror and tracked here — never move a value
+from one to the other without saying so in the reply.
+
+If the hook reports a failure in `.mirror.log`, say so in the Telegram reply.
+
 ## Step 5 — consume, last
 
 Only when everything above worked:
