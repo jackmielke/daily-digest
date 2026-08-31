@@ -103,7 +103,7 @@ says *see PRIVATE.md*, that's a value you fill in with your own.
 
 ## The things that will actually make or break it
 
-Six lessons that each cost a bad digest. There are more in `daily-digest/SKILL.md`.
+Six lessons that each cost a bad digest. There are more in `SKILL.md`.
 
 1. **Never write like a ledger.** Nothing is *owed*, *overdue*, or *finally* done. Ban the
    whole family — "you finally", "still hasn't", "it's been N days and". This one rule did
