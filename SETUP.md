@@ -14,10 +14,19 @@ worth reading.
 
 ## The 20-minute version
 
-You need **an agent** (Claude Code, Codex, whatever you use — the skills are plain
-markdown), **an OpenAI API key** for the audio (~1.5¢/minute, so a 20-minute daily set is
-about a third of a dollar), and **a Telegram bot**, which is the fastest way to get
-something onto your phone.
+You need three things.
+
+**An agent** — Claude Code, Cowork, Codex, whatever you use. These are plain markdown
+files. **A cloud agent is the easier start**, because it runs without your laptop being
+open, and you can set the whole thing up from your phone.
+
+**An API key for the voice.** Worth being precise, because it confuses people: your agent
+does all the thinking and writing. The key is *only* for turning the finished script into
+speech. OpenAI's `gpt-4o-mini-tts` is ~1.5¢/minute — twenty minutes a day is about **$9 a
+month**. ElevenLabs sounds slightly better at ~14¢/minute, **nine times more**. Either
+works; `--provider elevenlabs` switches.
+
+**A Telegram bot.** Ten minutes, and it's the fastest way onto your phone.
 
 ### 1. A bot, and your chat id
 
@@ -64,10 +73,13 @@ characters per spoken minute.
 
 ### 4. Tell your agent what you actually want
 
-Point it at `daily-digest/SKILL.md` and describe your own sources and interests.
+Point it at **`SKILL.md` in the repo root** — that's the whole method, one file. It will
+ask you five questions about your own sources and interests, then write you your own
+version.
 
-**Don't ask it to follow that file literally** — it will try to read my client's Slack and
-my calendars. Ask it to write *you* one, using mine as the reference.
+**`advanced/` is optional and mostly specific to me.** Don't start there. In particular
+don't point an agent at `advanced/daily-digest/SKILL.md` and say "do this" — it's 1,800
+lines about my life and it will try to read my client's Slack.
 
 ---
 
@@ -75,10 +87,9 @@ my calendars. Ask it to write *you* one, using mine as the reference.
 
 | | |
 |---|---|
-| `daily-digest/SKILL.md` | The main method. ~1,800 lines, most of it specific to me. Read it for technique. |
-| `digest-checkin`, `weekly-review` | The 5pm and Sunday passes |
-| `telegram-remote`, `digest-feedback` | Messaging the agent back, and it editing its own instructions from your replies |
-| `scripts/` | The three genuinely reusable pieces: audio, and two ways to send Telegram messages |
+| `SKILL.md` | **The whole thing.** Start and probably finish here. |
+| `scripts/` | The three reusable pieces: audio, and two ways to message yourself |
+| `advanced/` | Six elaborations I added later. Optional. See `advanced/README.md` for what each adds and when you'd want it. |
 
 **Not here:** the scrapers for my Telegram, Granola, Gmail, Notion, GitHub, Supabase and
 the company drive. They're wired to my accounts and would be useless to you. What the skill

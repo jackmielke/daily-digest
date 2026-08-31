@@ -1,69 +1,66 @@
 # A daily digest, made for anyone
 
-Four scheduled Claude Code tasks that read my own tools every morning — chat, meetings,
-email, calendar, the company Slack, the codebase, the database — research the things I
-actually care about, and hand it back as a written page, a Telegram message, and about
-twenty minutes of audio I listen to on a run.
+Every morning something reads my own tools — chat, email, calendar, the code I wrote
+yesterday, the meetings I sat in — researches the handful of things I actually care about,
+and hands it back as a page I read and about twenty minutes of audio I listen to on a walk.
 
-**These are the real files, not a writeup.** They are the exact instructions that ran
-this morning, mirrored here automatically whenever I change them. The history is the
-history: every commit is a thing that went wrong once and got fixed.
-
-| Skill | When | What it does |
-|---|---|---|
-| [`daily-digest`](daily-digest/SKILL.md) | 06:01 daily | The briefing |
-| [`digest-checkin`](digest-checkin/SKILL.md) | 17:05 daily | Did the morning's claims survive the day? |
-| [`digest-feedback`](digest-feedback/SKILL.md) | on reply | Turns my Telegram replies into edits to these files |
-| [`weekly-review`](weekly-review/SKILL.md) | Sundays | Trends, not events — and an audit of the action list |
-| [`sync-skills`](sync-skills/SKILL.md) | nightly | Mirrors these into Notion |
+It's been running daily since August 2026. This is the method, in one file.
 
 ## Start here
 
-**[SETUP.md](SETUP.md)** — the 20-minute version: a Telegram bot, an OpenAI key, and the
-three scripts in `scripts/` that are genuinely reusable (audio, and two ways to message
-yourself). Get a test message onto your phone before anything else.
+**[`SKILL.md`](SKILL.md)** — the whole thing. Give it to your agent, answer the five
+questions it asks you, and let it write you your own.
 
-**Then read `daily-digest/SKILL.md` for the method, not as a script to run.** It is ~1,800
-lines and most of it is specific to my life — my sources, my client, my interests. Pointed
-at literally, an agent will try to read my Slack. Point your agent at it and ask it to
-write *you* one.
+**[`SETUP.md`](SETUP.md)** — twenty minutes: a Telegram bot, an API key for the voice, and
+one test message on your phone before anything else.
 
-**What is not in this repo:** the scrapers for my Telegram, Granola, Gmail, Notion, GitHub,
-Supabase and the company drive. They are wired to my accounts and would do you no good.
-What the skills *do* give you is what each source returns and what it gets wrong — which is
-the part worth having. Your agent can write its own in an afternoon.
+That's it. Everything in [`advanced/`](advanced/) is optional and most of it is specific
+to me.
 
-## The parts worth stealing
+## What you need
 
-- **Step 7d, the register.** Never write like a ledger — nothing is *owed*, *overdue*, or
-  *finally* done. This one rule did more for how it reads than everything else combined.
-- **The anti-repetition rule.** A story runs once; a repeat has to say what changed.
-- **"Dates are provisional unless something wrote them down."** Written confirmation >
-  calendar > transcript.
-- **The feedback loop.** I reply in Telegram, the file edits itself, commits, and tells me
-  what changed with a sha so I can revert it.
-- **"How to read this file"** at the top of the main skill. It grew to 124KB and ~400
-  prohibitions by only ever being appended to, and the output went flat. That preamble
-  exists to stop it happening again.
+- **An agent.** Claude Code, Cowork, Codex, whatever you use — these are plain markdown
+  files, not code that only runs one place. A cloud agent means it runs without your laptop
+  being open, which is the version I'd recommend to start.
+- **An API key for the audio**, and this is the one thing worth being precise about: your
+  agent does the thinking, and the key is *only* for turning the finished script into
+  speech. OpenAI's `gpt-4o-mini-tts` is about **1.5¢ a minute**, so twenty minutes a day is
+  roughly **$9 a month**. ElevenLabs sounds a little better and is about **14¢ a minute** —
+  nine times more, which for a daily habit is the difference between not thinking about it
+  and thinking about it.
+- **A Telegram bot**, or any other way to get it onto your phone. Ten minutes with
+  `@BotFather`.
 
-## How the public/private split works
+## The parts worth stealing, even if you build your own
 
-**Nothing here is redacted.** These files are byte-for-byte the ones that ran this
-morning. There is no laundered copy and no transform that could quietly go wrong.
+- **Never write like a ledger.** Nothing is *owed*, *overdue*, or *finally* done. This one
+  rule did more for how it reads than everything else combined.
+- **A story runs once.** A repeat has to say what changed. The topics you care about most
+  are the ones it will restate most.
+- **Rank your date sources: written confirmation > calendar > transcript.** Most of a life
+  gets rescheduled in channels a script cannot see.
+- **Let it edit its own instructions from your feedback.** Without that loop it drifts and
+  you never find out why.
+- **Watch the file grow.** Mine reached 124KB and ~400 prohibitions by only ever being
+  appended to, and the output went flat and careful. If an edit makes it longer, look for
+  what it supersedes.
 
-The method is public because the method is the useful part. What isn't here is a
-`PRIVATE.md` beside each skill, holding the things that are just addresses — Slack channel
-ids, calendar ids, Supabase project refs, Notion data sources, which colleague is which,
-and one medical detail. Wherever a step says *see `PRIVATE.md`*, that's a value you'd fill
-in with your own.
+## What's not here
 
-It turned out to be a small split: of 1,837 lines in the main skill, **33 carried anything
-private** — about 1.8%, nearly all of it in six id tables.
+The scrapers for my own accounts — Telegram, Granola, Gmail, Notion, GitHub, Supabase, a
+company drive. They're wired to me and would do you no good. What the skill files give you
+instead is what each source *returns* and what it *gets wrong*, which is the part worth
+copying. Your agent can write its own in an afternoon.
 
-A verifier runs before every push and **refuses on any hit** — long hex, uuids, api-key
-shapes, addresses, phone numbers, absolute home paths. So a new integration breaks the
-mirror instead of leaking through it. It has already caught a friend's phone number and a
-third party's email address that would otherwise have gone out.
+`PRIVATE.md` isn't here either — see [`PRIVATE.example.md`](PRIVATE.example.md) for the
+shape. Wherever a skill says *see PRIVATE.md*, that's a value you fill in with your own.
+
+## How this repo stays honest
+
+These are byte-for-byte the files that ran this morning, pushed automatically by a hook on
+every commit — not a cleaned-up copy. A verifier refuses the push if it finds an identifier,
+address, phone number or home path that should have stayed private. It has already caught a
+friend's phone number and someone's email that would otherwise have gone out.
 
 ## Licence
 
