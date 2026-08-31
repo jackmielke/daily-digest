@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 /**
- * Ping you on Telegram via your bot (your bot) when the daily
+ * Ping yourself on Telegram via your own bot when the daily
  * digest is ready, with an overview and a link to the Notion page.
  *
  * The body is read from stdin so the digest never has to shell-quote prose:
@@ -34,7 +34,7 @@
 
 // Your Telegram user id. Message @userinfobot to get it, then put it in .env
 // beside this file as TELEGRAM_CHAT_ID=<id>.
-const CHAT_ID = (() => {
+function chatId(): string {
   if (process.env.TELEGRAM_CHAT_ID) return process.env.TELEGRAM_CHAT_ID;
   try {
     for (const l of require("fs").readFileSync(new URL(".env", import.meta.url).pathname, "utf-8").split("\n")) {
@@ -45,7 +45,7 @@ const CHAT_ID = (() => {
   console.error("No TELEGRAM_CHAT_ID. Message @userinfobot on Telegram for your id, then:\n" +
     "  echo 'TELEGRAM_CHAT_ID=<id>' >> .env");
   process.exit(1);
-})();
+}
 const ENV_FILE = new URL(".env", import.meta.url).pathname;
 
 const args = process.argv.slice(2);
@@ -118,7 +118,7 @@ const message = [
 ].join("\n");
 
 if (dry) {
-  console.log("--- would send to chat", CHAT_ID, "---");
+  console.log("--- would send to chat", chatId(), "---");
   console.log(message);
   process.exit(0);
 }
@@ -128,7 +128,7 @@ const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
-    chat_id: CHAT_ID,
+    chat_id: chatId(),
     text: message,
     parse_mode: "HTML",
     link_preview_options: { is_disabled: true },

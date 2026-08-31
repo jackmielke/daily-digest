@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 /**
- * Send you one plain message on Telegram via your bot (your bot).
+ * Send yourself one plain message on Telegram via your own bot.
  *
  * This is the digest talking BACK to him — the other half of read-digest-replies.ts.
  * He replies to the digest; `digest-feedback` acts on it; this confirms what changed.
@@ -19,7 +19,7 @@
 
 // Your Telegram user id. Message @userinfobot to get it, then put it in .env
 // beside this file as TELEGRAM_CHAT_ID=<id>.
-const CHAT_ID = (() => {
+function chatId(): string {
   if (process.env.TELEGRAM_CHAT_ID) return process.env.TELEGRAM_CHAT_ID;
   try {
     for (const l of require("fs").readFileSync(new URL(".env", import.meta.url).pathname, "utf-8").split("\n")) {
@@ -30,7 +30,7 @@ const CHAT_ID = (() => {
   console.error("No TELEGRAM_CHAT_ID. Message @userinfobot on Telegram for your id, then:\n" +
     "  echo 'TELEGRAM_CHAT_ID=<id>' >> .env");
   process.exit(1);
-})();
+}
 const ENV_FILE = new URL(".env", import.meta.url).pathname;
 const dry = process.argv.includes("--dry");
 
@@ -61,14 +61,14 @@ if (body.length > 4096) {
 }
 
 if (dry) {
-  console.log(`--- dry run, not sent ---\nto: ${CHAT_ID}\n\n${body}`);
+  console.log(`--- dry run, not sent ---\nto: ${chatId()}\n\n${body}`);
   process.exit(0);
 }
 
 const res = await fetch(`https://api.telegram.org/bot${token()}/sendMessage`, {
   method: "POST",
   headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ chat_id: CHAT_ID, text: body, disable_web_page_preview: true }),
+  body: JSON.stringify({ chat_id: chatId(), text: body, disable_web_page_preview: true }),
 });
 const json: any = await res.json();
 if (!json.ok) {

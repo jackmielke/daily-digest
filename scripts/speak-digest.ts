@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 /**
  * Read the daily digest aloud: ElevenLabs TTS, delivered to Telegram as an
- * audio message from your bot (your bot).
+ * audio message from your own Telegram bot.
  *
  * The spoken script comes in on stdin so the digest never has to shell-quote
  * prose. It is a *different* text from the written digest — see WRITING THE
@@ -63,13 +63,13 @@
  *   - Sections need spoken transitions, not headings.
  *   - Drafts, listings and the markets table do not work aloud. Leave them to
  *     the page and say "the rest is on the page" once, at the end.
- *   - Each track has to stand alone. He may play track three and nothing else,
- *     so do not open one with "meanwhile" or "the other thing".
+ *   - Each track has to stand alone. A listener may play track three and nothing else,
+ *     so don't open one with "meanwhile" or "the other thing".
  */
 
 // Your Telegram user id. Message @userinfobot to get it, then put it in .env
 // beside this file as TELEGRAM_CHAT_ID=<id>.
-const CHAT_ID = (() => {
+function chatId(): string {
   if (process.env.TELEGRAM_CHAT_ID) return process.env.TELEGRAM_CHAT_ID;
   try {
     for (const l of require("fs").readFileSync(new URL(".env", import.meta.url).pathname, "utf-8").split("\n")) {
@@ -80,10 +80,10 @@ const CHAT_ID = (() => {
   console.error("No TELEGRAM_CHAT_ID. Message @userinfobot on Telegram for your id, then:\n" +
     "  echo 'TELEGRAM_CHAT_ID=<id>' >> .env");
   process.exit(1);
-})();
+}
 const ELEVEN_VOICE = "onwK4e9ZLuTAKqWW03F9"; // Daniel — steady broadcaster, British
 const ELEVEN_MODEL = "eleven_multilingual_v2";
-// REVERTED 2026-08-30 at you's request: "the voice completely changed. I don't like
+// REVERTED 2026-08-30 at the owner's request: "the voice completely changed. I don't like
 // the new voice! I liked the old voice we had."
 //
 // On 2026-08-29 two things changed at once — the voice id (ballad -> ash) and the
@@ -107,7 +107,7 @@ const OPENAI_INSTRUCTIONS =
 
 const ENV_FILES = [
   new URL(".env", import.meta.url).pathname,
-  `${process.env.HOME}/dev/vibey-robot/.env`,
+  `${process.env.HOME}/.config/digest/.env`,
 ];
 
 const args = process.argv.slice(2);
@@ -345,7 +345,7 @@ const botToken = await need(
 for (const [n, r] of rendered.entries()) {
   const num = `${n + 1}/${rendered.length}`;
   const form = new FormData();
-  form.append("chat_id", CHAT_ID);
+  form.append("chat_id", chatId());
   form.append("title", `${n + 1} · ${r.title}`.slice(0, 64));
   form.append("performer", `Wonder · ${label}`);
   form.append("duration", String(r.seconds));
