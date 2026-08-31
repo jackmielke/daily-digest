@@ -1,4 +1,4 @@
-# A daily digest, in the open
+# A daily digest, made for anyone
 
 Four scheduled Claude Code tasks that read my own tools every morning — chat, meetings,
 email, calendar, the company Slack, the codebase, the database — research the things I
