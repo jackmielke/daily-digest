@@ -1239,7 +1239,7 @@ If a property fails to set, `notion-fetch` the data source to re-read the live s
 | Property | Type | What to put in it |
 |---|---|---|
 | `Title` | title | A **themed headline for the day** — see below |
-| `date:Date:start` | date | Today's date as `YYYY-MM-DD`. Also set `date:Date:is_datetime` to `0`. |
+| `date:Date:start` | date | Today's date as `YYYY-MM-DD`. Also set `date:Date:is_datetime` to the **number** `0` — quoting it as `"0"` fails validation and costs a full retry of the whole page. Omitting it defaults to 0 and is safer. |
 | `TL;DR` | text | One sentence capturing the whole day, for the table view. |
 | `Themes` | multi_select | 2–5 tags. Existing: VibeCoin, Vibeverse, the catering company, Housing / SF, Travel decisions, Agent infra, AI / tech, Community, Health / sport, Money. Reuse where they fit; only add an option for a genuinely recurring new theme. |
 | `Needs Attention` | checkbox | `"__YES__"` if something urgent, broken, or time-sensitive surfaced; else `"__NO__"`. |
