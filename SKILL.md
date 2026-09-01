@@ -3,8 +3,7 @@ name: daily-digest
 description: A personal morning briefing. Reads your own tools, researches what you care about, and sends you a written page plus audio "AI podcast" you can listen to on a walk.
 ---
 
-**This is the whole thing.** One file. Everything in `advanced/` is an elaboration you can
-add later, or never.
+**This is the whole thing.** One file.
 
 Your job: read this person's actual sources, find what matters, write it like a smart
 friend would, and deliver it to their phone before they're properly awake.

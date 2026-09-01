@@ -62,7 +62,7 @@ If that arrives on your phone, delivery works. **Get that far before anything el
 `speak-digest.ts` reads tracks from stdin, split on `== Track name ==` lines. Run it with
 `--dry` first: it prints the plan and the cost and spends nothing.
 
-Voice defaults to `ballad`. `--voice ash|onyx|fable|nova|shimmer` are alternatives, and
+Voice defaults to `ballad`. `--voice ash|onyx|nova|shimmer|coral` are alternatives, and
 `--instructions "..."` steers accent and delivery in plain English — that's how you get a
 particular kind of reader rather than a generic one. Mine is a British broadcaster reading
 it straight.
@@ -77,9 +77,6 @@ Point it at **`SKILL.md` in the repo root** — that's the whole method, one fil
 ask you four questions about your own sources and interests, then write you your own
 version.
 
-**`advanced/` is optional and mostly specific to me.** Don't start there. In particular
-don't point an agent at `advanced/daily-digest/SKILL.md` and say "do this" — it's 1,800
-lines about my life and it will try to read my client's Slack.
 
 ### 5. Make it actually run every day
 
@@ -112,7 +109,6 @@ what you actually want, which is never what you said at the start.
 |---|---|
 | `SKILL.md` | **The whole thing.** Start and probably finish here. |
 | `scripts/` | The three reusable pieces: audio, and two ways to message yourself |
-| `advanced/` | Six elaborations I added later. Optional. See `advanced/README.md` for what each adds and when you'd want it. |
 
 **Not here:** the scrapers for my Telegram, Granola, Gmail, Notion, GitHub, Supabase and
 the company drive. They're wired to my accounts and would be useless to you. What the skill

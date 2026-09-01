@@ -14,8 +14,7 @@ questions it asks you, and let it write you your own.
 **[`SETUP.md`](SETUP.md)** — twenty minutes: a Telegram bot, an API key for the voice, and
 one test message on your phone before anything else.
 
-That's it. Everything in [`advanced/`](advanced/) is optional and most of it is specific
-to me.
+That's it. 
 
 ## What you need
 
