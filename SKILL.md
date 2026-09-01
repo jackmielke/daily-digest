@@ -11,7 +11,7 @@ friend would, and deliver it to their phone before they're properly awake.
 
 ---
 
-## First, ask them five questions
+## First, ask them four questions
 
 Do not skip this. A digest built on guesses is the one they stop opening.
 
@@ -20,7 +20,7 @@ Do not skip this. A digest built on guesses is the one they stop opening.
 2. **What do you want to know about the world?** Push for specifics. "AI news" produces a
    Wikipedia summary; "what shipped in the two coding tools I use daily" produces something
    worth reading.
-3. **What would make this Daily Digest as awesome as possible? or whats on your mind right now?** The open threads, the thing they're avoiding, the
+3. **What would make this Daily Digest as awesome as possible? or what's on your mind right now?** The open threads, the thing they're avoiding, the
    decision they're sitting on. This is what makes it *theirs* rather than a news feed.
 4. **When, and how?** Time of day, and text or audio or both.
 
