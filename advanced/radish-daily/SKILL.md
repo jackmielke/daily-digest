@@ -91,9 +91,9 @@ first."
 ## Deliver
 
 1. **Send it to Jack on Telegram**, via
-   `cd ~/dev/scheduled-tasks/daily-digest && bun reply-to-jack.ts`.
+   `cd ~/dev/scheduled-tasks/daily-digest && bun send-message.ts`.
 
-   **Format for plain text.** `reply-to-jack.ts` sends with no parse mode, so `*bold*`
+   **Format for plain text.** `send-message.ts` sends with no parse mode, so `*bold*`
    and `_italic_` arrive as literal asterisks and underscores — they did in the first
    sample. Use what actually renders: a bare line of CAPS for a section head, `•` for
    bullets, `—` for breaks, blank lines for air. Nothing else.

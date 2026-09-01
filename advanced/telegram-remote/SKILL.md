@@ -32,7 +32,7 @@ messages, treat them as one.
 **Before doing anything slow**, send one short line so he knows it landed:
 
 ```
-cd ~/dev/scheduled-tasks/daily-digest && bun reply-to-jack.ts <<'MSG'
+cd ~/dev/scheduled-tasks/daily-digest && bun send-message.ts <<'MSG'
 On it — <the thing, in five words>
 MSG
 ```
@@ -60,7 +60,7 @@ nothing else. **Never guess at something you cannot undo.**
 
 ## Step 4 — tell him what happened
 
-Plain text, no markdown — `reply-to-jack.ts` sends with no parse mode, so `*asterisks*`
+Plain text, no markdown — `send-message.ts` sends with no parse mode, so `*asterisks*`
 arrive literally. Caps for a heading, `•` for bullets, blank lines for air.
 
 - **Lead with the outcome**, not the process. "Done — X now does Y" before any detail.

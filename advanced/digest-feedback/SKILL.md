@@ -79,7 +79,7 @@ what the digest has become.
 Reply on Telegram so he knows it landed and can revert it. Keep it to a few lines.
 
 ```
-bun reply-to-jack.ts <<'MSG'
+bun send-message.ts <<'MSG'
 <your message>
 MSG
 ```
