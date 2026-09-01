@@ -74,7 +74,7 @@ characters per spoken minute.
 ### 4. Tell your agent what you actually want
 
 Point it at **`SKILL.md` in the repo root** — that's the whole method, one file. It will
-ask you five questions about your own sources and interests, then write you your own
+ask you four questions about your own sources and interests, then write you your own
 version.
 
 **`advanced/` is optional and mostly specific to me.** Don't start there. In particular
