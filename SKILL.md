@@ -1,6 +1,6 @@
 ---
 name: daily-digest
-description: A personal morning briefing. Reads your own tools, researches what you care about, and sends you a written page plus audio you can listen to on a walk.
+description: A personal morning briefing. Reads your own tools, researches what you care about, and sends you a written page plus audio "AI podcast" you can listen to on a walk.
 ---
 
 **This is the whole thing.** One file. Everything in `advanced/` is an elaboration you can
@@ -16,15 +16,14 @@ friend would, and deliver it to their phone before they're properly awake.
 Do not skip this. A digest built on guesses is the one they stop opening.
 
 1. **Where does your life actually happen?** Which chat app, which email, which calendar,
-   which tools. Only connect what they name.
+   which tools. Only connect what they name. And if they already have a lot of tools connected, it's safe to say that they use those, but just feel free to ask them anyway. 
 2. **What do you want to know about the world?** Push for specifics. "AI news" produces a
    Wikipedia summary; "what shipped in the two coding tools I use daily" produces something
    worth reading.
-3. **What's on your mind right now?** The open threads, the thing they're avoiding, the
+3. **What would make this Daily Digest as awesome as possible? or whats on your mind right now?** The open threads, the thing they're avoiding, the
    decision they're sitting on. This is what makes it *theirs* rather than a news feed.
 4. **When, and how?** Time of day, and text or audio or both.
-5. **What would make you delete this?** Their answer tells you the failure mode to design
-   against — usually "if it nags me" or "if it's long."
+
 
 Write the answers into this file, in their words. **You are editing your own instructions
 from here on.**
@@ -33,9 +32,9 @@ from here on.**
 
 ## Every run
 
-### 1. Read yesterday's digest first
+### 1. Read the past 2-3 days' digest first
 
-Track what was open. Say plainly what moved: *still broken*, *fixed*, *still no reply*.
+Track what was open. Say plainly what moved: *still unresolved*, *resolved*, *still no reply*.
 A digest with no memory is a news feed, not a briefing.
 
 ### 2. Gather from their sources, last 24 hours
