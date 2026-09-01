@@ -14,7 +14,7 @@ worth reading.
 
 ## The 20-minute version
 
-You need three things.
+Five steps. You need three things.
 
 **An agent** — Claude Code, Cowork, Codex, whatever you use. These are plain markdown
 files. **A cloud agent is the easier start**, because it runs without your laptop being
@@ -52,7 +52,7 @@ OPENAI_API_KEY=sk-...
 Then:
 
 ```
-echo "hello from my digest" | bun reply-to-jack.ts
+echo "hello from my digest" | bun send-message.ts
 ```
 
 If that arrives on your phone, delivery works. **Get that far before anything else.**
@@ -80,6 +80,29 @@ version.
 **`advanced/` is optional and mostly specific to me.** Don't start there. In particular
 don't point an agent at `advanced/daily-digest/SKILL.md` and say "do this" — it's 1,800
 lines about my life and it will try to read my client's Slack.
+
+### 5. Make it actually run every day
+
+**This is the step that turns it from a demo into the product**, and it's the one people
+skip. A digest you have to ask for is just a chat.
+
+How you do it depends on your agent, and the choice that matters is **whether it needs your
+laptop awake**:
+
+- **A cloud agent** (Claude Cowork, or any hosted agent with scheduling) — the easy answer.
+  Ask it to run the skill on a schedule and it runs whether or not your machine is on. If
+  you're starting fresh, start here.
+- **Claude Code on your own machine** — it has scheduled tasks built in. Ask it: *"run this
+  skill every morning at 6am."* Works well; only fires when the machine is awake.
+- **Anything else** — a cron job calling your agent headlessly does it:
+  `0 6 * * * cd ~/my-digest && claude -p "Follow SKILL.md and send me today's digest"`
+
+**Whichever you pick, run it manually once first.** The first one is always wrong in some
+specific way — a source it can't reach, a section that's empty, a tone that's off — and
+that's much easier to fix at 2pm on purpose than at 6am by surprise.
+
+**Then run it for a week before judging it.** The first few are bad. You're discovering
+what you actually want, which is never what you said at the start.
 
 ---
 
