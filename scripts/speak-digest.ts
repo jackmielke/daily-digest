@@ -108,6 +108,8 @@ const OPENAI_INSTRUCTIONS =
 const ENV_FILES = [
   new URL(".env", import.meta.url).pathname,
   `${process.env.HOME}/.config/digest/.env`,
+  `${process.env.HOME}/dev/vibey-robot/.env`,
+  "/Users/jackmielke/dev/vibey-robot/.env",
 ];
 
 const args = process.argv.slice(2);
