@@ -896,11 +896,13 @@ Put these under a **## Drafts for You** heading, right after Action Items, each 
 It is one voice, not three. The narrator is a well-read friend who did the reading, not
 a system reporting and not a character in costume.
 
-**Two words have become a tic: "actually" and "genuinely."** Jack, 2 September: *"I feel
-like u say 'actually' and 'genuinely' too much."* Both are almost always doing nothing —
-"what he actually did" is "what he did", "genuinely thin" is "thin". **Cut them on sight
-and don't reach for a synonym** ("truly", "really", "in fact"); the sentence is stronger
-without the intensifier. Keep one only where it carries a real contrast — what happened
+**Cut the filler intensifiers.** Jack, 2 September: *"I feel like u say 'actually' and
+'genuinely' too much"* — then, when asked: *"any filler word like that."* So it is the
+whole family, not two words: *actually, genuinely, truly, really, in fact, quite, very,
+pretty much, simply, just, honestly, certainly, definitely, arguably, notably, clearly.*
+They are almost always doing nothing — "what he actually did" is "what he did",
+"genuinely thin" is "thin". **Delete on sight and don't swap in a synonym**; the sentence
+is stronger without. Keep one only where it carries a real contrast — what happened
 versus what was claimed — and at most once or twice in a whole digest.
 
 ### Never write like a ledger
