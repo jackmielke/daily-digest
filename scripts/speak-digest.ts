@@ -31,7 +31,7 @@
  *   --set      Label for the whole set, used in captions (default: today's date)
  *   --title    Track title, single-track mode only
  *   --provider elevenlabs | openai (default: openai — see COST below)
- *   --voice    Voice id. ElevenLabs: a voice id. OpenAI: ballad|ash|onyx|nova|…
+ *   --voice    Voice id. ElevenLabs: a voice id. OpenAI: ballad|fable|onyx|ash|…
  *   --model    Model id (default per provider)
  *   --instructions  OpenAI only: steer accent/tone. Defaults to a British
  *                   broadcast delivery chosen to sit close to ElevenLabs' Daniel.
@@ -134,10 +134,6 @@ const instructions = flag("instructions") ?? OPENAI_INSTRUCTIONS;
 // On OpenAI a 20-minute set costs about thirty cents, so the ceiling only needs
 // to catch a runaway, not to ration.
 const max = Number(flag("max") ?? (provider === "elevenlabs" ? 6000 : 30000));
-// OpenAI caps ONE request at ~2,000 input tokens (~9,600 chars). --max above is a
-// runaway catch on the whole set; this is the limit that actually fires. Every track
-// renders before the first one sends, so an over-long track means NOTHING goes out.
-const PER_TRACK = 8800;
 const outPath = flag("out");
 const dry = has("dry");
 const noSend = has("no-send");
@@ -218,21 +214,6 @@ console.log(`${tracks.length} track${tracks.length === 1 ? "" : "s"}, ${totalCha
 for (const [n, t] of tracks.entries()) {
   console.log(`  ${n + 1}. ${t.title} — ${t.body.length} chars, ~${clock(secs(t.body))}`);
   for (const p of lint(t.body)) console.warn(`     ! ${p}`);
-}
-
-// The limit that actually fires. Checked BEFORE the total, because this is the
-// one that costs you the whole set: every track renders before the first is sent,
-// so one over-long track means nothing arrives at all.
-const tooLong = tracks.filter((t) => t.body.length > PER_TRACK);
-if (tooLong.length && !force) {
-  console.error(
-    `\n${tooLong.length} track(s) over the ${PER_TRACK}-character per-request limit:\n` +
-      tooLong.map((t) => `  "${t.title}" — ${t.body.length} chars, ${t.body.length - PER_TRACK} over`).join("\n") +
-      `\n\nOpenAI rejects a single request above ~2,000 input tokens. Every track is\n` +
-      `rendered before the first one sends, so this would send NOTHING at all.\n` +
-      `Split the track or trim it — do not add a track to the set to compensate.`,
-  );
-  process.exit(1);
 }
 
 if (totalChars > max && !force) {

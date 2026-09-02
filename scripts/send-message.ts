@@ -2,15 +2,15 @@
 /**
  * Send yourself one plain message on Telegram via your own bot.
  *
- * This is the digest talking BACK to him — the other half of your own reply reader.
+ * This is the digest talking BACK to him — the other half of read-digest-replies.ts.
  * He replies to the digest; `digest-feedback` acts on it; this confirms what changed.
  *
- *   bun send-message.ts <<'EOF'
+ *   bun reply-to-jack.ts <<'EOF'
  *   Changed: crypto is now every few days, not daily.
  *   commit a1b2c3d
  *   EOF
  *
- *   bun send-message.ts --dry <<< "test"     # print without sending
+ *   bun reply-to-jack.ts --dry <<< "test"     # print without sending
  *
  * Body comes from stdin so callers never have to shell-quote prose.
  * Auth: TELEGRAM_BOT_TOKEN, from the environment or `.env` beside this file.
