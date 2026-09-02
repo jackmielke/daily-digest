@@ -8,7 +8,7 @@ It's been running daily since August 2026. This is the method, in one file.
 
 ## Start here
 
-**[`SKILL.md`](SKILL.md)** — the whole thing. Give it to your agent, answer the five
+**[`SKILL.md`](SKILL.md)** — the whole thing. Give it to your agent, answer the four
 questions it asks you, and let it write you your own.
 
 **[`SETUP.md`](SETUP.md)** — twenty minutes: a Telegram bot, an API key for the voice, and
@@ -47,7 +47,7 @@ That's it.
 ## What's not here
 
 The scrapers for my own accounts — Telegram, Granola, Gmail, Notion, GitHub, Supabase, a
-company drive. They're wired to me and would do you no good. What the skill files give you
+company drive. They're wired to me and would do you no good. What `SKILL.md` gives you
 instead is what each source *returns* and what it *gets wrong*, which is the part worth
 copying. Your agent can write its own in an afternoon.
 

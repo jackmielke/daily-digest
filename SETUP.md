@@ -1,9 +1,8 @@
 # Setting this up for yourself
 
-**Read this before pointing an agent at the skill files.** They describe a system that has
-been running daily since August 2026, and they are written for *that* system — they name
-tools, connectors and habits that are mine. The value here is the method, not a turnkey
-install.
+**This is one file plus three scripts.** `SKILL.md` is the method, distilled from a digest
+that has run every morning since August 2026. It is a method to adapt, not a turnkey
+install — your agent reads it, asks you four questions, and writes you your own.
 
 **Start much smaller than what's in here.** Three sources and a written page is a real
 product. Mine began as one Telegram scrape and a Notion page. Everything else — the audio,
@@ -115,8 +114,8 @@ the company drive. They're wired to my accounts and would be useless to you. Wha
 files *do* give you is what each one returns and what it gets wrong, which is the part
 worth copying — your agent can write its own against your tools in an afternoon.
 
-`PRIVATE.md` is not here either. See `PRIVATE.example.md` for the shape. Wherever a skill
-says *see PRIVATE.md*, that's a value you fill in with your own.
+`PRIVATE.example.md` shows where to keep your own ids, tokens and anything personal, so
+they stay out of anything you share.
 
 ---
 
