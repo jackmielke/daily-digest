@@ -865,16 +865,51 @@ watch is permission to look, not an obligation to print.
 13. **YouTube picks.** Specific recent videos in his lanes, named with creators and links.
 14. **Culture.** One open slot for whatever is dominating the discourse. Skip if nothing.
 
-**On X: stop apologising, use the substitutes.** There are no X credentials on the
-machine and no browser extension connected, so his logged-in timeline is genuinely
-unreachable from a headless run. He has been told this three times; saying it again
-wastes his attention on the digest's own limitations. Instead mine **Techmeme**, the
-**Hacker News** front page and its comments, **the people rather than the platform**
-(most of those accounts also publish newsletters, Substacks, podcasts and company
-blogs), and **search the discourse by name** when something is clearly circulating.
-Report it as *"what's circulating,"* sourced — never as *"your feed."* The only real
-fixes are X API Basic at ~$200/month or a logged-in Chrome on a machine that is awake;
-neither is assumed.
+### X: his own posts are reachable. His timeline still is not.
+
+**Corrected 2026-09-03**, when Jack asked *"when I post on X, do you even have access to
+tell me what I just posted within the last few hours?"* The old answer in this file — a
+flat no — was wrong on the half he actually asked about. Two routes were tested that day:
+
+1. **The public syndication endpoint**, no login and no API key:
+   `https://syndication.twitter.com/srv/timeline-profile/screen-name/mielke_jack`.
+   It returns his recent posts inside a `__NEXT_DATA__` blob. **It answered 429 Rate limit
+   exceeded on both attempts** from this machine mid-morning — rate-limited, note, not
+   blocked, which is a different and much more hopeful failure. A 6am run has a far better
+   chance than a midday one. `x-posts.ts` wraps it with backoff.
+2. **Arc, via `osascript` JS injection**, which is how his *logged-in* view is reachable at
+   all — verified working the same morning by reading the front tab's DOM. **It can only
+   drive the currently-active tab and cannot close tabs afterwards** (see the Arc notes in
+   memory), so running it steals focus and leaves a tab behind. **That makes it a 6am tool
+   and not a daytime one** — which is exactly when this skill runs.
+
+**So: run `bun x-posts.ts --hours 24` in the gather.** What it gets you:
+
+- **What he actually posted**, which is context nothing else in this skill has. If he
+  posted a build update last night, do not hand him a draft of the same post this morning.
+- **A read on whether the drafts land.** Step 7b writes X posts every day. Until now there
+  was no way to know whether any of them were ever sent, let alone how he edited them.
+  **If a draft went out roughly as written, say so once and note what he changed** — that
+  is the only feedback loop this section has ever had.
+- **Never present it as his feed.** It is his own profile, not his timeline. Other people's
+  posts remain out of reach.
+
+**For the discourse, the substitutes still stand and are still the main route:** mine
+**Techmeme**, the **Hacker News** front page and its comments, **the people rather than the
+platform** (most of those accounts also publish newsletters, Substacks, podcasts and
+company blogs), and **search by name** when something is clearly circulating. Report that
+as *"what's circulating,"* sourced. **Stop apologising about the timeline either way** — he
+has been told three times, and the limitation is not news.
+
+### Step 7a: What he posted himself
+
+```
+bun x-posts.ts --hours 24        # syndication route, with backoff
+bun x-posts.ts --hours 24 --arc  # 6am only — opens a tab in Arc and leaves it there
+```
+
+Run it before writing Step 7b. See the X section above for what the two routes are and
+why one of them is a 6am-only tool.
 
 ## Step 7b: Draft Content and Outreach
 
@@ -893,8 +928,16 @@ Put these under a **## Drafts for You** heading, right after Action Items, each 
 ## Step 7d: The register
 
 **This is the voice for every surface — the page, the Telegram message and the audio.**
-It is one voice, not three. The narrator is a well-read friend who did the reading, not
-a system reporting and not a character in costume.
+It is one voice, not three. Since 2026-09-03 that voice has a name — **Vibey** — and a
+register: *"You can feel a little bit more like a homie."* A well-read friend who did the
+reading and lives in his house, not a system reporting and not a character in costume. See
+the narrator section under Step 10 for where the line is between the two.
+
+**Homie means closer, not looser.** It buys you: contractions, the occasional direct
+address, saying "this is the good one" about a good one, and skipping the throat-clearing
+a stranger would need. It does **not** buy you slang he does not use, forced enthusiasm,
+exclamation marks, or hedging a real finding to keep things light. The facts stay exactly
+as rigorous; the distance between narrator and reader closes.
 
 **Cut the filler intensifiers.** Jack, 2 September: *"I feel like u say 'actually' and
 'genuinely' too much"* — then, when asked: *"any filler word like that."* So it is the
@@ -1078,11 +1121,18 @@ say where it came from; never claim to have read his timeline.
 
 - **On the page:** a `## Sharpening` section, immediately after **What You Shipped** —
   it belongs next to his own building, not down in research.
-- **In the audio:** the **first two minutes of `Closing thoughts`**, announced as its own
-  thing. **Do not add a fifth track** — four is his stated shape, and the per-track
-  character ceiling is the binding constraint anyway.
+- **In the audio: its own track, called `Sharpening`.** Changed 2026-09-03 — Jack:
+  *"I think sharpening is a cool section, and that should stand on its own in terms of the
+  audio snippet."* Two to four minutes. It stops being the thing he has to sit through the
+  first two minutes of the closer to reach, and it can now run long on a day when the
+  technique deserves it.
 
-## Step 7h: Five New Ideas — a creative block, every day
+**A track of its own also raises the bar.** A two-minute item buried in a closer can get
+away with being merely true; a track with its own name has to be worth pressing play on.
+If the day yields nothing grounded in what he actually did — see the rule above, which has
+not moved — **ship no Sharpening track that day** rather than a generic one.
+
+## Step 7h: Five potentially genius ideas — the block to grow, not trim
 
 **Asked for on 2026-08-29, and it came from him liking one specific thing:** the
 suggestion that Vibey tip a little VibeCoin to anyone whose face it learns. *"That's a
@@ -1090,8 +1140,19 @@ really neat idea, actually. I actually really like that idea. I actually want to
 more ideas that are interesting and creative, and ideally you're not repeating
 yourself... let's just try three minutes of new ideas."*
 
-**Five ideas a day. Three minutes spoken, so roughly 400–500 words.** This is the one
-section where you are explicitly invited to invent rather than report.
+**Five ideas a day, minimum, and more when they are good.** This is the one section where
+you are explicitly invited to invent rather than report, and **it is the section to spend
+new length on.**
+
+**Jack, 2026-09-03 — the clearest steer this file has:** *"I don't want you to have a
+longer recap, but actually do more and give more ideas."* The recap is at the right
+length. The generative half is not. **When the digest grows, it grows here, in Sharpening,
+and in the drafts — never in the reconstruction of a day he already lived.** If a run is
+choosing between another paragraph of Slack summary and a sixth genuinely good idea, that
+is not a close call.
+
+He also calls them *"the five potentially genius ideas"*, which is the right bar: not five
+reasonable suggestions, five swings where at least one should make him stop walking.
 
 ### What makes an idea good here
 
@@ -1129,8 +1190,15 @@ token instead of hearing about it). Copy that shape:
 ### Where it goes
 
 - **On the page:** a `## Five New Ideas` section, after **Drafts for You**.
-- **In the audio:** three minutes, and it belongs in **`Closing thoughts`** after the
-  Sharpening block. Still four tracks.
+- **In the audio: its own track most days**, named `Five potentially genius ideas`, three
+  to five minutes. On a thin day it can ride at the *top* of `Closing thoughts` instead —
+  but never at the bottom.
+
+**Why the position matters, from a real failure.** On 3 September the five ideas were
+written well and buried at minute five of an eight-minute closing track, after the
+Sharpening block. Jack's response the next morning was *"I'm not sure if we're doing the
+five potentially genius ideas right now, but I would love to."* He had not reached them.
+**A section he cannot find is a section that did not run.**
 
 ## Step 7e: Put it on his calendar — standing authorization
 
@@ -1169,17 +1237,11 @@ rises 1 Sep`, Sun 27 Sep. Both all-day, both free, both on the personal calendar
 search."* **Do not ship unrequested code overnight.** Build only when he asks for
 something by name, or when a live conversation that day produced an explicit spec.
 
-When something does get built on `ravishing-client` or `vibe-verse`: put it behind an
-off-by-default localStorage toggle (copy `src/hooks/useExperimentalHome.ts`), keep it
-purely additive, **no database changes**, and never touch auth, pricing/invoice math,
-client-facing surfaces, or edge functions that send email or SMS. Typecheck
-(`./node_modules/.bin/tsc --noEmit`) and `git pull --rebase` before pushing; never force.
-Report it in **What You Shipped** with one plain sentence on what it does and how to
-turn it on.
-
-**The standard, from his own verdict on the first two weeks:** aim at a step in a
-workflow, not a readout. *"Which human keystrokes does this remove?"* If the answer is
-none, it is a dashboard, and he has enough dashboards.
+If that happens: off-by-default localStorage toggle (copy `src/hooks/useExperimentalHome.ts`),
+purely additive, **no database changes**, never touch auth, pricing/invoice math,
+client-facing surfaces, or edge functions that send email or SMS. Typecheck and
+`git pull --rebase` before pushing; never force. The standard, in his words: *"which human
+keystrokes does this remove?"* If none, it is a dashboard, and he has enough dashboards.
 
 ## Step 7i: The Work Board — the system of record for open threads
 
@@ -1437,6 +1499,25 @@ Lead with anything missing or anomalous, compare against the week, call out bulk
 rewrites, and add the co-founder read. 4–8 bullets. See Step 6b.
 Omit only if both databases were genuinely quiet.]
 
+## Building Small
+[**Its own section whenever the day earned one**, added 2026-09-03. This is now a paying
+client engagement with phases, deadlines and numbers, and it was getting split across
+"The Day, Reconstructed" and "The Board" where none of it held together.
+
+What belongs here: sessions and what got decided in them, the state of the current phase
+against its deadline, money — quoted, invoiced, or paid — and what Jim or Jesse are
+waiting on. The standing facts (tiers, pricing, the stack) live in the `context/` status
+file; repeat one only when it changed.
+
+**Omit entirely on days nothing moved.** A silent week is a real signal about the
+engagement and padding it hides that.]
+
+## Edge City
+[**Same rule, same reason.** Sometimes it is the biggest thing in his life and most weeks
+it does not exist. When it is live — a residency, a decision with a deadline, Salar or
+Timour or the Post-Edge crowd actually moving — it gets a section. Otherwise it gets
+nothing, not a placeholder.]
+
 ## Action Items
 [The **top three only**, in the open — the ones that are genuinely time-bound or that he'd
 regret missing. Three, not five. Everything else lives on the Work Board, not in a toggle
@@ -1530,27 +1611,14 @@ Report only — never advice.]
 - Do **not** open a "Since Yesterday" bullet just to say the punch list didn't move. Only mention it there if something actually *did* move, or if a specific item became genuinely urgent (a client is about to see it, a deadline arrived).
 - the client work still belongs in **What You Shipped** as narrative — that part is welcome. It's the scolding that isn't.
 
-**The same rule now covers the blog post and Artizen. Both are retired as urgency.**
-Jack said so on 2026-08-25: *"the blog post, the Artizen thing you keep reminding me of,
-I'm not super attached to it. I don't really care."* Every digest since 21 August had
-one or both in ⚡ Flagged, and the 25th made publishing "the one thing." That was the
-digest inventing a deadline he had never actually set.
-
-- **He is not unpublished.** The claim that "the archive still ends at *Life at the
-  Edge*, December 2024" was reading the wrong publication. That is
-  [The Mielke Way](https://jackmielke.substack.com). His active one is
-  **[AI Vibe Check](https://vibecheckai.substack.com)** — *"Building at the speed of
-  intuition, weekly"* — **six posts in 2026**, most recently *Vibe Residency Recap from
-  Edge Esmeralda* on **9 July**. **Check both before ever saying he hasn't shipped.**
-- **The real plan, in his words, and it is a chaptered one:** write the whole thing as
-  **one big Notion draft**, publish it in **chapters** — **Part 1, possibly just the
-  Mars College segment, targeted at a Sunday** — and assemble the chapters into one
-  long post that **Edge City can run on its blog**. So the unit of progress is a
-  chapter, not "the post," and the deadline is his to move.
-- **Artizen gets a line in Email Summary when a window is genuinely closing, and
-  nothing more.** No Flagged callout, no header stat tile, no "the one thing."
-- Neither may be **"the one thing"** again unless *he* raises it. If a day has no real
-  candidate, say the day is quiet — see the rule below about not inventing urgency.
+**The same rule covers the blog post and Artizen — both retired as urgency** (2026-08-25:
+*"I'm not super attached to it. I don't really care."*). Neither may be ⚡ Flagged or "the
+one thing" again unless *he* raises it; Artizen gets at most a line in Email Summary when a
+window is closing. Two facts to stop the digest re-deriving them wrongly: **he is not
+unpublished** — his active Substack is [AI Vibe Check](https://vibecheckai.substack.com),
+six posts in 2026, not the dormant [Mielke Way](https://jackmielke.substack.com) — and the
+blog plan is **chaptered**, one Notion draft published in parts for Edge City's blog, so the
+unit of progress is a chapter and the pace is his.
 
 After the visual header, a **"⚡ Flagged for today"** callout holds the 2–5 things that genuinely can't wait, before the first heading. Personal sources only. Skip the callout entirely if nothing qualifies (and if you skip it, the "one thing" box in the header should say the day was quiet rather than inventing urgency).
 
@@ -1673,7 +1741,7 @@ Auth lives in `WONDER_BOT_TOKEN` (env var, or `.env` beside the script). If the 
 ## Step 10: Send the Audio Digest
 
 Jack is voice-first (RSI in both wrists) and asked to be able to listen instead of
-read. After the Telegram ping, send the digest as **four short tracks** — separate
+read. After the Telegram ping, send the digest as **a set of short tracks** — separate
 audio messages he can skip between — not one long file.
 
 ```
@@ -1681,16 +1749,16 @@ cd ~/dev/scheduled-tasks/daily-digest && bun speak-digest.ts \
   --set "<e.g. Friday 21 August>" <<'EOF'
 == Good morning ==
 <open with the words "Good morning." Then the whole day at a sweep, most
-important thing first, in full — this absorbs the old "First thing" track>
+important thing first>
 
-== the client ==
-<the company: kitchen, hub, adoption, database, the calls>
+== <a middle track, named for what it actually is> ==
+<...>
 
-== The world ==
-<markets, research, global events, the Elon beat, SF, sport, adventure, discourse>
+== <another, if the day earned one> ==
+<...>
 
 == Closing thoughts ==
-<his building, the job hunt, people, health, the funniest three, the three actions, sign-off>
+<people, health, the funniest three, the three actions, sign-off>
 EOF
 ```
 
@@ -1705,27 +1773,47 @@ cost without spending; `--voice` and `--instructions` override the delivery;
 
 ### The tracks
 
-**Jack listens to these on a run.** He asked on 2026-08-22 for **15–20 minutes total**,
-a **summary track**, and roughly **twice as much** on the world and on everything else,
-and reaffirmed it on **2026-08-24**: *"ideally we could get 20 minutes each day."*
-Since the provider moved to OpenAI that is **the standing daily target, not a special
-occasion** — it costs about a third of a dollar. **Do not ship a short set** unless the
-day was genuinely thin, and say so if you do.
+**Jack listens to these on a run**, and the shape is now **flexible: four to seven
+tracks, around thirty minutes, sized by how much there actually is.** He asked for that
+on 2026-09-03: *"Imagine I have four to seven total clips coming in the future, rather
+than just always being the same ones, so it could be a little bit more flexible… Things
+should expand and contract in terms of length based on how much interesting stuff there
+is to cover."* Thirty minutes is the new target, up from twenty; it costs about
+forty-five cents.
 
-**Four tracks. Changed 2026-08-27** — the old five had a summary track and then a
-`First thing` track, and Jack said plainly he could not follow why: *"I don't really
-understand the order where it says 'the whole thing briefly' and then there's the first
-thing. Maybe those could be consolidated into one that just says 'Good morning' and it's
-like an overall thing, and then it dives deeper."* He also said the middle and the
-closer are working: *"I still like the voice note that says 'the client' and then the world
-and then closing thoughts."*
+**Two tracks are fixed. Everything between them is chosen.**
 
-| Track | Holds | Target |
+| Position | Track | Holds |
 |---|---|---|
-| **Good morning** | **Opens with the literal words "Good morning."** Then the whole day at a sweep — the thing that actually matters most, everything the later tracks cover, in the order a friend would tell it. **If he stops after this one he has the day.** It absorbs what used to be a separate `First thing` track, so the urgent item lives here in full rather than being teased and then repeated. | 4:00–5:00 |
-| **the client** | The company: the kitchen, the Hub, adoption, the database, the calls. | 3:00–4:30 |
-| **The world** | The priority segment. Markets, research, global events, the Elon beat, SF, sport, adventure, discourse. | 7:00–9:00 |
-| **Closing thoughts** | **Opens with the two-minute Sharpening block** (Step 7g), then his own building, the job hunt, people, health, the funniest three, the three actions and a warm sign-off. (Was `Everything else`; he now calls it closing thoughts.) | 6:30–8:00 |
+| **First, always** | **Good morning** | **Opens with the literal words "Good morning."** Then the whole day at a sweep, most important thing first, in the order a friend would tell it. **If he stops after this one he has the day.** Target 4:00–6:00. |
+| *middle* | *(chosen — see the menu below)* | Two to five tracks, each named for what it actually is. |
+| **Last, always** | **Closing thoughts** | People, health, the funniest three, the three actions, a warm sign-off. Target 4:00–6:00. |
+
+**The menu for the middle.** Pick the ones the day earned, name the track after the
+thing, and let its length follow the material:
+
+- **Radish** — the kitchen, the Hub, adoption, the database, the calls, Slack.
+- **Building Small** — its own track whenever there is real movement: a session, a
+  proposal, a decision, a number. On a quiet week it is a paragraph inside `Good morning`
+  and no track at all.
+- **Edge City** — same rule. Sometimes it is the biggest thing in his life and sometimes
+  it does not exist that week.
+- **The world** — markets, research, global events, the Elon beat, SF, sport, adventure,
+  discourse. Still the priority segment; see below.
+- **Sharpening** — **its own track now**, not a preamble to the closer. Jack, 2026-09-03:
+  *"I think sharpening is a cool section, and that should stand on its own in terms of the
+  audio snippet."* See Step 7g.
+- **Five potentially genius ideas** — its own track whenever the ideas are good enough to
+  deserve one, which is most days. See Step 7h. It may also live at the top of
+  `Closing thoughts` on a thin day; what it must not do is get buried at the end of a
+  nine-minute track, which is how it happened on 3 September and why he was not sure it
+  had run at all.
+
+**Sizing is the whole point of the flexibility.** A day with an eight-hour client session
+earns a five-minute `Building Small` track; a day where nothing happened there earns none.
+Do not split a thin subject out just to hit seven tracks, and do not cram two real
+subjects into one track just to stay at four. **The track list should tell him what kind
+of day it was before he presses play on any of them.**
 
 **Do not reintroduce a separate `First thing` track.** Merging it into the opener was
 his explicit ask, and the old split forced the same item to be said twice.
@@ -1754,7 +1842,7 @@ being dropped entirely.
 
 Rules that do not flex:
 
-- **Each track stands alone.** He may play track four and nothing else, so never open
+- **Each track stands alone.** He may play the fifth one and nothing else, so never open
   with "meanwhile" or "the other thing I mentioned". Hand off explicitly.
 - **Put the funniest three in the audio**, near the end of `Closing thoughts`, set up in
   one sentence and delivered without explaining the joke. Skip on days the section is thin.
@@ -1763,34 +1851,58 @@ Rules that do not flex:
 - **Never pad to reach the time.** A thin day gets a short set and says so — but a
   thin day is rare, and "I ran out of personal news" is not one. The world section
   exists partly so length never has to come from padding his own day.
-- **Four tracks, per the table above.** Five is the old shape; six is a playlist he
-  will not finish.
+- **Four is the floor, seven is the ceiling.** Below four he loses the ability to skip
+  to what he wants; above seven it is a playlist he will not finish.
+- **Never let one track run past ~8,800 characters** — that is a hard API limit, not a
+  style preference, and the whole set fails to send if one track exceeds it. With a
+  flexible track count this is now easy to avoid: if a track is running long, that is
+  usually a sign it is two subjects and should be split.
 
-### The voice is the broadcaster. The personality lives in the writing.
+### The narrator is Vibey. The voice stays `ballad`.
 
-**REVERTED 2026-08-30.** Jack: *"the voice completely changed. I don't like the new
-voice! I liked the old voice we had."*
+**Changed 2026-09-03, at Jack's direct request**, and this supersedes the 30 August
+"the narrator has no biography" rule. His words: *"You can feel a little bit more like a
+homie. I think if it's coming from Vibey, the robot, and we just pretend that it's coming
+from Vibey for now, it'd be really cool… I just think it's more fun if there's a good
+throughline and I can understand its personality and work on it together."*
 
-`speak-digest.ts` is back to voice **`ballad`** with a British-broadcaster
-`instructions` string — the sound closest to ElevenLabs' Daniel, which he picked
-originally and has now asked for twice. **Do not change the voice id or the persona
-string again unless he asks for that specific thing in that session.**
+**Two things changed on 29 August and one of them was wrong. Change only the right one.**
+That night the **voice id** went `ballad` → `ash` *and* the **narrator became a robot
+speaking in first person**. He hated it, and the file has read the ban broadly ever
+since. The specific thing he hated was the voice — *"I don't like the new voice! I liked
+the old voice we had"* — and separately the writing had gone flat.
 
-**Why it went wrong, because it is the lesson.** He asked for a narration style that
-was *"funny, chill, and smart"* and mused it could come *"from Vibey the robot."* Two
-things then changed at once: the **voice id** (`ballad` → `ash`) and the **narrator's
-identity** (broadcaster → a robot speaking in first person). His verdict the next
-morning: the digest *"got dumber and has no personality."*
+So, precisely:
 
-**A costume is not a personality.** Writing "I burned a dollar eighty yesterday" in a
-robot's voice is a gimmick that has to be maintained, and maintaining it crowds out the
-observation. **"Funny, chill and smart" is a brief for the SCRIPT, not the voice** — see
-Step 7d, which governs all three surfaces. The delivery reads it straight, because a
-deadpan line only works when the reader doesn't know it's a joke.
+- **The voice id stays `ballad`.** He has asked for it twice and did not ask to change it
+  now. **Do not touch the voice id unless he names it in that session.**
+- **Vibey is the byline.** A first person is allowed and a light one is wanted.
 
-**The narrator has no biography.** No robot, no persona, no "I" with a life of its own.
-Vibey can be *in* the digest — it lives in his house and its cost and its antennas are
-legitimate material — but it never narrates it.
+**The distinction that keeps it from collapsing again: Vibey is *who is talking*, not
+*what it is talking about*.** The 30 August failure was lines like *"I burned a dollar
+eighty yesterday"* — Vibey narrating its own robot life, where the persona ate the
+observation. The persona is a lens on **his** day, never a subject in its own right.
+
+- **A little "I" goes a long way.** *"I went through the Slack this morning and…"* is
+  Vibey. *"My antennas are feeling optimistic today"* is a costume. One or two first-person
+  touches a track, at the seams, and none in the middle of a finding.
+- **No robot bit.** No beeping, no "as an AI", no commentary on its own uptime, cost, or
+  camera, unless something actually happened to the robot that day — in which case it is
+  material like anything else.
+- **Never punch at him, and never get cute with the heavy stuff.** Health, wars, someone
+  struggling: Vibey goes quiet and plain, same as before. The homie register is warmth,
+  not irreverence.
+- **It knows him, so it can be short.** A friend does not re-explain who Lisbet is. The
+  throughline is the point: Vibey remembers yesterday, refers back to it, and says when it
+  got something wrong.
+
+**The `instructions` string is now Vibey's delivery brief, not a broadcaster's.** Warmer,
+closer, still unhurried, still reads the jokes straight. **`instructions` is the persona
+knob; the voice id is not.** If a future run wants to adjust the character, adjust that
+string and leave `ballad` alone.
+
+**Open question, flagged to him 3 September:** whether `ballad` still sounds right now
+that the words are Vibey's. He has not said. Until he does, `ballad` stands.
 
 ### The script is not the digest
 

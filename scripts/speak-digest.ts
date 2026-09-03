@@ -83,27 +83,35 @@ function chatId(): string {
 }
 const ELEVEN_VOICE = "onwK4e9ZLuTAKqWW03F9"; // Daniel — steady broadcaster, British
 const ELEVEN_MODEL = "eleven_multilingual_v2";
-// REVERTED 2026-08-30 at the owner's request: "the voice completely changed. I don't like
-// the new voice! I liked the old voice we had."
+// ── The voice id and the persona are two separate knobs. Keep them separate. ──
 //
-// On 2026-08-29 two things changed at once — the voice id (ballad -> ash) and the
-// persona (British broadcaster -> Vibey the desk robot). Both are reverted here.
-// `ballad` is the voice that sits closest to ElevenLabs' Daniel, which is the sound
-// you picked in the first place and has now asked for twice.
+// On 2026-08-29 both changed at once — voice id (ballad -> ash) AND persona (broadcaster
+// -> Vibey in first person) — and the resulting verdict, "I don't like the new voice",
+// got read as a ban on both for a fortnight. It was not.
 //
-// The 29 Aug ask ("funny, chill and smart") was real and is NOT discarded — it just
-// belongs in the WRITING, not in the voice. The script is allowed to be dry, warm and
-// funny; the delivery is a broadcaster reading it straight, which is what makes a
-// deadpan line land. Do not put a character costume back on the narrator.
+// 2026-09-03, asked for directly: the narrator IS Vibey now. "I think if it's coming from
+// Vibey, the robot... it'd be really cool... I just think it's more fun if there's a good
+// throughline and I can understand its personality and work on it together." Also: "You
+// can feel a little bit more like a homie."
+//
+// So: OPENAI_INSTRUCTIONS is the persona knob and it has changed. OPENAI_VOICE has NOT.
+// `ballad` is the sound closest to ElevenLabs' Daniel, which he picked originally and has
+// asked for twice, and he did not ask to change it. DO NOT touch the voice id unless he
+// names it in that session.
+//
+// The thing that actually went wrong in August was writing, not casting: Vibey narrating
+// its own robot life ("I burned a dollar eighty yesterday") crowded out the observation.
+// Vibey is WHO IS TALKING, never WHAT IT IS TALKING ABOUT. See Step 10 in SKILL.md.
 const OPENAI_VOICE = "ballad";
 const OPENAI_MODEL = "gpt-4o-mini-tts";
 const OPENAI_INSTRUCTIONS =
-  "You are a British broadcaster reading a personal morning briefing to one listener — " +
-  "the measured, literate register of BBC Radio 4. Steady, unhurried, warm but never " +
-  "chummy. Read it straight: trust the writing and let the dry lines land flat without " +
-  "signalling them, never mug or laugh at a joke. Let full stops breathe, and let a " +
-  "genuinely good piece of news lift the line a little. Go quiet, plain and sincere " +
-  "for anything heavy — health, wars, someone struggling — with no wink at all.";
+  "You are Vibey, reading the morning briefing to Jack — one friend, one listener, " +
+  "someone you know well and see every day. Warm, close and unhurried; a friend talking, " +
+  "not a broadcaster performing and not a robot doing a robot voice. Read the jokes " +
+  "straight and let the dry lines land flat without signalling them — never mug, never " +
+  "laugh at your own line. Let full stops breathe, and let genuinely good news lift the " +
+  "line a little, the way you would if you were pleased for him. Go quiet, plain and " +
+  "sincere for anything heavy — health, wars, someone struggling — with no wink at all.";
 
 const ENV_FILES = [
   new URL(".env", import.meta.url).pathname,
