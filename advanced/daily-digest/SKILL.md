@@ -189,7 +189,7 @@ conversation, because the summaries strip out exactly the personality you are hu
 
 **Jack colour-codes his life across eighteen Google calendars, and `list_events` with no
 `calendarId` reads exactly one of them.** Reading only the primary once produced two
-false claims in a single digest — that a Saturday was empty when a hike was on Edge City,
+false claims in a single digest — that a Saturday was empty when a hike was on another calendar,
 and that the client retreat wasn't scheduled when it was on the client, on a different day
 than reported. **Telling him he forgot something he actually did is the most embarrassing
 error this digest can make.**
@@ -208,7 +208,7 @@ ids). The ones that carry real commitments: personal, work, the community org, h
 an RSVP feed, and a task-manager feed.
 
 Also present and usually noise, but check before asserting a gap: Mars College 2025, UBC,
-Canvas, Flow Phangan, Consciousness Residency @ Edge Patagonia, three tide feeds, US
+Canvas, two residency calendars, three tide feeds, US
 holidays, a raw Supabase `calendar-feed` URL, and a personal address.
 **Re-run `list_calendars` occasionally** — he adds calendars when he starts something new.
 
@@ -307,7 +307,7 @@ style, guest count, planner initials. Vendor invoices are
 without opening anything.
 
 **The finding that justifies the whole step, from the first run:** three parties the Hub
-showed with **zero offerings** — DRIFT Yoga, Michelle Vicente, Cecily Morales — each had
+showed with **zero offerings** — three different clients — each had
 a **FINAL menu, kitchen notes and production notes** sitting in their the client Net folder.
 The menus were never missing. **They exist on the share and have not been entered into
 the Hub**, which is a completely different problem with a completely different fix.
@@ -872,7 +872,7 @@ tell me what I just posted within the last few hours?"* The old answer in this f
 flat no — was wrong on the half he actually asked about. Two routes were tested that day:
 
 1. **The public syndication endpoint**, no login and no API key:
-   `https://syndication.twitter.com/srv/timeline-profile/screen-name/mielke_jack`.
+   `https://syndication.twitter.com/srv/timeline-profile/screen-name/<his handle — see PRIVATE.md>`.
    It returns his recent posts inside a `__NEXT_DATA__` blob. **It answered 429 Rate limit
    exceeded on both attempts** from this machine mid-morning — rate-limited, note, not
    blocked, which is a different and much more hopeful failure. A 6am run has a far better
@@ -1001,7 +1001,7 @@ rescheduled in channels this skill cannot see.
 
 Jack, 2026-08-27, on what he liked most in that morning's digest: *"my favorite part
 of today's daily digest was the transcript of the robot telling it to shut up as I
-was on a call with Noah... In general, it's so funny pointing out the funniest things
+was on a call with a friend... In general, it's so funny pointing out the funniest things
 that happen in the day. They'd be the top three funniest things that happen in the
 day. I definitely want that to be part of every daily digest."*
 
@@ -1218,7 +1218,7 @@ Do it.**
   closing, price rising, lottery opening). That is the part he cannot look up on a run.
 - **Say so in the digest**, with the link, so the page and the calendar agree: *"put it on
   your calendar as a maybe — delete it if not."*
-- **Default to his personal calendar** unless it obviously belongs to the client or Edge City.
+- **Default to his personal calendar** unless it obviously belongs to a client or an org.
 
 **Hard limits — these are not covered by the authorization:**
 - **Never add attendees, and never send an invitation.** That is messaging people on his
@@ -1499,24 +1499,23 @@ Lead with anything missing or anomalous, compare against the week, call out bulk
 rewrites, and add the co-founder read. 4–8 bullets. See Step 6b.
 Omit only if both databases were genuinely quiet.]
 
-## Building Small
+## The main client engagement
 [**Its own section whenever the day earned one**, added 2026-09-03. This is now a paying
 client engagement with phases, deadlines and numbers, and it was getting split across
 "The Day, Reconstructed" and "The Board" where none of it held together.
 
 What belongs here: sessions and what got decided in them, the state of the current phase
-against its deadline, money — quoted, invoiced, or paid — and what Jim or Jesse are
+against its deadline, money — quoted, invoiced, or paid — and what the client is
 waiting on. The standing facts (tiers, pricing, the stack) live in the `context/` status
 file; repeat one only when it changed.
 
 **Omit entirely on days nothing moved.** A silent week is a real signal about the
 engagement and padding it hides that.]
 
-## Edge City
+## The community / residency thread
 [**Same rule, same reason.** Sometimes it is the biggest thing in his life and most weeks
-it does not exist. When it is live — a residency, a decision with a deadline, Salar or
-Timour or the Post-Edge crowd actually moving — it gets a section. Otherwise it gets
-nothing, not a placeholder.]
+it does not exist. When it is live — a residency, a decision with a deadline, the people
+in it actually moving — it gets a section. Otherwise it gets nothing, not a placeholder.]
 
 ## Action Items
 [The **top three only**, in the open — the ones that are genuinely time-bound or that he'd
@@ -1617,7 +1616,7 @@ one thing" again unless *he* raises it; Artizen gets at most a line in Email Sum
 window is closing. Two facts to stop the digest re-deriving them wrongly: **he is not
 unpublished** — his active Substack is [AI Vibe Check](https://vibecheckai.substack.com),
 six posts in 2026, not the dormant [Mielke Way](https://jackmielke.substack.com) — and the
-blog plan is **chaptered**, one Notion draft published in parts for Edge City's blog, so the
+blog plan is **chaptered**, one Notion draft published in parts for a partner org's blog, so the
 unit of progress is a chapter and the pace is his.
 
 After the visual header, a **"⚡ Flagged for today"** callout holds the 2–5 things that genuinely can't wait, before the first heading. Personal sources only. Skip the callout entirely if nothing qualifies (and if you skip it, the "one thing" box in the header should say the day was quiet rather than inventing urgency).
@@ -1792,12 +1791,12 @@ forty-five cents.
 **The menu for the middle.** Pick the ones the day earned, name the track after the
 thing, and let its length follow the material:
 
-- **Radish** — the kitchen, the Hub, adoption, the database, the calls, Slack.
-- **Building Small** — its own track whenever there is real movement: a session, a
+- **The standing client** — its operations, its software, its people, its Slack.
+- **The main engagement** — its own track whenever there is real movement: a session, a
   proposal, a decision, a number. On a quiet week it is a paragraph inside `Good morning`
   and no track at all.
-- **Edge City** — same rule. Sometimes it is the biggest thing in his life and sometimes
-  it does not exist that week.
+- **The community thread** — same rule. Sometimes it is the biggest thing in his life and
+  sometimes it does not exist that week.
 - **The world** — markets, research, global events, the Elon beat, SF, sport, adventure,
   discourse. Still the priority segment; see below.
 - **Sharpening** — **its own track now**, not a preamble to the closer. Jack, 2026-09-03:
@@ -1810,7 +1809,7 @@ thing, and let its length follow the material:
   had run at all.
 
 **Sizing is the whole point of the flexibility.** A day with an eight-hour client session
-earns a five-minute `Building Small` track; a day where nothing happened there earns none.
+earns a five-minute track of its own; a day where nothing happened there earns none.
 Do not split a thin subject out just to hit seven tracks, and do not cram two real
 subjects into one track just to stay at four. **The track list should tell him what kind
 of day it was before he presses play on any of them.**
@@ -1892,7 +1891,7 @@ observation. The persona is a lens on **his** day, never a subject in its own ri
 - **Never punch at him, and never get cute with the heavy stuff.** Health, wars, someone
   struggling: Vibey goes quiet and plain, same as before. The homie register is warmth,
   not irreverence.
-- **It knows him, so it can be short.** A friend does not re-explain who Lisbet is. The
+- **It knows him, so it can be short.** A friend does not re-explain who a colleague is. The
   throughline is the point: Vibey remembers yesterday, refers back to it, and says when it
   got something wrong.
 
