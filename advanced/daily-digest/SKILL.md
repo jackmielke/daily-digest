@@ -582,6 +582,17 @@ What to take from it:
 
 Flags: `--hours N`, `--full` (untruncated), `--json`.
 
+**A trap the script does NOT handle, found 2026-09-04.** `--hours N` selects whole
+*sessions* that were active in the window and then prints **every prompt in the file**,
+including ones from weeks earlier. A single long-running `~` session that gets resumed
+will hand you fifteen days of history labelled as yesterday — the 4 Sep run was one step
+away from reporting the whole August FlowState build as overnight work. The `--json`
+output does not help: `prompts` is a bare array of strings with no timestamps.
+**So filter it yourself.** Read `~/.claude/projects/**/*.jsonl`, keep events where
+`type == "user"`, drop anything whose `timestamp` predates the window, and drop the
+tool-result and skill-injection noise. Use the script for the session shape and the
+project names; use the raw JSONL for what he actually said yesterday.
+
 **Two things the script handles that you should not undo.** Only a fraction of the
 `user` events are Jack — the rest are tool results, skill injections, system
 reminders and scheduled-task prompts, and the filtering is the whole value. And the
@@ -997,7 +1008,53 @@ rescheduled in channels this skill cannot see.
 - **When he corrects a date**, write it into `context/` as "do not reintroduce X" and say
   plainly in the next digest that it was wrong. Don't quietly swap the number.
 
-## Step 7f: The three funniest things — a fixed section, every day
+## Step 7j: Ask him three questions — a fixed block, every day
+
+**Asked for 2026-09-04, 9:34am, in the Wonder chat:** *"U should ask Qs for the day
+lol, going forward."* The handler was dead for 299 consecutive runs that day, so the
+request never reached a digest until 5 September. It is permanent now.
+
+**Three questions, near the top of the page, right after ⚡ Flagged.** Also read them
+in `Good morning` only if they are short; otherwise the page carries them alone.
+
+What makes a question worth asking:
+
+- **It resolves an ambiguity that changes what you'd write tomorrow.** "Do you want to
+  stay in the Mission or is this the moment to move?" changes every housing line for a
+  month. "How's the job hunt going?" changes nothing.
+- **The answer is not anywhere in the sources.** If a transcript already says it, that
+  is a finding, not a question. This block exists precisely for the things no recorder
+  caught.
+- **It is answerable in one clause**, by voice, while walking. He has RSI; a question
+  that needs a paragraph will not get answered.
+- **Say where it comes from** when it is not obvious — a decision he half-made, a number
+  two sources disagree on, a person waiting on him.
+
+**Never use it to nag.** "Did you text Noah yet?" is the action list wearing a question
+mark. Ask about intent, preference and direction — the things only he knows.
+
+**Answers arrive through Step 1b.** When one comes back, use it and say you heard it in
+one clause. A question he answered does not get asked again.
+
+## Step 7f: Comedy — the funniest three, the best quote, and one absurd fact
+
+**Renamed and widened 2026-09-05.** Jack asked for it on 2026-09-04 at 12:05pm:
+*"A new one just called comedy would be funny. Best quotes, most absurd life moments /
+world facts."* That message also died with the handler. The section now has **three
+parts** and runs every day:
+
+1. **The three funniest things**, ranked, exactly as before — the rest of this step is
+   the brief for finding them.
+2. **Best quote of the day.** One line or one short exchange, chosen for how it is said
+   rather than whether it is funny. It can be his mom, a colleague in Slack, a stranger
+   in a group chat, or him. A runner-up is fine when the day is rich.
+3. **Most absurd fact.** One a day, from the day's own research or his own life —
+   the strange number inside a real story, not a trivia-site fact. *Claude proved eight
+   hundred theorems in the Fermat run that were never used* is the shape. If the day's
+   research yields nothing genuinely odd, take it from his own life instead; if neither
+   does, drop this part and keep the other two.
+
+**In the audio, all three sit near the end of `Closing thoughts`**, in that order.
 
 Jack, 2026-08-27, on what he liked most in that morning's digest: *"my favorite part
 of today's daily digest was the transcript of the robot telling it to shut up as I
@@ -1424,6 +1481,11 @@ Do **not** hotlink article images or tracking-wrapped email images — they rot,
 The visual header goes first, then the ⚡ Flagged callout, then:
 
 ```
+## Three questions for you
+[Three questions, every day, that only he can answer and that change what gets
+written tomorrow. Never nagging, never anything a source already answers. See
+Step 7j. Runs every day; answers come back through Step 1b.]
+
 ## Since Yesterday
 [What moved on threads flagged in recent digests. Omit if no real continuity.]
 
@@ -1522,12 +1584,12 @@ in it actually moving — it gets a section. Otherwise it gets nothing, not a pl
 regret missing. Three, not five. Everything else lives on the Work Board, not in a toggle
 on this page. Link the board once, underneath.]
 
-## The Three Funniest Things That Happened Today
-[**A numbered top three. Every single day. Never omitted.** This is his favourite
-part of the digest and he asked for it by name on 2026-08-27: *"In general, it's so
-funny pointing out the funniest things that happen in the day... the top three
-funniest things that happen in the day. I definitely want that to be part of every
-daily digest."* See Step 7f for how to find them.]
+## Comedy
+[**Three parts, every single day, never omitted.** His favourite part of the digest,
+asked for by name on 2026-08-27 and widened on 2026-09-04. Sub-headings:
+**The three funniest things** (a ranked top three) · **Best quote of the day** (one
+line or exchange, chosen for how it is said) · **Most absurd fact** (the strange
+number inside a real story, or from his own day). See Step 7f.]
 
 ## The Board
 [The outreach pipeline from Projects & Collabs — who, what stage, how long it has sat,
