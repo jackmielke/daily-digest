@@ -321,6 +321,13 @@ the Hub**, which is a completely different problem with a completely different f
 - A `PRODUCTION NOTES.docx` or `EVENT PACK LIST.docx` updated in the last day — that is
   someone actively working, and it is worth a line in the client section.
 
+**Say in the digest that you read it, and how much.** Jack, 6 September: *"Must also make
+sure that we're tracking all the changes in the Radish net — not sure you're looking at
+that and have access to it?"* The step has run every day since 30 August; he could not
+tell, because the coverage only ever landed in the status note. So `--recent` runs every
+run, and the file count it returns gets one clause in the digest's own sources line —
+enough that a day it silently fails is visible to him, not just to the next run.
+
 **Report it as what people did**, the same standard as Slack. A rental contract landing
 is routine; a menu going FINAL two days before an event where the Hub still shows nothing
 is a story. **The prep-list ban still applies** — no row counts, no readiness grading.
@@ -362,9 +369,15 @@ him.** Most of this inbox is not from people.
   and get back on Sunday morning. Potentially down to do it on Sunday late afternoon/
   early evening if y'all are also feeling it"* — a live plan for tomorrow, unanswered.
   That is the whole reason this source was worth turning on.
-- **Name people where possible.** `search_contacts` needs the **Contacts app to be
-  running**, or it fails with AppleScript error −600. If it isn't running, report the
-  number and say the name wasn't resolved — do not guess whose number it is.
+- **Name people, and try harder than one call.** Jack, 6 September: *"you don't have
+  some of the main contacts like Alex texting last night. For example, you didn't know
+  who sent it."* An unnamed number is a message he cannot place, which makes the entry
+  worthless to him. `search_contacts` needs the **Contacts app to be running**, or it
+  fails with AppleScript error −600 — run `open -a Contacts`, then retry. If it still
+  fails, work the number through what this skill already holds: the Telegram dialog
+  cache, the Notion `Peeps` rows, and the last few digests all carry names against
+  numbers. Only after that report a bare number, and say plainly that the name wouldn't
+  resolve — **never guess whose number it is.**
 - **Delivery and service texts** (Instacart/Shipt shoppers, carriers, Luma, Safeway) are
   one line at most, and usually zero.
 - **`*@rbm.goog` senders are RCS business messages**, not people. Marketing.
@@ -435,6 +448,31 @@ You can see images. Open them.
   it spawns does not. The script says so and carries on with Telegram alone. **Report the
   gap if it matters; never present a Telegram-only set as everything.**
 - **Attribution travels with every photo** — who, which chat, what time. Keep it.
+
+## Step 3h: Strava — what his body actually did
+
+**Connected 2026-09-05**, and verified working the same day. Tools live on the Strava connector.
+`list_activities` (date-range filterable, newest first, metric units — his profile is set to
+Imperial, so convert), `get_athlete_profile`, `get_activity_performance` for one activity's heart
+rate, laps, segments and best efforts, `get_activity_streams` for the raw series.
+
+**Two things established on the first run, and they shape what this is worth:**
+
+1. **`has_heartrate` was false on every activity, including a 22km Mt Tam run.** These are
+   phone-recorded, not watch-recorded — the Garmin → Strava auto-sync is not switched on. Until it
+   is, this source carries distance, time, elevation, pace, segments and PRs, and **no physiology at
+   all**. Say so rather than implying the watch is in the picture.
+2. **Strava never carries sleep, HRV, resting heart rate, body battery or stress**, even with the
+   Garmin sync on. Those are the numbers he actually wants long term, and they need a separate route.
+
+**How to use it — weekly, not daily.** He was there for the run; reporting it back is noise. The
+value is correlation against everything else this skill already holds — commit timestamps, session
+counts, how his transcripts sound, what he got done. **A daily n of one is noise you would start
+believing.** So: no running line in the morning digest unless something genuinely happened (a PR, a
+race, a first, an unusual gap), and a real read in the weekly review.
+
+**And never prescribe.** Report the pattern, name the correlation, stop. No training advice, no
+sleep moralising, no recovery scoring. He has RSI and a full life; the digest is not a coach.
 
 ## Step 4: Gather Emails
 
@@ -657,6 +695,8 @@ Use the Supabase MCP `execute_sql` tool. The queries live in **`supabase-activit
 ### How to read it
 
 **The sweep is a map, not the section.** A table with a big number is a lead to chase, not a finding to report. "578 audit_logs rows" means nothing to Jack. "The Aug 21 and Aug 22 parties have 385 guests between them and zero menus entered" means everything. Always convert counts into the operational fact underneath them.
+
+**The `audit_logs` total is banned outright, and this rule has been broken seven days running.** Jack, 6 September: *"Audit log could be looked into for the Radish, you keep bringing it up, and I don't fully understand it."* The digest kept leading that bullet with "audit total fake, Nth day" — a number about a table nobody ever explained to him. So: **never report the audit-log row count, never carry a day-counter on it, never call it fake.** The table is the Hub's own change log, one row per insert, update or delete, written by the app itself. It earns a line only when a *person's* behaviour shows through it — someone rewrote 500 rows in one second, a machine job doubled its own writes — and then you say the behaviour in plain words and leave the count out. If you cannot say what a human did, say nothing.
 
 **Chase these five things, in order:**
 
@@ -959,6 +999,15 @@ They are almost always doing nothing — "what he actually did" is "what he did"
 is stronger without. Keep one only where it carries a real contrast — what happened
 versus what was claimed — and at most once or twice in a whole digest.
 
+**And cut the escalator that replaced them.** Jack, 6 September: *"'And this one
+genuinely / is the one that matters / is the real reason XYZ' lol this way of speaking is
+maybe a bit too much, it sounds too much like LLM speak."* The tell is a sentence that
+announces its own importance before delivering it: *"and this one matters," "here's the
+real reason," "the one that actually counts," "and this is the important part," "but
+here's the thing."* **Ban the family.** If an item is the important one, put it first and
+let it be important; if it needs a herald, it isn't. Same failure as the filler words —
+throat-clearing dressed as emphasis — and it reads as a machine doing suspense.
+
 ### Never write like a ledger
 
 The single most common failure. Jack, on an opener that called a good piece of work a
@@ -1200,6 +1249,13 @@ yourself... let's just try three minutes of new ideas."*
 **Five ideas a day, minimum, and more when they are good.** This is the one section where
 you are explicitly invited to invent rather than report, and **it is the section to spend
 new length on.**
+
+**Split across two runs as of 2026-09-05.** Jack: *"maybe do 5 in the morning and then 5 in the
+evening digest. That would actually be better. You can keep the morning one the same, but just do
+5 more in the evening digest."* So **this run still writes five** — unchanged — and the 5pm
+check-in writes five more from the day it just watched. The two sets must not overlap; the
+evening run reads this row before writing, and the taste notes recorded in the check-in skill
+apply to both.
 
 **Jack, 2026-09-03 — the clearest steer this file has:** *"I don't want you to have a
 longer recap, but actually do more and give more ideas."* The recap is at the right

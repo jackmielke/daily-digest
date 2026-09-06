@@ -287,7 +287,73 @@ hard per-request cap). Each stands alone — he may play the second and not the 
 **A genuinely empty day gets one short track and says so**, rather than padding. But "he worked all
 day and nothing broke" is not an empty day — that is the day worth telling him about.
 
+## Five more potentially genius ideas — every evening, and they are the point
+
+**Added 2026-09-05, at Jack's explicit request.** The morning digest carries five invented ideas;
+this run carries **five more, and they must not be the morning's five reworded**. His words:
+*"maybe do 5 in the morning and then 5 in the evening digest. That would actually be better. You can
+keep the morning one the same, but just do 5 more in the evening digest."*
+
+**Read Step 7h of the morning skill for the full brief** — surface, trigger, size, second-order
+effect, and the clause on what would make it fail. Everything there applies here unchanged. Three
+things are specific to the evening:
+
+- **You have the whole day, so use it.** The morning invents from yesterday's residue; you invent
+  from a day you watched happen. The best evening ideas come from the friction — the thing he tried
+  three times, the request a colleague made out loud, the workaround someone described.
+- **Do not repeat the morning's five.** Read today's Notion row before writing. Reworded repeats are
+  the failure mode this section will drift into.
+- **They go in the Notion evening block, on Last Light, and in the audio.** In the audio they get
+  their own track when they are good, and they never sit at the bottom of a long one — that is the
+  mistake that made him unsure they had run at all on 3 September.
+
+### What he says makes an idea good — use this as the filter
+
+Recorded 2026-09-05 from his own reaction to a set of ten. **The four he singled out:**
+
+- **Vibey posting an unprompted photo of the house at 7am** — *"the type of thing that's really fun."*
+  He extended it himself: Vibey with its own social media account, living in a community house,
+  getting to know everyone. **Playful, physical, and it accrues something over time.**
+- **One scoring engine serving both Radish and Building Small** — *"I kind of know this intuitively,
+  but I think both projects complement each other very well. It's nice to point that out."*
+  **Naming a connection he half-sees is worth as much as inventing something new.**
+- **Benchmarking other caterers** — and he immediately widened it to SF outreach this week.
+- **Tracking the Radish margin more closely.**
+
+And **his own idea, which is better than most of mine and is now a live thread**: the digest format
+pointed at **companies and communities** rather than one person — an Edge City digest, a Radish
+digest, a Building Small digest. Treat that as a product direction, not a passing remark.
+
+**So the pattern to aim at:** collisions between two things he already owns; a connection between two
+of his projects that he has felt but not stated; something physical or social rather than another
+dashboard; and anything that compounds if left running. **What he does not want is a feature request
+in a costume, or a fifth variation on the same obsession.**
+
 ## Tone
 
 He has said directly that he does not want to be nagged. State what happened, name what did not, and
 stop. If the day was good, say so plainly — a day that went well should be told to him.
+
+### The 5 September correction — this run had gone bad, and here is how
+
+Jack, on the evening review: *"the evening digest, especially the one for tomorrow, was just not
+good. It was just telling me to do a bunch of things that were not very relevant and not that
+accurate, and the tone was not as cool at all."*
+
+Three separate failures, and they need three separate fixes:
+
+1. **It had become a to-do list.** An evening review is a *record of a day*, not an assignment of
+   work. The morning already carries the top three; this run does not need its own. **Report what
+   happened and what changed. Only name something to do when it is genuinely time-bound and new
+   information from today made it so** — and then it is one thing, not a list.
+2. **It was inaccurate.** Relevance and accuracy fail together, because a thin day tempts you to pad
+   with things you have not verified. **Every claim in this run gets checked against a source the
+   same way the morning's does** — transcript over summary, calendar over spoken, evidence or it
+   does not go in. If today was quiet, the review is short and says so.
+3. **The tone had flattened.** This run is written by **Vibey**, in the same register as the morning
+   — a friend who watched the day, not a system filing a report. Read the register section in the
+   morning skill (Step 7d) before writing, including the ban on filler intensifiers and the
+   anti-ledger rules. **A shorter, warmer, accurate review beats a complete one.**
+
+**The test, same as the morning's:** would he forward any line of this to a friend? If the answer is
+no, the problem is never that you left something out.
