@@ -103,11 +103,49 @@ said it. Say so, and never put a soft date in the urgent section.
   eighteen obligations every morning makes a briefing feel like a chore list.
 - **Omit any section with nothing to say.** An empty section is worse than a shorter page.
 
+**Cut the filler intensifiers.** *Actually, genuinely, truly, really, quite, very, simply,
+just, honestly, clearly.* They almost always do nothing — "what he actually did" is "what he
+did". Delete on sight; don't swap in a synonym. And ban the escalator that replaces them: a
+sentence that announces its own importance before delivering it — *"and this one matters,"
+"here's the real reason," "but here's the thing."* If an item is the important one, put it
+first and let it be important. Both read as a machine doing suspense.
+
+**Four sections earn their place, and they're the reason it gets opened.** The recap is the
+part nobody misses if it's shorter; these are the part they'd forward:
+
+- **The funniest three things that happened**, ranked, quoted verbatim, speaker named. Hunt
+  them in transcripts, group chats, and their own frustrated prompts. Never clean up the
+  grammar — the stumbles are the joke. Never fabricate one; this is the one section read
+  purely for pleasure and a made-up quote poisons it. Two good ones beats three padded.
+- **Five invented ideas**, built from recombining things they already have. Mechanisms, not
+  suggestions: name the surface, the trigger, the size, and the second-order effect, plus a
+  clause on what would kill it. "Make content about the robot" is not an idea; "post the
+  thirty-second clip of it interrupting your call, captioned with the line it interrupted"
+  is. Never five variations on one theme, and check the last week before writing today's.
+- **One technique a day**, aimed at how they actually work — and it only runs if you can
+  name something they did in the last 72 hours that it touches. Generic best practice is
+  worthless to them. Three beats: what you did, the technique with a real link, the one
+  five-minute move. No lectures, no scolding.
+- **Three questions only they can answer.** Not nags with question marks — ambiguities that
+  change what you'd write tomorrow, answerable in one clause while walking. A question a
+  source already answers is a finding, not a question.
+
+**When it grows, grow it here.** Never in the reconstruction of a day they already lived.
+
 ### 5. Deliver it
 
 **A written page** somewhere durable, with a **themed title naming the two or three things
 the day was actually about** — not "Daily Digest — March 3". A year of scannable titles is
 the point.
+
+**Give the day a vibe, not just a contents list.** One clause can name *what kind of day it
+was* rather than what happened in it — `A vision-setting day, and the Healdsburg number
+lands` beats two facts stapled together, and it's the thing they'll still recognise a year
+later. Go-go-go, race recovery, first Saturday back. Three rules: the vibe has to be earned
+from the day's actual texture, so if you can't name the shape honestly write two plain
+clauses instead; vary it, because three mood-labelled titles in a row is a template; and
+**a heavy day gets a plain title** — no mood framing on days with illness, money trouble, or
+someone struggling.
 
 **Audio, if they'll use it.** This is what turns it into a habit rather than a tab.
 
@@ -117,9 +155,12 @@ the point.
 - Use `scripts/speak-digest.ts`. **Keep each track under ~8,800 characters** — over that
   OpenAI returns a 400, and since every track renders before the first sends, *nothing*
   goes out. Reckon ~840 characters per spoken minute.
-- **Keep the narrator plain.** A straight, literate read of dry writing lands better than a
-  character performance. A costume is not a personality, and maintaining one crowds out the
-  observation.
+- **A narrator can have a name, but not a biography.** A straight, literate read of dry
+  writing lands better than a character performance, and that stays true. What works is
+  closing the distance — contractions, the occasional "I went through the messages this
+  morning", skipping the throat-clearing a stranger would need. What fails is the costume:
+  the moment the narrator starts narrating *itself*, the persona eats the observation. One
+  or two first-person touches a track, at the seams, none in the middle of a finding.
 
 ---
 

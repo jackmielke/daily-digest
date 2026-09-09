@@ -14,7 +14,23 @@ questions it asks you, and let it write you your own.
 **[`SETUP.md`](SETUP.md)** — twenty minutes: a Telegram bot, an API key for the voice, and
 one test message on your phone before anything else.
 
-That's it. 
+**[`SOURCES.md`](SOURCES.md)** — every tool it reads, what each returns, and what each gets
+wrong. A menu, not a checklist: it was good with four of them.
+
+That's it.
+
+### And when you want the real one
+
+[`advanced/`](advanced/) has the files that actually run here, mirrored verbatim on every
+commit. [`advanced/daily-digest/SKILL.md`](advanced/daily-digest/SKILL.md) is the morning
+brief at full size — about 2,000 lines, a year of corrections deep, including the parts the
+starter leaves out: the comedy section, the five invented ideas, the daily technique block,
+the photo reel. Alongside it: an evening check-in that corrects the morning's page when the
+day disagrees with it, a watcher that acts on replies the moment they arrive, and a weekly
+review.
+
+It is long because it is honest about what went wrong, not because it's thorough. Read the
+starter first; raid `advanced/` for the specific thing you want.
 
 ## What you need
 
