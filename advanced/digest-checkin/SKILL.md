@@ -118,13 +118,21 @@ or a commit message. Cheap, and it is the difference between reporting a day and
 **Never report a fix as done because a session said it was.** Four separate FlowState "fixes" were
 reported as done before the crackle was actually gone.
 
+**You cannot see images, so never infer an absence from a text-only read of a thread.** A Telegram
+or iMessage reply that looks like it carries no data may be carrying all of it in an attachment.
+This page told Jack for **three consecutive days** that he had not sent Telamon his Wispr Flow stats;
+he had sent them on 5 Sep as two photos, and the proof was a voice note back saying *"Bro, these
+stats are fucking crazy."* If a thread shows `[Photo]`, `[Voice note]` or an attachment anywhere near
+a claim you are about to make, either open it (`transcribe-voice.ts` for audio) or **soften the claim
+to "no text reply" rather than "not sent."**
+
 ## Step 4: His replies
 
 ```
 cd ~/dev/telegram-cli-scripts && bun read-digest-replies.ts
 ```
 
-Anything he sent to the Wonder chat, text or voice, transcribed. **A reply outranks everything else
+Anything he sent to the Vibey Digest chat (renamed from Wonder on ~5 Sep — "Wonder" no longer resolves and returns zero messages), text or voice, transcribed. Voice notes need `bun transcribe-voice.ts "<chat>" --last` — a `[Voice note]` line in the log is not the content, and on 6 Sep a 66-second one from Telamon carried the whole Wispr Flow ambassador offer. **A reply outranks everything else
 here** — if he asked something, answer it in this review rather than leaving it for tomorrow.
 
 ## Step 4b: Close the board
@@ -148,13 +156,25 @@ you."* Not a list — he can open the board.
 **Before writing anything, confirm today's review has not already been sent.**
 
 ```
-cd ~/dev/telegram-cli-scripts && bun read-messages.ts "Wonder" --limit 3
+cd ~/dev/telegram-cli-scripts && bun read-messages.ts "Vibey Digest" --limit 6
 ```
 
 If a `🌙 How today went` message for today is already there, **stop — do not send a second.** The
 Mac sleeps, the task fires late, and two runs can land minutes apart; on 2026-08-25 they landed one
 minute apart. If the existing one is materially wrong, correct it in one short message that says
 what changed. Otherwise say nothing and note it in your own output.
+
+**This step is now load-bearing.** As of 2026-09-07 the cron is `0 17,18,19 * * *`, not `0 17 * * *`
+— three attempts, because a single 17:05 fire is silently lost whenever the Mac is asleep across the
+window (the scheduler rolls `nextRunAt` to the *next day* rather than catching up; on 7 Sep it
+skipped straight to Tuesday and the review only happened because Jack noticed). **The retry window
+is safe only because of this check.** Two consequences:
+
+- **Never skip Step 5, and never assume "the cron only fires once."** It fires up to three times.
+- **Check the chat, not your own memory of the run.** The 18:00 attempt is a different process with
+  no knowledge of the 17:00 one.
+- Exiting quietly on attempt two or three is the *expected* outcome, not a failure. Say so in your
+  own output and stop.
 
 ---
 

@@ -369,15 +369,35 @@ him.** Most of this inbox is not from people.
   and get back on Sunday morning. Potentially down to do it on Sunday late afternoon/
   early evening if y'all are also feeling it"* — a live plan for tomorrow, unanswered.
   That is the whole reason this source was worth turning on.
-- **Name people, and try harder than one call.** Jack, 6 September: *"you don't have
-  some of the main contacts like Alex texting last night. For example, you didn't know
-  who sent it."* An unnamed number is a message he cannot place, which makes the entry
-  worthless to him. `search_contacts` needs the **Contacts app to be running**, or it
-  fails with AppleScript error −600 — run `open -a Contacts`, then retry. If it still
-  fails, work the number through what this skill already holds: the Telegram dialog
-  cache, the Notion `Peeps` rows, and the last few digests all carry names against
-  numbers. Only after that report a bare number, and say plainly that the name wouldn't
-  resolve — **never guess whose number it is.**
+- **Name people. There is a script for it now, and it works.**
+
+  ```
+  bun contacts.ts --lookup "<phone>,<phone>"             # number -> name
+  bun contacts.ts --name <first-name>                    # name -> numbers
+  ```
+
+  **Do not use the MCP's `search_contacts`.** It walks `every person` in AppleScript and
+  concatenates a JSON string as it goes; Jack has **2,699 contacts**, so it times out
+  every single time. That one broken tool is why several digests printed bare phone
+  numbers, and why the 8 September page told him a name "wouldn't resolve" about
+  **Claire**, who is in his address book under exactly that number — he had to correct it
+  himself, and his question was the right one: *"I don't know if you even have context
+  over who I'm texting."*
+
+  Bulk property access returns all 2,699 in about **1.4 seconds**, because it is two
+  Apple Events instead of eight thousand. `contacts.ts` does that, caches to
+  `data/contacts.json`, refreshes weekly, and launches Contacts.app itself (AppleScript
+  returns error −600 if it is not running).
+
+  **Run the lookup on every number in the day's messages before writing the section**, and
+  put names in the digest, never digits. Two things it will not do, both deliberate: a
+  Claude-Code shell **cannot** read `~/Library/Application Support/AddressBook` directly
+  — "Operation not permitted", the same block as `chat.db`, so Apple Events are the only
+  route — and an unknown number comes back `unresolved` rather than guessed. Report an
+  unresolved number as a number, and say so. **Never guess whose number it is.**
+
+  When he names someone this skill got wrong, that is a permanent fact: check it into
+  `context/` the same day.
 - **Delivery and service texts** (Instacart/Shipt shoppers, carriers, Luma, Safeway) are
   one line at most, and usually zero.
 - **`*@rbm.goog` senders are RCS business messages**, not people. Marketing.
@@ -474,6 +494,79 @@ race, a first, an unusual gap), and a real read in the weekly review.
 **And never prescribe.** Report the pattern, name the correlation, stop. No training advice, no
 sleep moralising, no recovery scoring. He has RSI and a full life; the digest is not a coach.
 
+## Step 3i: Garmin — the half of his body Strava never carries
+
+```
+./garmin-daily.py --days 3            # sleep, RHR, stress, steps, body battery
+./garmin-daily.py --days 7 --json     # a week, machine-readable
+```
+
+**Verified working 2026-09-09**, and it had been sitting unused. Step 3h says the physiology
+"needs a separate route" — this is that route, it has been here since 6 September, and no
+digest has ever opened it. Jack, 9 September: *"The Garmin watch data, I think, works…
+I don't think you're actually using it enough."* He was right.
+
+A real run returns, per day: **sleep duration and sleep score, resting heart rate, stress,
+steps** (and body battery / training readiness when the watch recorded them). It writes JSON
+to `data/garmin/` so the history accumulates without re-fetching.
+
+**Garmin has no consumer API** — their Health API is a partner programme you apply to as a
+company. This runs on `garminconnect`, the unofficial library every personal dashboard uses.
+It works and it breaks whenever Garmin changes auth; when that happens the script fails loudly
+rather than writing half a file, and the fix is `pip install -U garminconnect`.
+
+**Use it the way Step 3h says to use Strava, and for the same reason: weekly, not daily.**
+A single night's sleep score is noise you would start believing. What earns a line:
+
+- **A number that contradicts the day around it.** Six hours' sleep before an eight-hour
+  client session, or a resting heart rate climbing across a week he described as restful.
+- **A streak breaking.** He walked 27,710 steps on 6 September and 16,014 on the 8th; the
+  interesting version of that is a pattern over a fortnight, not either number alone.
+- **Correlation against what this skill already holds** — commit timestamps, session counts,
+  how his transcripts sound, what actually got finished. That is the whole reason it is worth
+  having, and it belongs in the weekly review far more than in any single morning.
+
+**The prescribing ban from Step 3h applies here twice over.** Sleep and heart-rate data invite
+advice and he has not asked for any. Report the pattern, name the correlation, stop.
+
+## Step 3j: The money feed — real balances, read-only
+
+```
+./becu-weekly.py                      # 7 days of transactions across every account
+```
+
+**Verified working 2026-09-09.** The 6 September note recorded this as blocked on Jack
+generating a SimpleFIN token; he has since done it, `SIMPLEFIN_ACCESS_URL` is in the `.env`,
+and it returns live data. Like Garmin, no digest has used it.
+
+It returns, per account: **balance, and every transaction in the window with amount and
+merchant**, then writes `data/money/<date>.json`. Personal accounts only — this is his own
+bank, and it is **read-only by construction**: SimpleFIN Bridge issues a read-only token and
+there is no write path in the protocol at all.
+
+**This is the most sensitive source in the whole skill. Three rules, and they are not
+negotiable:**
+
+1. **Never print a full transaction list, and never put one on a page or in audio.** The
+   reading page is published to a URL and the audio goes to a chat app. Merchant-level detail
+   is a map of where he was and who he was with.
+2. **Report the shape, not the ledger.** "Twenty-four transactions, four hundred and fifteen
+   out, twenty-seven in" is a fact about the week. The individual coffee is not.
+3. **Never advise.** Same standing rule as markets — no budgeting, no "you spent a lot on X",
+   no savings-rate commentary. He did not ask for a coach and a digest that judges his
+   spending is one he stops opening.
+
+**What actually earns a line**, and it is rarer than the data volume suggests: a **charge he
+would not recognise**, a **duplicate**, a **subscription renewing that he has already said he
+wants cancelled** (the TrustedHousesitters row has been on the board since 31 August), or a
+**balance that has moved hard against its own baseline**. Anything else is noise, and on most
+days this step produces no line at all — which is the correct outcome.
+
+**One live caveat.** The script currently prints `Connection to BECU may need attention.
+Auth required` before returning good data. That is SimpleFIN warning that the bank link is
+close to lapsing. Data is still flowing; say so once if it starts failing, and the fix is
+re-authorising at the SimpleFIN bridge — **which is his to do. Never handle the credentials.**
+
 ## Step 4: Gather Emails
 
 Search Gmail for `newer_than:1d`. Read the important ones, skip obvious marketing. Watch for phishing (anything asking for bank/financial details via "refund" or "verification" framing) and flag it explicitly rather than treating it as normal mail.
@@ -490,6 +583,8 @@ Specifically, do **not**:
 - build the title around them.
 
 The exception is a genuine anomaly, not volume: an inquiry that arrives broken, a form that stops working, a duplicate storm, a real phishing attempt wearing the form's clothes. Those are infrastructure problems and belong in Flagged. A big number of unanswered inquiries is not an anomaly — it's the normal state, and repeating it daily was making the digest feel like a nag.
+
+**Platform notification mail is his own maintenance, not news.** Vercel failed-deployment and "domains need configuration" notices, and the same genre from any other host or registrar, get **at most one line in Email Summary and never the ⚡ Flagged callout** — *"Vercel notification isn't that relevant, I can tackle that on my own terms"* (9 Sep). Report it once when it first appears; if it's still sitting there tomorrow, that is not a new fact and it doesn't get another line. Anything actually taking a live site down for real users is a different thing and belongs in Flagged.
 
 ## Step 5: Review Notion Activity
 
@@ -648,9 +743,40 @@ overnight and yesterday-evening work that the 5pm run has not seen.
 ## Step 6d: What he watched on YouTube
 
 ```
-bun youtube-watched.ts --hours 24
+bun youtube-watched.ts --hours 24 --arc     # ALL devices — use this one
 bun youtube-watched.ts --transcript <video-id>     # full clean transcript
 ```
+
+**Always pass `--arc` in the 6am run.** Without it this reads only browser history on
+this Mac, which on 2026-09-07 held **twelve YouTube URLs in total, ever** — Jack watches
+most of it on his phone and his TV, and neither touches any database on the laptop. With
+`--arc` it also reads **youtube.com/feed/history**, which is signed-in and aggregates
+every device. The first run with it on found nine videos in 48 hours where browser
+history had three, and the six extra were all phone watches.
+
+**It is a 6am tool and nothing else.** It navigates Arc's **active tab** to the history
+page, scrapes it, and puts the tab back where it was — because Arc can only inject into
+the active tab and a newly-opened tab is *not* reliably active. That means it takes over
+whatever is on screen for about twelve seconds. Fine while he is asleep; never run it
+while he is at the keyboard.
+
+**Three traps, all found on 2026-09-07 and all fixed in the script — do not reintroduce them:**
+
+- **osascript returns the JS result double-encoded.** `stdout` is a quoted JSON string
+  *containing* JSON, so one `JSON.parse` yields a string whose `.url` is `undefined` —
+  which reads exactly like "we landed on the wrong page". Parse twice.
+- **`\s` and `\d` inside a TS template literal are escape sequences** that collapse to
+  plain `s` and `d` before the JS is ever injected. `/\s+/g` silently became `/s+/g`, a
+  regex matching runs of the letter s, which deleted every "s" from the titles —
+  *Astra* came back as *A tra*. Injected regexes need doubled backslashes.
+- **Each row has several `/watch?v=` links**, and the first is the thumbnail, whose text
+  is the duration badge. Taking the first anchor gives you titles like `45:53`. Pick the
+  longest candidate that is not a duration, then strip the spoken duration that
+  `aria-label` appends.
+
+**The script now reports what it actually did** — how many entries were on the page and
+how many fell inside the window — rather than claiming success blind. An earlier version
+reported success while injecting into a Notion tab and reading nothing at all.
 
 Jack, 2026-08-27: *"I wonder if you could also gather my YouTube watch history and also
 have a good way of understanding everything in the video."*
@@ -671,8 +797,10 @@ signal available about what he actually wants.** Read it that way, not as a medi
   or he sends it to you — and report what was actually argued, with the good lines
   quoted. Do not summarise from the title.
 - **He sometimes just pastes a link.** Treat that as a request to watch it properly.
-- **Blind spots, and say so if it matters:** phone and TV viewing never reach browser
-  history, and this shows what was *opened*, not what was *finished*.
+- **Blind spot, now much smaller:** with `--arc` the phone and TV are covered. What
+  remains is that this shows what was *opened*, not what was *finished*, and the history
+  page only dates things as "Today" or "Yesterday" — so browser-history timings are
+  preferred where both sources have the same video.
 
 **Two gotchas that will waste an hour if forgotten** — both in the script's header:
 YouTube now rejects yt-dlp's default web client (*"The page needs to be reloaded"*), so
@@ -1408,6 +1536,23 @@ Every digest is a row in the database, not a loose workspace page.
 - Database: https://app.notion.com/p/…
 - Data source ID: `…`
 
+**First, check whether a row for today already exists.** The 8 September digest ran
+twice — written and delivered at midnight after a weekend of sliding schedules, then the
+6am task fired the same skill again for the same date. One query would have caught it:
+
+```sql
+SELECT "Title", "date:Date:start" FROM "<the data source>"
+ORDER BY "date:Date:start" DESC LIMIT 5
+```
+
+If today's date is already there, **do not write a second row and do not re-send.**
+Run a delta gather over the window since that row was filed and append one
+`## Overnight addendum` section to the existing page — and **publish the same addendum
+to the reading page too**, as its own part with its own nav link. Jack, that morning:
+*"No artifact for today? I do enjoy reading those more than the Notion thing alone."*
+Patching Notion alone is not patching it. Also re-check the world section on any late or
+duplicate run: one written the night before is a day stale by the time he reads it.
+
 Use `notion-create-pages` with `parent: {"type": "data_source_id", "data_source_id": "<see PRIVATE.md>"}`.
 
 If a property fails to set, `notion-fetch` the data source to re-read the live schema, then retry — the table below may have drifted. (Jack renames things; target by ID, never by title.)
@@ -1447,6 +1592,27 @@ The title is the point of the database — it should let Jack scan a year of row
 - **Rotate the subject.** the client operations are not the default lead. Across a week, titles should land on the things actually in his life — building, people and community, SF and housing, health and sport, travel decisions, money — in whatever proportion the day had. If three days running open on the client, at least one is mis-titled.
 - **Draw from the personal sources**, not the research roundup — research is the same shape most days and makes interchangeable titles.
 - **Never** use "Daily Digest", the date, or a generic label. The date has its own field.
+
+### Give the day a vibe, not just a contents list — added 2026-09-07
+
+Jack: *"I'd be interested to see if the titles also had a bit of a vibe to them, rather
+than just always the technical details of the day. If it's a vision-setting day, for
+example, or go-go-go, or race recovery day or something."*
+
+So one of the clauses can name **what kind of day it was** rather than what happened in
+it. `A vision-setting day, and the Healdsburg number lands` reads better than two facts
+stapled together, and it is the thing he will actually remember a year later.
+
+- **The vibe is earned from the day's texture, not decoration.** A day of eight calls and
+  ninety commits is go-go-go. A day after a 50K with three short sessions is recovery. A
+  day spent arguing about what a thing should be is vision-setting. If you cannot name the
+  shape honestly, drop it and write two plain clauses — a forced vibe is worse than none.
+- **It usually goes first**, because it frames the facts that follow. `Go-go-go Monday:
+  the proposal lands, the owner files eleven bugs`.
+- **Vary the vocabulary.** If the last three titles all opened with a mood label, write a
+  plain one. This is a register available to the title, not a new template.
+- **A heavy day gets a plain title.** No mood framing on days with health, money trouble,
+  or someone struggling — the same rule the register section applies everywhere else.
 
 Good: `Going hard at the SF job hunt, the importer stops eating data, one party not four` · `The night you built San Francisco, and the client Bot ships` · `The food margin is 28% not 42%, and Clara delivers the new chart of accounts` · `First Saturday back in SF` · `A quiet Sunday`
 Bad: `Daily Digest — Aug 9, 2026` · `Updates and news` · `AI, sports, and crypto roundup` (topic labels, not events) · `The proposal log bounces, a cron times out, Wonder loses its token` (three incidents, no day in it)
