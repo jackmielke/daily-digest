@@ -10,19 +10,23 @@ friend would, and deliver it to their phone before they're properly awake.
 
 ---
 
-## First, ask them four questions
+## First, ask them three questions
 
-Do not skip this. A digest built on guesses is the one they stop opening.
+Do not skip this. A digest built on guesses is the one they stop opening. Three questions,
+not an interview — they should be done in two minutes.
 
-1. **Where does your life actually happen?** Which chat app, which email, which calendar,
-   which tools. Only connect what they name. And if they already have a lot of tools connected, it's safe to say that they use those, but just feel free to ask them anyway. 
+1. **What else should it read?** Start from the assumption that it uses every tool they
+   already have connected — chat, email, calendar, notes — and say that, rather than asking
+   permission tool by tool. The question worth asking is what's *missing*: a source they'd
+   want wired up that isn't connected yet.
 2. **What do you want to know about the world?** Push for specifics. "AI news" produces a
    Wikipedia summary; "what shipped in the two coding tools I use daily" produces something
-   worth reading.
-3. **What would make this Daily Digest as awesome as possible? or what's on your mind right now?** The open threads, the thing they're avoiding, the
-   decision they're sitting on. This is what makes it *theirs* rather than a news feed.
-4. **When, and how?** Time of day, and text or audio or both.
-
+   worth reading. And offer the lanes people forget they're allowed to ask for: **sports,
+   music, festivals and what's on where they live, adventures worth taking this weekend**,
+   and the other good general things to keep on a radar. A briefing that is only work reads
+   like a second inbox.
+3. **Twice a day — 6am and 5pm?** That's the recommended shape and the one to confirm: a
+   morning brief and an evening one. Settle text, audio, or both while you're there.
 
 Write the answers into this file, in their words. **You are editing your own instructions
 from here on.**

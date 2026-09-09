@@ -2,7 +2,7 @@
 
 **This is one file plus three scripts.** `SKILL.md` is the method, distilled from a digest
 that has run every morning since August 2026. It is a method to adapt, not a turnkey
-install — your agent reads it, asks you four questions, and writes you your own.
+install — your agent reads it, asks you three questions, and writes you your own.
 
 **Start much smaller than what's in here.** Three sources and a written page is a real
 product. Mine began as one Telegram scrape and a Notion page. Everything else — the audio,
@@ -73,8 +73,9 @@ characters per spoken minute.
 ### 4. Tell your agent what you actually want
 
 Point it at **`SKILL.md` in the repo root** — that's the whole method, one file. It will
-ask you four questions about your own sources and interests, then write you your own
-version.
+ask you three questions — what else it should read, what you want to know about the world
+(work, but also sports, music, what's on where you live), and whether 6am and 5pm suits —
+then write you your own version.
 
 
 ### 5. Make it actually run every day
