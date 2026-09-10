@@ -328,6 +328,12 @@ tell, because the coverage only ever landed in the status note. So `--recent` ru
 run, and the file count it returns gets one clause in the digest's own sources line —
 enough that a day it silently fails is visible to him, not just to the next run.
 
+**Call it the Radish Net — never "the network".** Jack, 2026-09-10: *"rather than saying
+the network, u should say the 'Radish net' which is different from the Radish hub."* They
+are two separate systems and "the network" blurs them: the Net is the OneDrive share this
+step reads, the Hub is the app with the parties and the offerings in it. Use the names, in
+the page and in the audio.
+
 **Report it as what people did**, the same standard as Slack. A rental contract landing
 is routine; a menu going FINAL two days before an event where the Hub still shows nothing
 is a story. **The prep-list ban still applies** — no row counts, no readiness grading.
@@ -1231,7 +1237,10 @@ parts** and runs every day:
    research yields nothing genuinely odd, take it from his own life instead; if neither
    does, drop this part and keep the other two.
 
-**In the audio, all three sit near the end of `Closing thoughts`**, in that order.
+**In the audio, all three run as their own track, called `Comedy`**, in that order —
+moved out of the closer on 2026-09-10 because he named it the best section in the digest
+and asked for it half again as long. Only a thin day sends it back to the end of
+`Closing thoughts`.
 
 Jack, 2026-08-27, on what he liked most in that morning's digest: *"my favorite part
 of today's daily digest was the transcript of the robot telling it to shut up as I
@@ -1240,8 +1249,7 @@ that happen in the day. They'd be the top three funniest things that happen in t
 day. I definitely want that to be part of every daily digest."*
 
 **So this is now a ranked top three, it runs every day, and it is not optional.**
-Put it in the page and in the
-`Closing thoughts` audio track.
+Put it in the page and in its own audio track.
 
 ### Where to hunt — all of these, not just meetings
 
@@ -1345,6 +1353,11 @@ say where it came from; never claim to have read his timeline.
 - **It's generic.** "Write better prompts" is not an item. "Your vibe-voice sessions
   compact every eight days because there's no CLAUDE.md" is.
 - **It's a lecture.** Do not explain agentic engineering to him. He does this all day.
+- **It's another "edit your system prompt / your rules file" item.** Jack, 2026-09-10:
+  *"you keep on bringing up the idea that we can change the system prompt/rules but I've
+  heard enough of this advice from you and would like to hear more creative or at least
+  new things."* CLAUDE.md, settings.json, a skill's own instructions — that lane is spent.
+  Go find something he has not already been told twice.
 - **It's a repeat.** Same rule as research: run it once. `recent-coverage.ts` will catch
   the obvious repeats; use judgement for the rest.
 - **It costs money he hasn't agreed to spend.** Free or already-paid-for only.
@@ -1366,6 +1379,11 @@ away with being merely true; a track with its own name has to be worth pressing 
 If the day yields nothing grounded in what he actually did — see the rule above, which has
 not moved — **ship no Sharpening track that day** rather than a generic one.
 
+**It may also just be one of the ideas.** Jack, 2026-09-10: *"sharpening could just be part
+of the 5 potentially genius ideas!"* When the day's technique is more of a swing than a
+lesson, run it as one of the ideas in Step 7h and skip the separate track — same item, better
+company. Keep it separate when it is a genuine how-to with a command at the end.
+
 ## Step 7h: Five potentially genius ideas — the block to grow, not trim
 
 **Asked for on 2026-08-29, and it came from him liking one specific thing:** the
@@ -1374,14 +1392,18 @@ really neat idea, actually. I actually really like that idea. I actually want to
 more ideas that are interesting and creative, and ideally you're not repeating
 yourself... let's just try three minutes of new ideas."*
 
-**Five ideas a day, minimum, and more when they are good.** This is the one section where
-you are explicitly invited to invent rather than report, and **it is the section to spend
-new length on.**
+**How many is now your call — four on a thin day, eight when they are landing.** Jack,
+2026-09-10: *"maybe you can just choose in the future how many ideas you want to include
+here, so it can be more dynamic than five every single time."* Five was never the point;
+the bar was. Four good ones beat five with a filler, and a day that hands you eight should
+send eight. **Name the section and the track for the number you actually wrote**, and never
+pad to a round one. This is the one section where you are explicitly invited to invent
+rather than report, and **it is the section to spend new length on.**
 
 **Split across two runs as of 2026-09-05.** Jack: *"maybe do 5 in the morning and then 5 in the
 evening digest. That would actually be better. You can keep the morning one the same, but just do
-5 more in the evening digest."* So **this run still writes five** — unchanged — and the 5pm
-check-in writes five more from the day it just watched. The two sets must not overlap; the
+5 more in the evening digest."* So **this run writes its set in the morning** and the 5pm
+check-in writes a fresh set from the day it just watched. The two sets must not overlap; the
 evening run reads this row before writing, and the taste notes recorded in the check-in skill
 apply to both.
 
@@ -1410,7 +1432,7 @@ token instead of hearing about it). Copy that shape:
   a roadmap it is not an idea, it is a project.
 - **Sized honestly.** If it costs money, say roughly how much. The VIBE pool is ~$67K
   of real liquidity; his OpenAI credits are metered; his time is the scarcest input.
-- **A range across the five.** Rough mix per day: **two building** (Vibey, FlowState,
+- **A range across the set.** Rough mix per day: **two building** (Vibey, FlowState,
   Vibeverse, the Hub), **one social or community** (people, events, the group chats),
   **one money or career** (a way to get paid, a way to be seen), **one wildcard** — the
   strange one that might be the best one. Never five variations on one theme.
@@ -1430,8 +1452,9 @@ token instead of hearing about it). Copy that shape:
 
 ### Where it goes
 
-- **On the page:** a `## Five New Ideas` section, after **Drafts for You**.
-- **In the audio: its own track most days**, named `Five potentially genius ideas`, three
+- **On the page:** a `## New Ideas` section, after **Drafts for You**, headed with the
+  number you actually wrote (`## Six New Ideas`).
+- **In the audio: its own track most days**, named for the count the same way, three
   to five minutes. On a thin day it can ride at the *top* of `Closing thoughts` instead —
   but never at the bottom.
 
@@ -1822,7 +1845,7 @@ and nothing is ageing.]
 [2–3 X posts, 1–2 warm outreach messages, each in its own block. See Step 7b.]
 
 ## Five New Ideas
-[Five invented ideas a day, ~400–500 words. Mechanisms, not suggestions — surface,
+[Four to eight invented ideas a day — your call, headed with the real number — ~400–500 words. Mechanisms, not suggestions — surface,
 trigger, size, second-order effect. Two building / one social / one money-or-career /
 one wildcard. Never repeats. See Step 7h.]
 
@@ -2083,6 +2106,8 @@ thing, and let its length follow the material:
   sometimes it does not exist that week.
 - **The world** — markets, research, global events, the Elon beat, SF, sport, adventure,
   discourse. Still the priority segment; see below.
+- **Comedy** — the funniest three, the best quote, the absurd fact. His favourite part of
+  the whole thing, so give it the room. See Step 7f.
 - **Sharpening** — **its own track now**, not a preamble to the closer. Jack, 2026-09-03:
   *"I think sharpening is a cool section, and that should stand on its own in terms of the
   audio snippet."* See Step 7g.
@@ -2125,10 +2150,21 @@ being dropped entirely.
 
 Rules that do not flex:
 
-- **Each track stands alone.** He may play the fifth one and nothing else, so never open
-  with "meanwhile" or "the other thing I mentioned". Hand off explicitly.
-- **Put the funniest three in the audio**, near the end of `Closing thoughts`, set up in
-  one sentence and delivered without explaining the joke. Skip on days the section is thin.
+- **Each track stands alone, and each one says what it is in its first line.** He may
+  play the fifth one and nothing else, so never open with "meanwhile" or "the other thing
+  I mentioned". Jack, 2026-09-10, listening to the whole set back to back on a walk:
+  *"Would be helpful if the first line of each audio recording said something like 'onto
+  the Radish…' or just any transitional thing because it's kind of confusing sometimes
+  when i'm just listening to them all consecutively."* So every track after the first
+  opens with a short transition that names the subject — *"Onto the Radish."*, *"Now the
+  world."* — and then goes straight in. One clause, not a preamble.
+- **Comedy is its own track now**, not the tail of the closer. Jack, 2026-09-10: *"The
+  funniest moments in the closing process is probably the best section, maybe worth making
+  it its own section and making it 50% longer in the future lol."* So the funniest three,
+  the best quote and the absurd fact run as a track called `Comedy`, about half again as
+  long as the old block — room to set each one up and let the verbatim run, never room to
+  explain the joke. On a genuinely thin day it rides at the end of `Closing thoughts` as
+  before.
 - **`Good morning` must not simply repeat the openings of the others.** Write it
   last, once you know what the day actually held.
 - **Never pad to reach the time.** A thin day gets a short set and says so — but a

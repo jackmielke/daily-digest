@@ -191,12 +191,9 @@ too.** Drafts are gone; this posts.
    The spoken version is **not** the written one read aloud. Same facts, said the way a
    person would say them.
 
-   > **Blocked as of 9 September:** the Slack app's bot token has
-   > `incoming-webhook, commands, channels:history, groups:history, chat:write, im:write`
-   > and needs **`files:write`** for the upload. Until Jack adds it at api.slack.com/apps
-   > → OAuth & Permissions → and reinstalls, `--audio` fails with `missing_scope` and the
-   > audio goes to Telegram only. Text posting is unaffected. **Check whether it works
-   > before assuming it doesn't** — the fix is one toggle and he may have done it.
+   > **Unblocked 10 September.** Jack added `files:write` to the bot token and
+   > reinstalled the app, and the first upload landed. `--audio` works; the audio goes
+   > to Slack and Telegram both. No need to test the scope first.
 
 3. **Also send the text to Jack on Telegram** via `bun send-message.ts`, in the plain-text
    formatting described above, so he has it on his phone without opening Slack. The audio
