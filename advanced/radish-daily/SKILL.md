@@ -148,34 +148,59 @@ Jack, on shipping v1 to Slack: it is only him and the ops lead in the channel so
 there is nobody to embarrass. The channel id is in **`PRIVATE.md`**. The long-standing "do not post to Slack" rule is
 lifted **for this channel only** — not for any other channel, and not for DMs.
 
-1. **Post it to the channel** — `bun radish-brief/send-slack.ts --channel daily-digest`,
-   body on stdin. This goes through the Hub's own `radish-slack-send` edge function and
-   **actually posts**; the endpoint allow-lists `#daily-digest` alone, so it cannot be
-   pointed anywhere else. `--dry` prints without sending.
+**On 9 September he asked for it to post itself, and for the spoken version to go there
+too.** Drafts are gone; this posts.
 
-   **Do not use `slack_send_message_draft` for this.** It only parks an attached draft in
-   Jack's Drafts & Sent, one per channel, failing with `draft_already_exists` the moment
-   yesterday's went unsent — which is how a digest that was supposed to arrive every
-   morning quietly stopped arriving at all. *"Let's make sure that we're getting the best
-   quality Radish digest and podcast sent to Slack every morning"* (9 Sep).
+1. **Post it to the channel.** From `~/dev/scheduled-tasks/radish-brief`:
 
-   **Slack renders standard markdown here**, unlike the Telegram path — tables, `**bold**`
+   ```
+   bun send-slack.ts --channel daily-digest < digest.md
+   ```
+
+   That goes through the Hub's `radish-slack-send` edge function, which holds
+   `SLACK_BOT_TOKEN` and allow-lists exactly one channel id, so this cannot be pointed
+   anywhere else even by passing a raw id. It posts as **Radish Hub**, not as Jack.
+   **Slack renders standard markdown here**, unlike the Telegram path — `*bold*`, bullets
    and headings all work. Use them.
 
-2. **Also send it to Jack on Telegram** via `bun send-message.ts`, in the plain-text
-   formatting described above, so he has it on his phone without opening Slack.
+   `--dry` prints instead of posting. Do not use `slack_send_message_draft` any more.
 
-3. **Record the podcast every morning.** One track, `speak-digest.ts`, written for the ear
-   and not the page read aloud — Jack asked for the digest *and* the podcast daily on 9 Sep.
-   The old rule made it optional on the grounds that the personal digest already carries a
-   Radish track; that's the thing to fix in the writing, not by skipping it. **Make it
-   different from the morning track**: this one is for the ops lead and the business, so it leads
-   with what changed for the team and the clients, not with Jack's day. If a day genuinely
-   has nothing the personal digest didn't already say, say that in one line at the top and
-   keep the track short rather than dropping it.
+2. **Record the spoken version and attach it to the same message.** Same script style as
+   the morning digest's Radish track — see WRITING THE SCRIPT in `speak-digest.ts`: no
+   URLs, no markdown, no bullet characters, numbers spelled the way you would say them.
 
-   Audio cannot ride along on the Slack post — `send-slack.ts` carries text only. Send the
-   mp3 on Telegram and put one line in the Slack message saying the podcast is out.
+   ```
+   cd ~/dev/scheduled-tasks/daily-digest
+   bun speak-digest.ts --provider elevenlabs --no-send --out /tmp/radish-daily.mp3 \
+     --set "Radish Daily <date>" --title "The Radish Daily" < script.txt
+   cd ~/dev/scheduled-tasks/radish-brief
+   bun send-slack.ts --channel daily-digest --audio /tmp/radish-daily.mp3 --audio-only \
+     --audio-title "The Radish Daily — <date>"
+   ```
+
+   Pass `--audio` alongside stdin to do both in one call; the text lands first either way.
+   The bytes go straight from the laptop to Slack's pre-signed URL — the Hub only brokers
+   the handshake, so the mp3 never passes through Supabase.
+
+   **ElevenLabs, deliberately** — Jack asked for that voice specifically for this one. It
+   bills a credit per character on a ~37.5k monthly allowance, and a two-minute read is
+   about 1,750. So **keep the spoken script to roughly two minutes**, and if the allowance
+   is short (`--dry` prints the balance), fall back to `--provider openai` rather than
+   skipping the audio.
+
+   The spoken version is **not** the written one read aloud. Same facts, said the way a
+   person would say them.
+
+   > **Blocked as of 9 September:** the Slack app's bot token has
+   > `incoming-webhook, commands, channels:history, groups:history, chat:write, im:write`
+   > and needs **`files:write`** for the upload. Until Jack adds it at api.slack.com/apps
+   > → OAuth & Permissions → and reinstalls, `--audio` fails with `missing_scope` and the
+   > audio goes to Telegram only. Text posting is unaffected. **Check whether it works
+   > before assuming it doesn't** — the fix is one toggle and he may have done it.
+
+3. **Also send the text to Jack on Telegram** via `bun send-message.ts`, in the plain-text
+   formatting described above, so he has it on his phone without opening Slack. The audio
+   goes to Telegram too whenever the Slack upload is still blocked.
 
 4. If the Slack connector or the drive is unavailable, say so in one line rather than
    quietly shipping a thinner digest.
