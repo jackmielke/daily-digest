@@ -32,7 +32,10 @@ is not a softening of the digest — it is a different product with a different 
 Specifically, never include:
 - **Anything about a named person's state, performance or mistakes.** No "the owner is
   overwhelmed", no "X is behind", no "Y forgot".
-- **Finance beyond vendor spend.** Payroll, margins, cash position, who is owed what.
+- **Any dollar figure.** Vendor invoice amounts, client invoice or contract totals,
+  payroll, pay rates, hours, margins, cash position, who is owed what. Vendor spend by
+  name plus a client's invoice total is enough for anyone to back out gross margin, so
+  neither side goes in. Invoice *revision numbers* are fine; the amount on them is not.
 - **Anything from a DM, or from a channel most of the team cannot see.**
 - **Individual staffing gaps that single someone out** — an unmatched shift record is an
   admin detail for Jack, not a company broadcast.
@@ -74,8 +77,9 @@ by someone reading. A won party inside a week with a final menu on the drive and
 in the Hub is the archetype: specific, fixable, and nobody's fault. **Phrase it as a gap
 in the system, never as someone's failure.** No such thing on a clean day is a fine answer.
 
-**ORDERS** — vendor invoices filed in the last 7 days, the total, and the top few by
-vendor. Numbers only, no commentary about whether it is a lot.
+**ORDERS** — how many vendor invoices were filed in the last 7 days and which vendors
+delivered. No amounts, per vendor or in total (see the never-include list). No commentary
+about whether it is a lot.
 
 **FROM THE PATCH** — one genuinely funny thing from the jokes channel, quoted, with the
 person named. Skip it rather than reach. This is what makes people open it.
