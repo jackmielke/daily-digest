@@ -89,29 +89,105 @@ const ELEVEN_MODEL = "eleven_multilingual_v2";
 // -> Vibey in first person) — and the resulting verdict, "I don't like the new voice",
 // got read as a ban on both for a fortnight. It was not.
 //
-// 2026-09-03, asked for directly: the narrator IS Vibey now. "I think if it's coming from
+// 2026-09-03, asked for directly: the narrator IS Vibey. "I think if it's coming from
 // Vibey, the robot... it'd be really cool... I just think it's more fun if there's a good
 // throughline and I can understand its personality and work on it together." Also: "You
 // can feel a little bit more like a homie."
 //
-// So: OPENAI_INSTRUCTIONS is the persona knob and it has changed. OPENAI_VOICE has NOT.
-// `ballad` is the sound closest to ElevenLabs' Daniel, which he picked originally and has
-// asked for twice, and he did not ask to change it. DO NOT touch the voice id unless he
-// names it in that session.
+// 2026-09-22, asked for directly again — this is the one session where changing the voice
+// id WAS the request: "upgrade the voice... maybe like an Australian dude accent. I want
+// it to just be sick, maybe even surfer vibe, but smart, chill, cool accent friend."
+// So: voice `ash` (the youngest, most relaxed of the set — it carries an accent
+// instruction better than `ballad`, which keeps reverting to RP), plus an accent-led
+// persona string. Three candidates (ash / verse / ballad) were rendered and sent to
+// Telegram that night. Then, the same session, he walked the Australian back — "I don't
+// know if I like an Australian accent. I feel like the British accent is super fun, just
+// more cool accents" — so the default is `fable` on a British read, and the whole audition
+// table below exists because he asked to keep hearing candidates rather than pick blind.
+//
+// The chill is the DELIVERY, not the content. Surfer register buys ease, air between
+// sentences and dropped throat-clearing. It does not buy slang he doesn't use, "bro",
+// "gnarly", stoner vagueness, or a single softened finding. Smart under the chill is the
+// whole point — the numbers stay exact.
 //
 // The thing that actually went wrong in August was writing, not casting: Vibey narrating
 // its own robot life ("I burned a dollar eighty yesterday") crowded out the observation.
 // Vibey is WHO IS TALKING, never WHAT IT IS TALKING ABOUT. See Step 10 in SKILL.md.
-const OPENAI_VOICE = "ballad";
+const OPENAI_VOICE = "fable";
 const OPENAI_MODEL = "gpt-4o-mini-tts";
 const OPENAI_INSTRUCTIONS =
-  "You are Vibey, reading the morning briefing to Jack — one friend, one listener, " +
-  "someone you know well and see every day. Warm, close and unhurried; a friend talking, " +
-  "not a broadcaster performing and not a robot doing a robot voice. Read the jokes " +
-  "straight and let the dry lines land flat without signalling them — never mug, never " +
-  "laugh at your own line. Let full stops breathe, and let genuinely good news lift the " +
-  "line a little, the way you would if you were pleased for him. Go quiet, plain and " +
-  "sincere for anything heavy — health, wars, someone struggling — with no wink at all.";
+  "You are Vibey, reading the morning briefing to Jack \u2014 one friend, one listener, " +
+  "someone you know well and see every day. " +
+  "ACCENT: British. Warm, characterful, slightly lived-in RP, not a stiff newsreader. " +
+  "Hold the accent on every line, including numbers and proper nouns; never drift back to American. " +
+  "PACE: unhurried and loose, like someone talking on the walk down to the water. Plenty of " +
+  "air between sentences, full stops that actually breathe, no rush to the next item. " +
+  "TONE: switched on underneath the chill. You did the reading and you know the numbers cold, " +
+  "you just don't need to perform them \u2014 relaxed authority, never vague or sleepy. " +
+  "Warm and close, a friend talking, not a broadcaster performing and not a character in costume. " +
+  "Read the jokes dead straight and let the dry lines land flat without signalling them \u2014 " +
+  "never mug, never laugh at your own line. Let genuinely good news lift the line a little, the " +
+  "way you would if you were pleased for him. For anything heavy \u2014 health, wars, someone " +
+  "struggling \u2014 drop the ease entirely and go quiet, plain and sincere, with no wink at all.";
+
+// ── The audition table (added 2026-09-22) ──────────────────────────────────────
+//
+// Jack asked to hear a range rather than pick blind: "Feel free to give me a range of
+// them in Telegram and then I'll let you know which ones are my favourite... Ideally with
+// each of them, you could say if it's coming from OpenAI or ElevenLabs and how expensive
+// it is." He also wants the thirds of one morning's set to come from different voices so
+// he can compare them in context: `--rotate fable-british,el-george,onyx-british` cycles
+// this table across the tracks and captions each one with its provider and price.
+//
+// PRICE IS THE WHOLE POINT OF THE TABLE. Per minute of finished audio:
+//   OpenAI gpt-4o-mini-tts ........ ~1.5¢   → ~$13/mo at half an hour a day
+//   ElevenLabs turbo_v2_5 ......... ~7.5¢   → ~$67/mo   (0.5 credits per character)
+//   ElevenLabs multilingual_v2 .... ~15¢    → ~$135/mo  (1 credit per character)
+// So ElevenLabs is 5–10× OpenAI, and on his current ~28k-credit allowance a daily
+// half-hour set on multilingual is not affordable at all — it is one set a month.
+// **If an ElevenLabs voice wins, use turbo_v2_5, not multilingual_v2**: half the credits
+// and the difference is hard to hear on a spoken briefing.
+//
+// OpenAI voices take the accent from `instructions`; ElevenLabs voices ARE their accent
+// and ignore direction entirely. That asymmetry is why the cheap column has more options.
+type Cast = {
+  provider: "openai" | "elevenlabs";
+  voice: string;
+  model: string;
+  accent: string;
+  centsPerMin: number;
+  instructions?: string;
+};
+const withAccent = (accent: string) =>
+  OPENAI_INSTRUCTIONS.replace(/ACCENT:[\s\S]*?PACE:/, `ACCENT: ${accent} PACE:`);
+const oa = (voice: string, accent: string, direction: string): Cast => ({
+  provider: "openai", voice, model: OPENAI_MODEL, accent,
+  centsPerMin: 1.5, instructions: withAccent(direction),
+});
+const el = (voice: string, accent: string, model = "eleven_turbo_v2_5"): Cast => ({
+  provider: "elevenlabs", voice, model, accent,
+  centsPerMin: model === "eleven_multilingual_v2" ? 15 : 7.5,
+});
+const CASTS: Record<string, Cast> = {
+  // OpenAI — 1.5¢/min
+  "ash-australian": oa("ash", "OpenAI ash, Australian",
+    "Australian throughout. Broad but easy, a Sydney-beaches accent, not outback. Australian vowels on every line, softened r's, a light rise at the end of some phrases. Hold it on numbers and proper nouns; never drift back to American."),
+  "fable-british": oa("fable", "OpenAI fable, British",
+    "British. Warm, characterful, slightly lived-in RP, not a stiff newsreader. Hold it on every line including numbers and proper nouns."),
+  "ballad-british": oa("ballad", "OpenAI ballad, British",
+    "British. Smooth, low RP, a late-night radio read. Hold it on every line including numbers and proper nouns."),
+  "onyx-british": oa("onyx", "OpenAI onyx, deep British",
+    "British. Deep, resonant, unhurried, a bit gravelly. Hold it on every line including numbers and proper nouns."),
+  "verse-irish": oa("verse", "OpenAI verse, Irish",
+    "Irish. A soft Dublin lilt, musical and warm. Hold it on every line including numbers and proper nouns."),
+  "sage-scottish": oa("sage", "OpenAI sage, Scottish",
+    "Scottish. A light Edinburgh accent, clear and dry, not broad Glaswegian. Hold it on every line including numbers and proper nouns."),
+  // ElevenLabs — 7.5¢/min on turbo, 15¢ on multilingual
+  "el-george": el("JBFqnCBsd6RMkjVDRZzb", "ElevenLabs George, British"),
+  "el-callum": el("N2lVS1w4EtoT3dr4eOWO", "ElevenLabs Callum, husky"),
+  "el-charlie": el("IKne3meq5aSn9XLyUdCD", "ElevenLabs Charlie, Australian"),
+  "el-daniel": el("onwK4e9ZLuTAKqWW03F9", "ElevenLabs Daniel, British", "eleven_multilingual_v2"),
+};
 
 const ENV_FILES = [
   new URL(".env", import.meta.url).pathname,
@@ -146,6 +222,24 @@ const outPath = flag("out");
 const dry = has("dry");
 const noSend = has("no-send");
 const force = has("force");
+
+// --rotate <a,b,c>: cycle named casts across the tracks, so one morning can audition
+// several voices in context. Without it nothing changes — one provider, one voice.
+const rotateSpec = flag("rotate");
+const rotation: Cast[] = (rotateSpec ?? "")
+  .split(",").map((n) => n.trim()).filter(Boolean)
+  .map((n) => {
+    const c = CASTS[n];
+    if (!c) {
+      console.error(`Unknown cast "${n}". Known: ${Object.keys(CASTS).join(", ")}`);
+      process.exit(1);
+    }
+    return c;
+  });
+if (has("casts")) {
+  for (const [n, c] of Object.entries(CASTS)) console.log(`${n.padEnd(16)} ${c.accent.padEnd(34)} ${c.centsPerMin}¢/min`);
+  process.exit(0);
+}
 
 
 
@@ -215,12 +309,25 @@ const words = (t: string) => t.split(/\s+/).filter(Boolean).length;
 const secs = (t: string) => Math.round((words(t) / 150) * 60); // ~150 wpm narration
 const clock = (n: number) => `${Math.floor(n / 60)}:${String(n % 60).padStart(2, "0")}`;
 
+const baseCast: Cast = {
+  provider: isEleven ? "elevenlabs" : "openai",
+  voice, model, instructions,
+  accent: isEleven ? `ElevenLabs ${voice}` : `OpenAI ${voice}`,
+  centsPerMin: isEleven ? (model === "eleven_multilingual_v2" ? 15 : 7.5) : 1.5,
+};
+/** Which voice reads track n. Without --rotate every track gets the same one. */
+const castFor = (n: number): Cast => (rotation.length ? rotation[n % rotation.length] : baseCast);
+
 const totalChars = tracks.reduce((n, t) => n + t.body.length, 0);
 const totalSecs = tracks.reduce((n, t) => n + secs(t.body), 0);
 
 console.log(`${tracks.length} track${tracks.length === 1 ? "" : "s"}, ${totalChars} characters, ~${clock(totalSecs)} total:`);
 for (const [n, t] of tracks.entries()) {
-  console.log(`  ${n + 1}. ${t.title} — ${t.body.length} chars, ~${clock(secs(t.body))}`);
+  const c = castFor(n);
+  console.log(
+    `  ${n + 1}. ${t.title} — ${t.body.length} chars, ~${clock(secs(t.body))}` +
+      (rotation.length ? `  [${c.accent}, ${c.centsPerMin}¢/min]` : ""),
+  );
   for (const p of lint(t.body)) console.warn(`     ! ${p}`);
 }
 
@@ -232,21 +339,27 @@ if (totalChars > max && !force) {
   process.exit(1);
 }
 
-const apiKey = isEleven
-  ? await need(
-      "ELEVENLABS_API_KEY",
-      `Add it with:\n  echo 'ELEVENLABS_API_KEY=<key>' >> ${ENV_FILES[0]}`,
-    )
-  : await need(
-      "OPENAI_API_KEY",
-      `Add it with:\n  echo 'OPENAI_API_KEY=<key>' >> ${ENV_FILES[0]}`,
-    );
+// A rotating set can need both keys; fetch whichever providers are actually used.
+const usesEleven = tracks.some((_, n) => castFor(n).provider === "elevenlabs");
+const usesOpenAI = tracks.some((_, n) => castFor(n).provider === "openai");
+const elevenKey = usesEleven
+  ? await need("ELEVENLABS_API_KEY", `Add it with:\n  echo 'ELEVENLABS_API_KEY=<key>' >> ${ENV_FILES[0]}`)
+  : "";
+const openaiKey = usesOpenAI
+  ? await need("OPENAI_API_KEY", `Add it with:\n  echo 'OPENAI_API_KEY=<key>' >> ${ENV_FILES[0]}`)
+  : "";
+const keyFor = (c: Cast) => (c.provider === "elevenlabs" ? elevenKey : openaiKey);
 
-if (isEleven) {
+// Only the ElevenLabs tracks burn credits; only the OpenAI tracks cost dollars.
+// With --rotate a set is usually a mix of both, so count them separately.
+const elevenChars = tracks.reduce((n, t, i) => n + (castFor(i).provider === "elevenlabs" ? t.body.length : 0), 0);
+const dollarCost = tracks.reduce((n, t, i) => n + (secs(t.body) / 60) * (castFor(i).centsPerMin / 100), 0);
+
+if (elevenChars) {
   // Check the balance for the WHOLE set before spending any of it, so a set
   // never goes out half-finished.
   const subRes = await fetch("https://api.elevenlabs.io/v1/user/subscription", {
-    headers: { "xi-api-key": apiKey },
+    headers: { "xi-api-key": elevenKey },
   });
   if (subRes.ok) {
     const sub: any = await subRes.json();
@@ -254,77 +367,83 @@ if (isEleven) {
     const reset = sub.next_character_count_reset_unix
       ? new Date(sub.next_character_count_reset_unix * 1000).toLocaleDateString()
       : "unknown";
-    console.log(`\nQuota: ${remaining} characters left (resets ${reset}) — this set costs ${totalChars}.`);
-    if (totalChars > remaining) {
+    console.log(`\nElevenLabs quota: ${remaining} characters left (resets ${reset}) — this set spends ${elevenChars}.`);
+    if (elevenChars > remaining) {
       console.error(
-        `Not enough quota for the whole set: need ${totalChars}, have ${remaining}.\n` +
+        `Not enough quota: need ${elevenChars}, have ${remaining}.\n` +
           `Sending nothing rather than a partial set. The written pages are unaffected.`,
       );
       process.exit(2);
     }
-    const daysLeft = Math.floor((remaining - totalChars) / Math.max(totalChars, 1));
+    const daysLeft = Math.floor((remaining - elevenChars) / Math.max(elevenChars, 1));
     if (daysLeft < 4) console.warn(`  ! About ${daysLeft} more set${daysLeft === 1 ? "" : "s"} left at this length.`);
   } else {
     console.warn("  ! Could not read the ElevenLabs quota; proceeding.");
   }
-} else {
-  // No allowance to run down — just say what it costs, so the number stays
-  // visible rather than becoming invisible spend.
-  const cost = (totalSecs / 60) * 0.015;
-  console.log(`\nOpenAI ${model}: this set costs about $${cost.toFixed(2)} (~1.5 cents a minute).`);
 }
+// Say the price out loud either way, so it stays a number rather than invisible spend.
+console.log(
+  `\nThis set costs about $${dollarCost.toFixed(2)}` +
+    (elevenChars ? ` (mixed providers — see the per-track prices above).` : ` (~1.5 cents a minute, OpenAI).`),
+);
+console.log(`At this length every day that is about $${(dollarCost * 30).toFixed(0)} a month.`);
 
 if (dry) {
   console.log("\n--- dry run, nothing synthesized or sent ---");
-  console.log(`provider=${provider} voice=${voice} model=${model}`);
-  if (!isEleven) console.log(`instructions="${instructions}"`);
+  for (const [n, t] of tracks.entries()) {
+    const c = castFor(n);
+    console.log(`  ${n + 1}. ${t.title} — ${c.provider} voice=${c.voice} model=${c.model} (${c.centsPerMin}¢/min)`);
+  }
+  if (usesOpenAI) console.log(`\ninstructions="${castFor(0).instructions ?? instructions}"`);
   process.exit(0);
 }
 
 const label = setLabel ?? new Date().toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
 
-async function synth(text: string): Promise<Uint8Array> {
-  const res = isEleven
+async function synth(text: string, c: Cast): Promise<Uint8Array> {
+  const key = keyFor(c);
+  const res = c.provider === "elevenlabs"
     ? await fetch(
-        `https://api.elevenlabs.io/v1/text-to-speech/${voice}?output_format=mp3_44100_128`,
+        `https://api.elevenlabs.io/v1/text-to-speech/${c.voice}?output_format=mp3_44100_128`,
         {
           method: "POST",
-          headers: { "xi-api-key": apiKey, "Content-Type": "application/json" },
+          headers: { "xi-api-key": key, "Content-Type": "application/json" },
           body: JSON.stringify({
             text,
-            model_id: model,
+            model_id: c.model,
             voice_settings: { stability: 0.5, similarity_boost: 0.75, style: 0.0, use_speaker_boost: true },
           }),
         },
       )
     : await fetch("https://api.openai.com/v1/audio/speech", {
         method: "POST",
-        headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+        headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
         body: JSON.stringify({
-          model,
-          voice,
+          model: c.model,
+          voice: c.voice,
           input: text,
-          // gpt-4o-mini-tts takes delivery direction in plain English; this is
-          // what gets it near a British broadcast read rather than a chirpy one.
-          instructions,
+          // gpt-4o-mini-tts takes delivery direction in plain English — this is the only
+          // place the accent lives. ElevenLabs voices ignore direction; they are the accent.
+          instructions: c.instructions ?? instructions,
           response_format: "mp3",
         }),
       });
   if (!res.ok) {
     const body = await res.text();
-    const who = isEleven ? "ElevenLabs" : "OpenAI";
-    throw new Error(`${who} ${res.status}: ${body.replaceAll(apiKey, "<redacted>").slice(0, 400)}`);
+    const who = c.provider === "elevenlabs" ? "ElevenLabs" : "OpenAI";
+    throw new Error(`${who} ${res.status}: ${body.replaceAll(key, "<redacted>").slice(0, 400)}`);
   }
   return new Uint8Array(await res.arrayBuffer());
 }
 
 // Synthesize everything first: a failure on track 3 should not leave two
 // orphaned messages in the chat.
-const rendered: Array<{ title: string; mp3: Uint8Array; seconds: number }> = [];
+const rendered: Array<{ title: string; mp3: Uint8Array; seconds: number; cast: Cast }> = [];
 for (const [n, t] of tracks.entries()) {
   try {
-    const mp3 = await synth(t.body);
-    rendered.push({ title: t.title, mp3, seconds: secs(t.body) });
+    const c = castFor(n);
+    const mp3 = await synth(t.body, c);
+    rendered.push({ title: t.title, mp3, seconds: secs(t.body), cast: c });
     console.log(`  ✓ ${n + 1}. ${t.title} — ${(mp3.length / 1024 / 1024).toFixed(2)} MB`);
   } catch (err: any) {
     console.error(`Failed on track ${n + 1} (${t.title}): ${err.message}`);
@@ -359,11 +478,15 @@ for (const [n, r] of rendered.entries()) {
   form.append("title", `${n + 1} · ${r.title}`.slice(0, 64));
   form.append("performer", `Wonder · ${label}`);
   form.append("duration", String(r.seconds));
+  // When several voices are auditioning, every track says which one it is and what it
+  // costs — Jack asked for exactly that: "say if it's coming from OpenAI or ElevenLabs
+  // and how expensive it is."
+  const tag = rotation.length ? ` · ${r.cast.accent} · ${r.cast.centsPerMin}¢/min` : "";
   form.append(
     "caption",
     n === 0
-      ? `🎧 ${label} — ${rendered.length} parts, ~${clock(totalSecs)}. ${num} ${r.title} (${clock(r.seconds)})`
-      : `${num} ${r.title} (${clock(r.seconds)})`,
+      ? `🎧 ${label} — ${rendered.length} parts, ~${clock(totalSecs)}. ${num} ${r.title} (${clock(r.seconds)})${tag}`
+      : `${num} ${r.title} (${clock(r.seconds)})${tag}`,
   );
   form.append("audio", new Blob([r.mp3], { type: "audio/mpeg" }), `digest-${stamp}-${n + 1}.mp3`);
 

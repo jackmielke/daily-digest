@@ -169,39 +169,24 @@ too.** Drafts are gone; this posts.
 
    `--dry` prints instead of posting. Do not use `slack_send_message_draft` any more.
 
-2. **Record the spoken version and attach it to the same message.** Same script style as
-   the morning digest's Radish track — see WRITING THE SCRIPT in `speak-digest.ts`: no
-   URLs, no markdown, no bullet characters, numbers spelled the way you would say them.
+2. **No audio. Paused 2026-09-22.** This digest used to ship a spoken version
+   alongside the Slack post, rendered with ElevenLabs. Jack killed it: *"we can cancel
+   those ElevenLabs things that are happening there. We don't need any voice messages for
+   those digests yet because no one's listening to them or reading them, really."*
 
-   ```
-   cd ~/dev/scheduled-tasks/daily-digest
-   bun speak-digest.ts --provider elevenlabs --no-send --out /tmp/radish-daily.mp3 \
-     --set "Radish Daily <date>" --title "The Radish Daily" < script.txt
-   cd ~/dev/scheduled-tasks/radish-brief
-   bun send-slack.ts --channel daily-digest --audio /tmp/radish-daily.mp3 --audio-only \
-     --audio-title "The Radish Daily — <date>"
-   ```
+   It was the most expensive audio on the account — ElevenLabs bills a credit per
+   character against a ~28k allowance shared with his personal morning digest, and a
+   two-minute Radish read burned about 1,750 of them a day for an audience of nobody.
+   That allowance now goes entirely to the morning set, which he does listen to.
 
-   Pass `--audio` alongside stdin to do both in one call; the text lands first either way.
-   The bytes go straight from the laptop to Slack's pre-signed URL — the Hub only brokers
-   the handshake, so the mp3 never passes through Supabase.
-
-   **ElevenLabs, deliberately** — Jack asked for that voice specifically for this one. It
-   bills a credit per character on a ~37.5k monthly allowance, and a two-minute read is
-   about 1,750. So **keep the spoken script to roughly two minutes**, and if the allowance
-   is short (`--dry` prints the balance), fall back to `--provider openai` rather than
-   skipping the audio.
-
-   The spoken version is **not** the written one read aloud. Same facts, said the way a
-   person would say them.
-
-   > **Unblocked 10 September.** Jack added `files:write` to the bot token and
-   > reinstalled the app, and the first upload landed. `--audio` works; the audio goes
-   > to Slack and Telegram both. No need to test the scope first.
+   **Do not render or attach audio here.** No `speak-digest.ts` call, no `--audio` flag on
+   `send-slack.ts`, no OpenAI fallback either — the point is that nobody is listening, not
+   that the voice was too pricey. If people start actually reading the Slack digest and
+   ask for it back, it returns on OpenAI (`--provider openai`), not ElevenLabs.
 
 3. **Also send the text to Jack on Telegram** via `bun send-message.ts`, in the plain-text
-   formatting described above, so he has it on his phone without opening Slack. The audio
-   goes to Telegram too whenever the Slack upload is still blocked.
+   formatting described above, so he has it on his phone without opening Slack. Text only
+   now — see step 2.
 
 4. If the Slack connector or the drive is unavailable, say so in one line rather than
    quietly shipping a thinner digest.

@@ -377,3 +377,11 @@ Three separate failures, and they need three separate fixes:
 
 **The test, same as the morning's:** would he forward any line of this to a friend? If the answer is
 no, the problem is never that you left something out.
+
+## Last night's sleep belongs to this run, not the morning one
+
+Added 2026-09-23. The 6am digest fires before Jack wakes (6:30–7), so his Garmin has not synced
+the night and the morning run is told not to report it. **This run reports it.** Run
+`../daily-digest/garmin-daily.py --days 2` and give last night's sleep in one line: duration,
+score, resting heart rate. Only mention it if it's notable against his recent nights; no advice,
+same prescribing ban as the morning skill.

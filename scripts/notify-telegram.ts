@@ -58,13 +58,14 @@ const title = flag("title");
 const url = flag("url");
 const almanac = flag("almanac");
 const dispatch = flag("dispatch");
+const ledger = flag("ledger");   // Value Ledger artifact (weekly invoices)
 const icon = flag("icon") ?? "🔮";
 const dry = args.includes("--dry");
 
 if (!title || !url) {
   console.error(
     "Usage: bun notify-telegram.ts --title <t> --url <notion-url>" +
-      " [--almanac <url>] [--dispatch <url>] [--icon <emoji>] [--dry] < body",
+      " [--almanac <url>] [--dispatch <url>] [--ledger <url>] [--icon <emoji>] [--dry] < body",
   );
   process.exit(1);
 }
@@ -101,6 +102,7 @@ const today = new Date().toLocaleDateString(undefined, {
 const reads: Array<[string, string]> = [];
 if (almanac) reads.push(["Almanac", almanac]);
 if (dispatch) reads.push(["Dispatch", dispatch]);
+if (ledger) reads.push(["Ledger", ledger]);
 reads.push(["Notion", url]);
 
 const footer =

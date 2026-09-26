@@ -436,9 +436,19 @@ bun photos-of-the-day.ts --hours 36 --max 12 > photos.json
 bun photos-of-the-day.ts --hours 36 --max 12 --rotate 8:90 --out /tmp/p   # fix a sideways one
 ```
 
-Telegram and iMessage, downscaled to 720px and emitted as **data: URIs** — the artifact
-viewer's CSP blocks every hotlinked image, so embedding is the only thing that renders.
+Telegram, iMessage and **his own Camera Roll** (the Photos library, added 2026-09-21 at his
+request: *"I'd love to grant photo permission so you can see my iCloud Camera Roll"*),
+downscaled to 720px and emitted as **data: URIs** — the artifact viewer's CSP blocks every
+hotlinked image, so embedding is the only thing that renders. Camera Roll shots are `src:
+"Camera"`, `from: "You"`, and get up to a third of the slots before recency fills the rest;
+they are the photos he actually took, so lead with them when they carry the day.
 Twelve photos land around 1MB against a 16MB page cap.
+
+**Run it as one plain `bun photos-of-the-day.ts …` command, no `cd … && mkdir … &&` in front.**
+The 2026-09-21 morning run died here: `bun` is allow-listed, `mkdir` was not, the compound
+command fell to a permission prompt at 6:19 with nobody at the keyboard, and the digest never
+filed. `--out` creates its own directory. If a step ever prompts, the fix is a rule in
+`settings.local.json`, not a retry.
 
 **They go in ONE place in the markup and appear in two.** Put every photo inline as a
 `<figure class="plate">` in the `.plates` grid of whichever `.entry` it belongs to. The
@@ -473,6 +483,9 @@ You can see images. Open them.
 - **iMessage needs Full Disk Access for `chat.db`**, which the Claude app has and a shell
   it spawns does not. The script says so and carries on with Telegram alone. **Report the
   gap if it matters; never present a Telegram-only set as everything.**
+- **`--out` writes `photo-N.jpg` in the JSON's order**, which is newest first, and the JSON has
+  no filename field. Match by index, and look at each one before captioning: on 20 Sep the "fire
+  panel" was Jack's photo at 12:49pm and Ray's 1:32pm photo was a map pin, not the other way round.
 - **Attribution travels with every photo** — who, which chat, what time. Keep it.
 
 ## Step 3h: Strava — what his body actually did
@@ -531,6 +544,13 @@ A single night's sleep score is noise you would start believing. What earns a li
 - **Correlation against what this skill already holds** — commit timestamps, session counts,
   how his transcripts sound, what actually got finished. That is the whole reason it is worth
   having, and it belongs in the weekly review far more than in any single morning.
+
+**Last night's sleep is NOT in the 6am data.** Jack, 23 Sep: *"when I wake up at 7 or 6:30
+and your digest goes off at [6], you're not getting my sleep data at all."* The watch syncs
+after he wakes, so at 6:01 the most recent night is missing or partial. **Never report the
+night just ended from the morning run.** Use the last *complete* night and label it with its
+date ("Monday night"), and leave last night's sleep to the 5pm check-in, which reads it after
+sync. A partial night reported as "you slept 2h" is worse than saying nothing.
 
 **The prescribing ban from Step 3h applies here twice over.** Sleep and heart-rate data invite
 advice and he has not asked for any. Report the pattern, name the correlation, stop.
@@ -813,6 +833,43 @@ YouTube now rejects yt-dlp's default web client (*"The page needs to be reloaded
 the `youtube:player_client=android` extractor-arg is required; and the history databases
 are locked while the browser is running, so always copy before reading.
 
+## Step 6e: What the gauntlet loop built overnight
+
+```
+cat ~/dev/scheduled-tasks/daily-digest/context/<today>-gauntlet.md
+```
+
+**Every night at 00:07 an autonomous run builds one thing** — `gauntlet-loop/SKILL.md` is
+the brief, `gauntlet-loop/run.ts` the launcher, `gauntlet-loop/LOG.md` the running history.
+It picks a target from `gauntlet-loop/QUEUE.md` or, failing that, out of **yesterday's
+five ideas in this digest**, which nothing downstream had ever picked up before. Jack asked
+for it on 18 September: *"one new interesting build every night, pushes the limits of
+what's possible and then teaches me what it did."*
+
+**"Teaches me what it did" is the part this step owns.** The report file arrives via
+Step 1a like any other context note, but it is not background — it is the only account he
+will get of eight hours of work done while he slept, and it goes **in `What You Shipped`,
+led, with the URL if the night produced one.** He can open a link on a walk; he cannot
+open a path.
+
+- **Say what it built and whether it runs**, in that order, in one sentence each. The
+  *Learned* line is usually the most interesting thing on the page — it is a machine
+  reporting what surprised it — so give it a real clause, not a clause-and-a-half.
+- **A failed night gets reported as plainly as a good one, and it is not a scold.** The
+  launcher writes a failure report itself if the agent dies without one, so *no file at
+  all* means the loop never fired — a different and more serious fact. Say which.
+- **Three failures running and the loop leads the section**, per Step 5 of that skill.
+- **Never merge it into the GitHub narrative in Step 6.** Those commits are his day and
+  these are the night's; blurring them re-creates exactly the "hand-written" confusion
+  Step 6 exists to prevent.
+- **Check the loop's own diagnosis before repeating it.** Night one (20 Sep) reported "add
+  `Bash(git:*)` to the allowlist"; git was already allowed and the real cause was `git -C <path>`
+  and `&&` compounds, which prefix rules never match. Open the run's JSONL, find the denied
+  `tool_use`, and say what was actually typed. A wrong fix printed on the page becomes tomorrow's
+  wrong edit. Same for its mode: `run.ts` says what it runs; a commit title saying "auto mode"
+  does not.
+- **Delete the context file once the thread closes.** `LOG.md` is the permanent record.
+
 ## Step 6b: Review Supabase Activity
 
 GitHub says what Jack *built*. Supabase says what people actually *did with it* — and the two are often a different story. This section is where the digest earns the "thinking partner" framing: read the data like a co-founder would, not like a monitoring dashboard.
@@ -1004,10 +1061,12 @@ watch is permission to look, not an obligation to print.
      with something real. The unit is a race with an open registration window: date,
      distance, where, cost, **and when the window closes**. Bay Area, then NorCal, then
      worth travelling for. Open-water swims count — he needs the practice.
-   - ★ **Escape from Alcatraz is the named goal.** As of late Aug 2026: 2027 entries
-     CLOSED, race date expected **mid-September**, lottery opens after. **The job is to
-     catch that announcement**, then flag the window the day it opens and keep flagging it
-     until he's in or it shuts. Check
+   - ★ **Escape from Alcatraz is the named goal.** Corrected 19 Sep 2026 from the
+     official site: the 2027 race (now the *Sokin* Escape From Alcatraz Triathlon) is
+     **June 5–6, 2027**, and the **random drawing opens 23 September 2026**; no close date
+     published yet. MAYBE holds are on his calendar for both. **Flag the window the day it
+     opens and keep flagging it until he's in or it shuts.** The old "mid-September race
+     date" was wrong and must not come back. Check
      [the official site](https://www.escapealcatraztri.com/) rather than an aggregator.
      It's a random drawing, so it costs him a form; missing the window is the only failure.
 7. **Ideas & thinking.** Two distinct strands. **Leverage and epistemology** — the Naval
@@ -1449,6 +1508,30 @@ token instead of hearing about it). Copy that shape:
   clip of Vibey interrupting a call, captioned with the line it interrupted" is.
 - **It's a lot of work for a small effect.** He has more ideas than hours; the constraint
   is never idea supply.
+
+### Mark the ones the overnight loop can build
+
+**Added 2026-09-23, at the gauntlet loop's own request**, after three nights running where
+five of the six morning ideas were out of bounds for it and it spent its first twenty
+minutes doing that triage by hand. The loop picks its target from this section when
+`QUEUE.md` is empty, so the triage is real work and this section is the only place that
+can cheaply skip it.
+
+**On each idea, in the Notion row only, append a bracketed tag: `[overnight]` or
+`[yours]`.** Nothing changes on the reading page or in the audio — he does not need to see
+the loop's plumbing.
+
+An idea is `[overnight]` when a sandboxed agent with no human could finish it alone. That
+rules out, in practice: anything touching production data, anything that spends money,
+anything that sends a message or makes a sale, anything needing a login he holds, and
+anything whose whole point is that he does it himself ("watch, don't build", "go to X").
+It rules *in*: local scripts, read-only analyses, one-page artifacts, parsers, checks that
+post nowhere.
+
+**Aim for at least two `[overnight]` ideas a day.** A day where every idea is `[yours]` is
+a day the loop falls back to its queue, which is fine but wasteful — it means the
+generative half of this digest and the overnight builder are not talking to each other,
+which was the whole reason the loop was pointed at this section.
 
 ### Where it goes
 
@@ -2069,13 +2152,36 @@ EOF
 ```
 
 Tracks are sent in order, numbered `1 · Good morning`, `2 · the client` and so on, each
-captioned with its position and length. **Defaults to OpenAI `gpt-4o-mini-tts`, voice
-`ballad`**, steered to a British broadcast read by the built-in `instructions` string —
-the nearest thing to ElevenLabs' Daniel, and the reason the provider swap was
-acceptable to Jack. `--provider elevenlabs` goes back to Daniel
-(`onwK4e9ZLuTAKqWW03F9`) if the plan ever supports it. `--dry` prints the plan and the
-cost without spending; `--voice` and `--instructions` override the delivery;
-`--out <dir>` also saves the mp3s; `--no-send` renders without posting.
+captioned with its position and length.
+
+### Which voice reads it: `fable`, British. The audition is over.
+
+Jack picked on 2026-09-26, after hearing the 26 Sep set (track 1 was `fable-british`):
+*"Let's go w the first voice from now on."* So **no `--rotate`**, no provider or price
+in the captions. `fable` on a British read is already the default in `speak-digest.ts`,
+so the plain command above is correct. The other casts stay in `--casts` for a future
+audition he asks for, not for daily use.
+
+### What it costs, which is the deciding factor
+
+Per minute of finished audio, and per month at half an hour a day:
+
+| | Per minute | Per month | Notes |
+|---|---|---|---|
+| **OpenAI `gpt-4o-mini-tts`** | ~1.5¢ | **~$13** | The accent comes from `instructions`, so one voice can do British, Irish or Scottish. |
+| **ElevenLabs `eleven_turbo_v2_5`** | ~7.5¢ | ~$67 | 0.5 credits per character. |
+| **ElevenLabs `eleven_multilingual_v2`** | ~15¢ | ~$135 | 1 credit per character. What Daniel used to run on. |
+
+**ElevenLabs is five to ten times the price**, and his allowance is ~28k credits a month —
+a single half-hour multilingual set would eat the entire month. So: **if an ElevenLabs
+voice wins, it runs on `turbo_v2_5`, never `multilingual_v2`.** The quality gap between
+those two is hard to hear on a spoken briefing; the price gap is not.
+
+The brief is *cheapest high quality*, in that order — so an OpenAI voice should win unless
+an ElevenLabs one is clearly better to his ear, not just marginally.
+`--provider elevenlabs` still switches the whole set; `--voice` and `--instructions`
+override delivery; `--dry` prints the plan, the per-track voices and the cost without
+spending; `--out <dir>` also saves the mp3s; `--no-send` renders without posting.
 
 ### The tracks
 
@@ -2138,11 +2244,25 @@ audio**:
   reconstruct himself. Reverse of the old rule.
 - **World means the world, not just his stack.** Markets with the actual numbers and
   what moved them; research and capability jumps; who bought whom; **international
-  politics and global events**; **the Elon beat — SpaceX, Tesla, xAI**; **San Francisco
+  politics and global events**, kept to a slice and spread wide: one conflict is not
+  the world. Jack, 2026-09-26: *"every time we talk about the world, you're talking
+  about Iran or something. Maybe that's not my number one interest right now."* A
+  single story gets a line when it genuinely moved, never the lead by default;
+  **the Elon beat — SpaceX, Tesla, xAI**; **San Francisco
   itself**, since he is trying to build a life here; **sports, Seahawks especially**
   (the transcript says "sea ox" — that is Wispr mishearing Seahawks); adventure; and
   whatever is genuinely dominating the discourse. Company news about Lovable and Claude
   Code is his *stack*, and it is not a substitute for any of this.
+
+**What's on in the area gets room, not a rundown.** Jack, 2026-09-18, on the
+`Now the world` track: *"there are 15 activities in 30 seconds… I want you to expand
+that out. Talk more about the different things that are happening soon in the area. I
+really am more interested in that."* So the upcoming-in-SF portion is the **longest
+thing in that track**, not a list read at speed: **five to eight things, two or three
+sentences each** — what it is, when and where, and why he'd actually go — and drop the
+ones that don't survive that treatment rather than naming fifteen. If it grows enough to
+crowd the rest of the world, give it its own track (`What's on`); the flexible track
+count already allows for that.
 
 On a short set (see the quota section — currently ~1.5 min/day is the ceiling), that
 means the world gets its own sentences inside `Good morning` rather than
@@ -2177,7 +2297,7 @@ Rules that do not flex:
   flexible track count this is now easy to avoid: if a track is running long, that is
   usually a sign it is two subjects and should be split.
 
-### The narrator is Vibey. The voice stays `ballad`.
+### The narrator is Vibey. The voice is `fable`, British.
 
 **Changed 2026-09-03, at Jack's direct request**, and this supersedes the 30 August
 "the narrator has no biography" rule. His words: *"You can feel a little bit more like a
@@ -2193,8 +2313,8 @@ the old voice we had"* — and separately the writing had gone flat.
 
 So, precisely:
 
-- **The voice id stays `ballad`.** He has asked for it twice and did not ask to change it
-  now. **Do not touch the voice id unless he names it in that session.**
+- **The voice id is `fable`, British**, his pick on 2026-09-26 (it was `ballad` before
+  the September audition). **Do not touch the voice id unless he names it in that session.**
 - **Vibey is the byline.** A first person is allowed and a light one is wanted.
 
 **The distinction that keeps it from collapsing again: Vibey is *who is talking*, not
@@ -2218,10 +2338,7 @@ observation. The persona is a lens on **his** day, never a subject in its own ri
 **The `instructions` string is now Vibey's delivery brief, not a broadcaster's.** Warmer,
 closer, still unhurried, still reads the jokes straight. **`instructions` is the persona
 knob; the voice id is not.** If a future run wants to adjust the character, adjust that
-string and leave `ballad` alone.
-
-**Open question, flagged to him 3 September:** whether `ballad` still sounds right now
-that the words are Vibey's. He has not said. Until he does, `ballad` stands.
+string and leave `fable` alone.
 
 ### The script is not the digest
 
@@ -2243,7 +2360,7 @@ The written digest is ~6,000 words and full of things meaningless aloud.
 
 **Cost is not a constraint. Per-track length is.**
 
-Audio runs on OpenAI (`gpt-4o-mini-tts`, voice `ballad`) at about **1.5 cents a
+Audio runs on OpenAI (`gpt-4o-mini-tts`, voice `fable`) at about **1.5 cents a
 minute** — a 22-minute set costs roughly a third of a dollar, and the script prints the
 figure every run. **Twenty minutes is the target, not the ceiling.** Reckon
 **~840 characters per spoken minute** when writing to length.
