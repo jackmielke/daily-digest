@@ -1,0 +1,108 @@
+<!-- THE PUBLIC DEMO DAY.
+     This file is spliced into digest.html by make-public.ts to produce the
+     copy that ships in the public repo. Everything above <header class="record">
+     and below the colophon — the four skins, the nav, the reel, the lightbox —
+     is carried across byte-for-byte; only this body is swapped in.
+
+     Why it exists: the private template is seeded with a real morning, which
+     is the right choice for a working file (you read it for the shape) and the
+     wrong choice for a public one (it carries a medical appointment, a phone
+     number and half a company's staff list). This is the same page with an
+     invented Tuesday in it.
+
+     Keep it exercising EVERY component, because a stranger reads this to learn
+     the markup: the record head, the ledger, plates + reel, the headline, a
+     flag, an entry with marginalia, a list, a blockquote, a table, and a part
+     rule. If you add a component to the stylesheet, add one here. -->
+<header class="record" id="top">
+  <div class="line">
+    <span>Daily record</span><span>Tuesday &#183; 14 October 2026</span>
+    <span>Six sources</span><span style="color:var(--alarm)">Needs attention</span>
+  </div>
+  <h1>The importer stops eating rows, and a stranger finds the sign-up form</h1>
+  <p class="deck">One sentence on what the day actually was. Not a list of sources &#8212; the margin already says where each entry came from.</p>
+</header>
+
+<div class="ledger">
+  <div><span class="n ac">$0.11</span><span class="c">what the whole overnight run cost</span></div>
+  <div><span class="n al">0</span><span class="c">rows written where 57 were expected</span></div>
+  <div><span class="n">17</span><span class="c">commits across three repositories</span></div>
+  <div><span class="n al">5h27</span><span class="c">Monday night &#183; sleep score 55</span></div>
+</div>
+
+<!-- The reel fills itself from the plates further down. Leave it empty. -->
+<section class="reel" aria-labelledby="reel-k" hidden>
+  <div class="reel-head">
+    <span class="k" id="reel-k">The day in pictures</span>
+    <div class="reel-nav">
+      <button type="button" data-reel="-1" aria-label="Previous photos">&#8592;</button>
+      <button type="button" data-reel="1" aria-label="Next photos">&#8594;</button>
+    </div>
+  </div>
+  <div class="reel-track" tabindex="0" role="group" aria-label="Photos from the day, scrollable"></div>
+</section>
+
+<div class="headline">
+  <span class="k">If you do nothing else</span>
+  <p>One message to the team naming the five records that have no owner, before the person who fixes them goes away on Wednesday.</p>
+</div>
+
+<div class="part" id="p1"><span class="no">Part one</span><h2>Flagged</h2></div>
+<div class="flag">
+  <div class="marg"><span class="src">Database</span><span class="t">live now</span></div>
+  <p><strong>The nightly importer wrote nothing at 02:00 and did not say so.</strong> Fifty-seven rows the night before, zero last night, and the job still exited zero &#8212; so nothing alerted. The upstream file arrived, it is 4MB, and the parser returns an empty array rather than throwing. A job that succeeds at doing nothing is worse than one that fails.</p>
+</div>
+<div class="flag">
+  <div class="marg"><span class="src">Calendar</span><span class="t">expires today</span></div>
+  <p><strong>Two holds die at midnight.</strong> Neither is a commitment you made to another person, which is the only reason they are down here rather than in the queue. Clear them tonight so tomorrow&#8217;s calendar tells you the truth.</p>
+</div>
+
+<div class="part" id="p2"><span class="no">Part two</span><h2>Since yesterday</h2></div>
+<div class="entry">
+  <div class="marg"><span class="src">Six sources</span><span class="t">24 hours</span></div>
+  <div class="body">
+    <ul>
+      <li><strong>The payment still is not in the account.</strong> Marked sent on Friday, expected by the 30th. Not a problem, just not done &#8212; and worth saying plainly rather than reporting it as closed.</li>
+      <li><strong>Yesterday&#8217;s digest got one thing wrong</strong> and the overnight run caught it. The restrictions field it complained about is empty, so the near miss it described could not have happened. Correct it once, in a sentence, and move on.</li>
+      <li><strong>The meeting recorder captured nothing all week.</strong> Zero. If that is two days running it has stopped working, which is better to find out now than before a call that matters.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="part" id="p3"><span class="no">Part three</span><h2>The night&#8217;s work</h2></div>
+<div class="entry">
+  <div class="marg"><span class="src">Git</span><span class="t">17 commits</span><span class="t">agent &#183; you driving</span></div>
+  <div class="body">
+    <h2>Seventeen commits, and sixteen of them are one story</h2>
+    <p>Write this as a narrative, not a changelog. A day with fifty commits on one repository is one story, not fifty bullets: what got built, what broke, what got fixed. Link the substantive commits inline and let the bot volume be a number in the margin.</p>
+    <p>The commit worth leading with is usually the boring one. Here it was the change that made replies come back as text instead of being read aloud &#8212; unglamorous, and the difference between a demo and a thing people use.</p>
+    <h3>What the overnight builder learned</h3>
+    <p>A nightly autonomous run reports back in its own words, and the surprise is often more interesting than the artifact. Give that line a real clause rather than a mention: it is a machine saying what it did not expect.</p>
+    <blockquote><p>There is a full database dump on this disk every night at 02:00, and nothing has ever read it. 319 tables, no network, no credentials.</p></blockquote>
+    <div class="plates">
+      <figure class="plate"><img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23cdd3cd'/%3E%3Ctext x='200' y='150' font-family='monospace' font-size='15' fill='%234e5b54' text-anchor='middle' dominant-baseline='middle'%3Ephoto one%3C/text%3E%3C/svg%3E" alt="Placeholder for the first photo of the day"><figcaption><b>Caption in bold</b> &#183; 15:42</figcaption></figure>
+      <figure class="plate"><img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23c2cfc6'/%3E%3Ctext x='200' y='150' font-family='monospace' font-size='15' fill='%234e5b54' text-anchor='middle' dominant-baseline='middle'%3Ephoto two%3C/text%3E%3C/svg%3E" alt="Placeholder for the second photo of the day"><figcaption><b>Who and where</b> &#183; 16:19</figcaption></figure>
+      <figure class="plate"><img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23d6dcd6'/%3E%3Ctext x='200' y='150' font-family='monospace' font-size='15' fill='%234e5b54' text-anchor='middle' dominant-baseline='middle'%3Ephoto three%3C/text%3E%3C/svg%3E" alt="Placeholder for the third photo of the day"><figcaption><b>Click any of these</b> &#183; 16:21</figcaption></figure>
+    </div>
+    <p>Those three are inline <code>figure.plate</code> elements. The strip at the top of the page cloned them at load, and clicking any of them &#8212; here or up there &#8212; opens the lightbox. Real photos go in as <code>data:</code> URIs, because the artifact viewer&#8217;s CSP blocks anything hotlinked.</p>
+  </div>
+</div>
+
+<div class="part" id="p4"><span class="no">Part four</span><h2>The wider world</h2></div>
+<div class="entry">
+  <div class="marg"><span class="src">Web</span><span class="t">research</span></div>
+  <div class="body">
+    <h3>Every claim carries its source, inline, where the claim is made</h3>
+    <p>This is the single most important formatting rule in the whole thing. The reader is deciding what to dig into, so a research line without a link is a bug. Where there is genuinely no stable link &#8212; an email, say &#8212; name the sender exactly so it is findable.</p>
+    <div class="tw">
+      <table>
+        <tr><th>Asset</th><th>Now</th><th>Day</th></tr>
+        <tr><td>BTC</td><td class="v">$84,000</td><td class="v"><span style="color:var(--alarm)">&#8722;0.6%</span></td></tr>
+        <tr><td>ETH</td><td class="v">$2,688</td><td class="v"><span style="color:var(--alarm)">&#8722;1.1%</span></td></tr>
+      </table>
+    </div>
+    <p>Tables are for anything with a repeating shape &#8212; prices, fixtures, standings. Keep the prose underneath for the part a table cannot hold. Numbers get <code>td.v</code> so they set in tabular figures and do not wrap.</p>
+    <h3>Last word</h3>
+    <p>Close on something that is not a task. The page has spent nine parts telling somebody what needs doing; it can afford one paragraph that is just interesting.</p>
+  </div>
+</div>

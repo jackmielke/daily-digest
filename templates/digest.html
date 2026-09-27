@@ -1,0 +1,1007 @@
+<title>The Daily Digest</title>
+<!-- THE VIEWPORT META IS LOAD-BEARING. The artifact wrapper injects a charset
+     and nothing else — it does NOT add this — so without it iOS lays the page
+     out at its 980px fallback width and the whole thing pans sideways under
+     your thumb. Jack reported exactly that on 27 Sep 2026. Never remove it. -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,300;1,6..72,400&family=Spline+Sans+Mono:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,300;1,8..60,400&family=Libre+Franklin:wght@400;500;600;700;800&family=Big+Shoulders+Display:wght@500;700;900&family=Work+Sans:wght@400;500;600&display=swap">
+<script>
+/* Set the skin before first paint so the page never flashes the wrong one.
+   Deliberately does NOT consult prefers-color-scheme: Jack asked for the
+   Almanac by default regardless of what the OS is doing, with Night as an
+   explicit choice rather than something that happens to him at dusk. */
+(function(){try{
+  var s=localStorage.getItem('digest-skin');
+  document.documentElement.setAttribute('data-skin',
+    ['almanac','broadsheet','dispatch','night'].indexOf(s)>-1?s:'almanac');
+}catch(e){document.documentElement.setAttribute('data-skin','almanac');}})();
+</script>
+<style>
+:root{
+  --paper:#EEF0EC; --surface:#F8F9F6; --sunk:#E4E7E2;
+  --ink:#19211D; --ink-2:#4E5B54; --ink-3:#7D8C84; --hair:#CDD3CD; --hair-2:#DFE3DE;
+  --accent:#1D6A4E; --accent-soft:#DCEAE2; --alarm:#A33823; --alarm-soft:#F3E0DA;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --mono:"Spline Sans Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --gut:158px; --pad:clamp(18px,4vw,44px);
+}
+/* ─────────────────────────────────────────────────────────────────────────
+   FOUR SKINS. The bare :root above is the Almanac and stays the default.
+   Each skin below is a complete token set, so every colour resolves in every
+   skin and nothing is defined only inside a conditional block.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* NIGHT — the Almanac after dark. Was automatic; now a choice. */
+:root[data-skin="night"]{
+  --paper:#111614; --surface:#171D1A; --sunk:#0D1210;
+  --ink:#DFE5E0; --ink-2:#A3B1A8; --ink-3:#77877D; --hair:#28322D; --hair-2:#1E2622;
+  --accent:#5CC095; --accent-soft:#163024; --alarm:#EE9077; --alarm-soft:#331C15;
+}
+
+/* BROADSHEET — newsprint. No colour accent at all: a paper of record earns
+   emphasis with weight and rule, and spends its only ink on what's wrong. */
+:root[data-skin="broadsheet"]{
+  --paper:#FFFFFF; --surface:#F7F7F4; --sunk:#EFEFEA;
+  --ink:#121212; --ink-2:#454545; --ink-3:#6E6E6E; --hair:#D6D6D0; --hair-2:#E6E6E1;
+  --accent:#121212; --accent-soft:#EFEFEA; --alarm:#C0281A; --alarm-soft:#F8EDEB;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --mono:"Libre Franklin","Helvetica Neue",Arial,sans-serif;
+}
+:root[data-skin="broadsheet"] body{font-size:17.5px; line-height:1.58}
+:root[data-skin="broadsheet"] .record h1{font-weight:700; letter-spacing:-.026em; line-height:1.04}
+:root[data-skin="broadsheet"] .record .line{border-bottom-width:3px}
+:root[data-skin="broadsheet"] .part{border-bottom-width:2px}
+:root[data-skin="broadsheet"] .part h2,
+:root[data-skin="broadsheet"] .body h2{font-weight:700; letter-spacing:-.02em}
+:root[data-skin="broadsheet"] .marg,
+:root[data-skin="broadsheet"] .part .no,
+:root[data-skin="broadsheet"] th,
+:root[data-skin="broadsheet"] .ledger .n{letter-spacing:.06em; font-weight:600}
+:root[data-skin="broadsheet"] .ledger .n{font-weight:700; letter-spacing:-.02em}
+:root[data-skin="broadsheet"] a{text-decoration-color:#B9B9B2; text-decoration-thickness:1px}
+:root[data-skin="broadsheet"] a:hover{color:var(--alarm); text-decoration-color:var(--alarm)}
+/* one drop cap, on the first entry only — the broadsheet's single flourish */
+:root[data-skin="broadsheet"] .entry:first-of-type .body > p:first-child::first-letter{
+  float:left; font-size:3.1em; line-height:.84; font-weight:700; padding:.04em .09em 0 0;
+}
+
+/* DISPATCH — the two-ink risograph broadsheet, kept as a skin. */
+:root[data-skin="dispatch"]{
+  --paper:#F4EFE6; --surface:#FBF8F2; --sunk:#E8E1D4;
+  --ink:#191512; --ink-2:#4B443C; --ink-3:#867C6F; --hair:#D3C9B8; --hair-2:#E3DBCC;
+  --accent:#1F4E79; --accent-soft:#DFE8F0; --alarm:#D2402B; --alarm-soft:#F7E2DC;
+  --mono:"Work Sans",ui-sans-serif,system-ui,sans-serif;
+}
+:root[data-skin="dispatch"] .record h1,
+:root[data-skin="dispatch"] .part h2{
+  font-family:"Big Shoulders Display","Haettenschweiler","Arial Narrow",sans-serif;
+  font-weight:900; letter-spacing:.004em; text-transform:uppercase; line-height:.94;
+}
+:root[data-skin="dispatch"] .record h1{font-size:clamp(40px,8vw,78px); max-width:16ch}
+:root[data-skin="dispatch"] .part h2{font-size:clamp(26px,3.6vw,36px)}
+:root[data-skin="dispatch"] .record .line,
+:root[data-skin="dispatch"] .part{border-bottom-width:2px}
+:root[data-skin="dispatch"] .ledger{border-top-width:2px; border-bottom-width:2px}
+:root[data-skin="dispatch"] .ledger .n{
+  font-family:"Big Shoulders Display","Arial Narrow",sans-serif; font-weight:900;
+  font-size:clamp(30px,4.4vw,42px); letter-spacing:0;
+}
+:root[data-skin="dispatch"] .marg,
+:root[data-skin="dispatch"] .part .no,
+:root[data-skin="dispatch"] th{letter-spacing:.1em; font-weight:600}
+:root[data-skin="dispatch"] .headline{border-left-width:5px}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--serif); font-size:18px; line-height:1.66; font-weight:400;
+  font-optical-sizing:auto; -webkit-font-smoothing:antialiased;
+}
+a{color:var(--ink); text-decoration:underline; text-decoration-color:var(--accent);
+  text-underline-offset:3px; text-decoration-thickness:1.5px}
+a:hover{color:var(--accent)}
+a:focus-visible,summary:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:2px}
+code{font-family:var(--mono); font-size:.84em; background:var(--sunk); padding:1px 5px; border-radius:2px;
+  /* A long unbreakable token — a command, a hashed chunk name, a URL — used to
+     widen its grid track and push the whole page sideways on a phone. Measured
+     27 Sep 2026: one `window.addEventListener('vite:preloadError', …)` line took
+     the document to 430px inside a 375px viewport. Let code break anywhere. */
+  overflow-wrap:anywhere; word-break:break-word}
+.page{max-width:1020px; margin:0 auto; padding:0 var(--pad) 110px}
+
+/* ── the record head ── */
+.record{padding:46px 0 0}
+.record .line{display:flex; flex-wrap:wrap; gap:6px 22px; font-family:var(--mono); font-size:11px;
+  letter-spacing:.13em; text-transform:uppercase; color:var(--ink-3);
+  padding-bottom:11px; border-bottom:1px solid var(--ink)}
+.record h1{font-size:clamp(30px,5.1vw,52px); font-weight:600; line-height:1.1; letter-spacing:-.018em;
+  margin:26px 0 0; max-width:20ch; text-wrap:balance}
+.record .deck{font-size:clamp(18px,2.1vw,21px); font-weight:300; font-style:italic; color:var(--ink-2);
+  line-height:1.52; max-width:52ch; margin:18px 0 0}
+
+/* ── the day's ledger ── */
+.ledger{display:grid; grid-template-columns:repeat(4,1fr); margin:34px 0 0;
+  border-top:1px solid var(--ink); border-bottom:1px solid var(--ink)}
+@media(max-width:760px){.ledger{grid-template-columns:repeat(2,1fr)}}
+.ledger div{padding:16px 18px 17px; border-left:1px solid var(--hair)}
+.ledger div:first-child{border-left:0}
+@media(max-width:760px){.ledger div:nth-child(3){border-left:0}.ledger div:nth-child(n+3){border-top:1px solid var(--hair)}}
+.ledger .n{display:block; font-family:var(--mono); font-weight:500; font-size:clamp(23px,3.4vw,31px);
+  letter-spacing:-.03em; font-variant-numeric:tabular-nums; line-height:1.05}
+.ledger .n.al{color:var(--alarm)} .ledger .n.ac{color:var(--accent)}
+.ledger .c{display:block; font-size:14px; font-style:italic; color:var(--ink-2); margin-top:7px; line-height:1.42}
+
+/* ── the one thing ── */
+.headline{margin:30px 0 0; padding:22px 24px; background:var(--alarm-soft);
+  border-left:3px solid var(--alarm)}
+.headline .k{font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--alarm); display:block; margin-bottom:7px}
+.headline p{margin:0; font-size:20px; line-height:1.46; font-weight:500}
+
+/* ── entries: marginalia + prose ── */
+.entry{display:grid; grid-template-columns:var(--gut) minmax(0,1fr); gap:0 34px;
+  padding:26px 0; border-top:1px solid var(--hair-2)}
+.entry:first-of-type{border-top:0}
+@media(max-width:800px){
+  .entry{grid-template-columns:1fr; gap:0}
+  .marg{margin-bottom:10px; display:flex; flex-wrap:wrap; gap:4px 14px; align-items:baseline}
+  .marg::after{display:none}
+}
+.marg{font-family:var(--mono); font-size:10.5px; letter-spacing:.11em; text-transform:uppercase;
+  color:var(--ink-3); line-height:1.75; text-align:right; position:relative; padding-right:0}
+@media(min-width:801px){ .marg{border-right:1px solid var(--hair); padding-right:20px; margin-right:-20px} }
+.marg .src{color:var(--accent); display:block}
+@media(max-width:800px){.marg .src{display:inline}}
+.marg .t{display:block; font-variant-numeric:tabular-nums}
+@media(max-width:800px){.marg .t{display:inline}}
+/* min-width:0 stops a grid blowout: without it an over-wide child stretches
+   the track instead of being clipped by it, which is how one line of code in
+   one entry moved every other section off-screen. */
+/* overflow-wrap inherits, so setting it here covers every p, li and
+   blockquote in an entry — including a pasteable draft that contains a line
+   of code without a <code> wrapper, which is what was still 73px too wide
+   after the code rule above was added. */
+.marg,.body{min-width:0; overflow-wrap:break-word}
+.flag p,.headline p,blockquote{overflow-wrap:break-word}
+.body h2{font-size:clamp(21px,2.6vw,27px); font-weight:600; letter-spacing:-.014em; line-height:1.2;
+  margin:0 0 12px; text-wrap:balance; overflow-wrap:break-word}
+.body h3{font-size:19px; font-weight:600; margin:22px 0 8px; line-height:1.28}
+.body h3:first-child{margin-top:0}
+.body p{margin:0 0 14px; max-width:66ch}
+.body p:last-child{margin-bottom:0}
+.body strong{font-weight:600}
+.body ul{margin:0 0 14px; padding-left:0; list-style:none; max-width:66ch}
+.body ul li{position:relative; padding-left:19px; margin-bottom:11px}
+.body ul li::before{content:""; position:absolute; left:0; top:.72em; width:7px; height:1px; background:var(--accent)}
+
+/* section rule */
+.part{display:grid; grid-template-columns:var(--gut) minmax(0,1fr); gap:0 34px; margin:52px 0 0;
+  align-items:baseline; padding-bottom:9px; border-bottom:1px solid var(--ink)}
+@media(max-width:800px){.part{grid-template-columns:1fr}}
+.part .no{font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--ink-3); text-align:right}
+@media(max-width:800px){.part .no{text-align:left; margin-bottom:4px}}
+.part h2{margin:0; font-size:clamp(23px,3vw,30px); font-weight:600; letter-spacing:-.015em}
+
+/* flagged */
+.flag{display:grid; grid-template-columns:var(--gut) minmax(0,1fr); gap:0 34px; padding:20px 0;
+  border-top:1px solid var(--hair-2)}
+@media(max-width:800px){.flag{grid-template-columns:1fr}}
+.flag:first-of-type{border-top:0}
+.flag .marg .src{color:var(--alarm)}
+.flag p{margin:0; max-width:66ch; color:var(--ink-2)}
+.flag p strong{color:var(--ink); font-weight:600}
+
+/* table */
+.tw{overflow-x:auto; max-width:100%}
+table{border-collapse:collapse; width:100%; min-width:430px; font-size:15.5px}
+th{font-family:var(--mono); font-size:10px; letter-spacing:.13em; text-transform:uppercase; text-align:left;
+  color:var(--ink-3); font-weight:500; padding:0 14px 8px 0; border-bottom:1px solid var(--ink)}
+td{padding:10px 14px 10px 0; border-bottom:1px solid var(--hair-2); color:var(--ink-2); vertical-align:top}
+td.v{font-family:var(--mono); font-size:14px; font-variant-numeric:tabular-nums; color:var(--ink); white-space:nowrap}
+.up{color:var(--accent)} .dn{color:var(--alarm)}
+
+/* video */
+.vids{display:grid; grid-template-columns:repeat(3,1fr); gap:22px}
+@media(max-width:740px){.vids{grid-template-columns:1fr}}
+.vid img{width:100%; aspect-ratio:16/9; object-fit:cover; display:block; border:1px solid var(--hair)}
+.vid h3{margin:10px 0 5px; font-size:17px; font-weight:600; line-height:1.28}
+.vid p{margin:0; font-size:15px; color:var(--ink-2); font-style:italic}
+
+/* drafts */
+.draft{background:var(--surface); border:1px solid var(--hair); padding:16px 20px; margin:0 0 14px; max-width:66ch}
+.draft .lab{font-family:var(--mono); font-size:10.5px; letter-spacing:.13em; text-transform:uppercase;
+  color:var(--accent); display:block; margin-bottom:10px}
+.draft pre{margin:0; white-space:pre-wrap; font-family:var(--serif); font-size:16.5px; line-height:1.6;
+  color:var(--ink-2); font-weight:300}
+details{margin-top:16px; max-width:66ch}
+summary{cursor:pointer; font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--accent); list-style:none; padding:9px 0; border-top:1px solid var(--hair)}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"› "; display:inline-block; transition:transform .18s ease}
+details[open] summary::before{content:"⌄ "}
+@media(prefers-reduced-motion:reduce){summary::before{transition:none}}
+details ol{margin:8px 0 0; padding-left:24px; color:var(--ink-2); font-size:16px}
+details ol li{margin-bottom:9px; padding-left:3px}
+
+/* ── running index ── */
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.part{scroll-margin-top:66px}
+.record{scroll-margin-top:200px}
+.indexbar{
+  position:sticky; top:0; z-index:30; margin:0 calc(-1 * var(--pad)); padding:0 var(--pad);
+  background:var(--paper);
+  background:color-mix(in srgb, var(--paper) 90%, transparent);
+  -webkit-backdrop-filter:blur(12px) saturate(1.25);
+  backdrop-filter:blur(12px) saturate(1.25);
+  border-bottom:1px solid var(--hair);
+}
+.indexbar nav{
+  display:flex; align-items:center; gap:0 20px; height:45px;
+  overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none;
+  -webkit-mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 26px),transparent 100%);
+  mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 26px),transparent 100%);
+}
+.indexbar nav::-webkit-scrollbar{display:none}
+.indexbar a{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.13em; text-transform:uppercase;
+  color:var(--ink-3); text-decoration:none; white-space:nowrap; flex:0 0 auto;
+  padding:14px 0 13px; border-bottom:1.5px solid transparent; transition:color .16s ease;
+}
+@media (prefers-reduced-motion:reduce){.indexbar a{transition:none}}
+.indexbar a:hover{color:var(--ink)}
+.indexbar a.on{color:var(--ink); border-bottom-color:var(--accent)}
+.indexbar a.home{color:var(--accent); letter-spacing:.06em}
+.indexbar .thread{position:absolute; left:0; bottom:-1px; height:1px; width:0;
+  background:var(--accent); transition:width .1s linear}
+/* mobile: a picker that names where you are, instead of a strip you can't see */
+.indexbar .picker{display:none}
+.indexbar .menu{display:none}
+@media (max-width:760px){
+  .indexbar nav{display:none}
+  .indexbar .picker{
+    display:flex; align-items:center; justify-content:space-between; gap:12px; width:100%;
+    min-height:48px; padding:0; background:none; border:0; cursor:pointer; color:inherit;
+    font-family:var(--mono); font-size:11px; letter-spacing:.13em; text-transform:uppercase;
+    text-align:left; -webkit-tap-highlight-color:transparent;
+  }
+  .indexbar .pk-label{color:var(--ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .indexbar .pk-caret{color:var(--accent); font-size:14px; line-height:1; flex:0 0 auto;
+    transition:transform .18s ease}
+  .indexbar.open .pk-caret{transform:rotate(180deg)}
+  .indexbar .menu{
+    display:block; position:absolute; left:0; right:0; top:100%;
+    background:var(--paper); border-bottom:1px solid var(--ink);
+    max-height:min(66vh,460px); overflow-y:auto; -webkit-overflow-scrolling:touch;
+    padding:6px 0 10px; box-shadow:0 16px 34px rgba(0,0,0,.13); z-index:1;
+  }
+  .indexbar .menu[hidden]{display:none}
+  .indexbar .menu a{
+    display:block; padding:13px var(--pad); min-height:46px; text-decoration:none;
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--ink-2); border-left:2px solid transparent;
+  }
+  .indexbar .menu a.on{color:var(--ink); border-left-color:var(--accent); background:var(--accent-soft)}
+  .indexbar .menu a:active{background:var(--sunk)}
+}
+@media (prefers-reduced-motion:reduce){.indexbar .pk-caret{transition:none}}
+@media (prefers-reduced-motion:reduce){.indexbar .thread{transition:none}}
+.colophon{margin-top:60px; padding-top:16px; border-top:1px solid var(--ink);
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3);
+  display:flex; flex-wrap:wrap; gap:8px 26px; justify-content:space-between}
+
+/* ── the day's plates ─────────────────────────────────────────────────────
+   Photos from Telegram and iMessage, embedded as data URIs because the
+   artifact viewer's CSP blocks anything hotlinked. Token-driven so all four
+   skins get them right. */
+.plates{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:2px 0 4px}
+@media(max-width:800px){.plates{grid-template-columns:repeat(2,1fr); gap:10px}}
+.plate{margin:0; min-width:0}
+.plate img{width:100%; aspect-ratio:4/3; object-fit:cover; display:block;
+  border:1px solid var(--hair); background:var(--sunk)}
+.plate figcaption{font-family:var(--mono); font-size:9.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink-3); margin-top:7px; line-height:1.5;
+  display:flex; flex-wrap:wrap; gap:2px 10px}
+.plate figcaption b{color:var(--ink-2); font-weight:500}
+:root[data-skin="broadsheet"] .plate img{border-color:var(--ink); border-width:1px}
+:root[data-skin="dispatch"] .plate img{border-width:2px; border-color:var(--ink)}
+
+/* ── the lightbox ─────────────────────────────────────────────────────────
+   Every photo opens full-screen on click, on the laptop and on the phone.
+   Asked for by Jack, 27 Sep 2026. The overlay is BUILT IN JS, not markup, so
+   a daily page never has to remember to include it — and it reuses the same
+   data: URI the thumbnail already has, so opening a photo costs nothing. */
+.plate img,.reel-track img{cursor:zoom-in}
+/* NO FADE, deliberately. Both routes to one — a class added in
+   requestAnimationFrame, or a CSS animation from opacity:0 — leave the
+   overlay fully transparent if frames are throttled, and a transparent
+   overlay still swallows every click on the page underneath. Measured in the
+   browser pane on 27 Sep 2026: opacity was still 0 a quarter-second after
+   opening. An instant lightbox cannot fail that way. */
+.lbx{position:fixed; inset:0; z-index:100; display:flex; flex-direction:column;
+  background:rgba(8,12,10,.97); padding:max(14px,env(safe-area-inset-top)) 14px
+  max(14px,env(safe-area-inset-bottom))}
+.lbx[hidden]{display:none}
+.lbx figure{margin:auto; display:flex; flex-direction:column; align-items:center;
+  gap:12px; max-width:100%; min-height:0}
+.lbx img{max-width:100%; max-height:calc(100dvh - 130px); width:auto; height:auto;
+  object-fit:contain; display:block; border:1px solid rgba(255,255,255,.14);
+  background:#0b0f0d; border-radius:2px}
+.lbx figcaption{font-family:var(--mono); font-size:10.5px; letter-spacing:.11em;
+  text-transform:uppercase; color:#C9D3CC; text-align:center; line-height:1.6;
+  display:flex; flex-wrap:wrap; gap:2px 12px; justify-content:center; max-width:60ch}
+.lbx figcaption b{color:#fff; font-weight:500}
+.lbx .x{position:absolute; top:max(10px,env(safe-area-inset-top)); right:12px;
+  width:44px; height:44px; border-radius:50%; border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.08); color:#fff; font:400 21px/1 var(--mono);
+  cursor:pointer; display:flex; align-items:center; justify-content:center}
+.lbx .x:hover{background:rgba(255,255,255,.17)}
+.lbx .x:focus-visible{outline:2px solid #fff; outline-offset:2px}
+.lbx .nav{position:absolute; top:50%; transform:translateY(-50%); width:44px; height:44px;
+  border-radius:50%; border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08);
+  color:#fff; font:400 18px/1 var(--mono); cursor:pointer; display:flex;
+  align-items:center; justify-content:center}
+.lbx .nav[disabled]{opacity:0; pointer-events:none}
+.lbx .nav.prev{left:10px} .lbx .nav.next{right:10px}
+.lbx .nav:hover{background:rgba(255,255,255,.17)}
+@media(max-width:760px){
+  /* On a phone the arrows sit over the picture; swipe is the real control. */
+  .lbx .nav{top:auto; bottom:max(14px,env(safe-area-inset-bottom)); transform:none}
+  .lbx img{max-height:calc(100dvh - 170px)}
+}
+
+body.lbx-open{overflow:hidden}
+
+/* ── the reel ─────────────────────────────────────────────────────────────
+   The day's best photos as one swipeable strip near the top, so the page
+   opens on what the day looked like before it says a word about it. Same
+   data: URIs as .plates — this is an overview of them, not a replacement,
+   and the inline plates stay where they are further down.
+
+   Scroll-snap does the swiping natively, which is why there is no drag JS:
+   a touch device already knows how to do this, and hand-rolled dragging is
+   what breaks momentum scrolling on iOS. The arrows exist for mice only. */
+.reel{margin:2px 0 6px; position:relative}
+.reel-head{display:flex; align-items:baseline; justify-content:space-between; gap:16px; margin-bottom:10px}
+.reel-head .k{font-family:var(--mono); font-size:10.5px; letter-spacing:.15em;
+  text-transform:uppercase; color:var(--ink-3)}
+.reel-nav{display:flex; gap:6px}
+.reel-nav button{
+  width:30px; height:30px; padding:0; cursor:pointer; background:none;
+  border:1px solid var(--hair); border-radius:2px; color:var(--ink-2);
+  font-family:var(--mono); font-size:13px; line-height:1;
+  transition:color .16s ease, border-color .16s ease, opacity .16s ease;
+}
+.reel-nav button:hover:not(:disabled){color:var(--ink); border-color:var(--ink-3)}
+.reel-nav button:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.reel-nav button:disabled{opacity:.3; cursor:default}
+/* Touch devices swipe; the arrows would just be two dead-looking boxes. */
+@media (hover:none){.reel-nav{display:none}}
+@media (prefers-reduced-motion:reduce){.reel-nav button{transition:none}}
+
+.reel-track{
+  display:flex; gap:14px; overflow-x:auto; overscroll-behavior-x:contain;
+  scroll-snap-type:x mandatory;
+  padding-bottom:2px; scrollbar-width:none;
+}
+.reel-track::-webkit-scrollbar{display:none}
+.reel-track:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+/* No `scroll-behavior:smooth` here on purpose: it makes every programmatic
+   scroll animate, including a plain `scrollLeft =`, which is surprising and
+   hard to debug. The arrows ask for smooth explicitly and honour
+   prefers-reduced-motion themselves; swiping is native and unaffected. */
+.reel-track > figure{
+  margin:0; flex:0 0 262px; scroll-snap-align:start; min-width:0;
+}
+@media(max-width:760px){.reel-track > figure{flex-basis:76vw}}
+.reel-track img{
+  width:100%; aspect-ratio:4/3; object-fit:cover; display:block;
+  border:1px solid var(--hair); background:var(--sunk);
+}
+.reel-track figcaption{
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); margin-top:7px; line-height:1.5;
+  display:flex; flex-wrap:wrap; gap:2px 10px;
+}
+.reel-track figcaption b{color:var(--ink-2); font-weight:500}
+:root[data-skin="broadsheet"] .reel-track img{border-color:var(--ink)}
+:root[data-skin="dispatch"] .reel-track img{border-width:2px; border-color:var(--ink)}
+
+/* ── skin switcher ───────────────────────────────────────────────────────
+   Sits over the right end of the index bar, where the nav's mask already
+   fades out, so the section links scroll cleanly underneath it. */
+.skinpick{position:absolute; right:var(--pad); top:0; height:45px; display:flex; align-items:center;
+  padding-left:16px; background:linear-gradient(90deg,transparent 0,var(--paper) 14px,var(--paper) 100%)}
+.skinpick > button{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.13em; text-transform:uppercase;
+  color:var(--ink-3); background:none; border:1px solid var(--hair); border-radius:2px;
+  padding:5px 9px; cursor:pointer; display:flex; align-items:center; gap:7px; white-space:nowrap;
+  transition:color .16s ease, border-color .16s ease;
+}
+@media (prefers-reduced-motion:reduce){.skinpick > button{transition:none}}
+.skinpick > button:hover{color:var(--ink); border-color:var(--ink-3)}
+.skinpick > button:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.skinpick .swatch{width:9px; height:9px; border-radius:50%; border:1px solid var(--hair);
+  background:var(--accent); flex:0 0 auto}
+.skinpick .caret{font-size:9px; line-height:1; color:var(--ink-3)}
+.skinmenu{position:absolute; right:var(--pad); top:50px; z-index:40; min-width:212px;
+  background:var(--surface); border:1px solid var(--hair); border-radius:3px;
+  box-shadow:0 10px 34px rgba(0,0,0,.13); padding:5px; display:flex; flex-direction:column; gap:1px}
+.skinmenu[hidden]{display:none}
+.skinmenu button{
+  font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--ink-2); background:none; border:0; border-radius:2px; text-align:left; cursor:pointer;
+  padding:9px 10px; display:grid; grid-template-columns:14px 1fr; gap:10px; align-items:center;
+  min-height:44px;
+}
+.skinmenu button:hover{background:var(--sunk); color:var(--ink)}
+.skinmenu button:focus-visible{outline:2px solid var(--accent); outline-offset:-2px}
+.skinmenu button[aria-checked="true"]{color:var(--ink); background:var(--sunk)}
+.skinmenu .chip{width:14px; height:14px; border-radius:50%; border:1px solid var(--hair-2)}
+.skinmenu .nm{display:flex; flex-direction:column; gap:3px}
+.skinmenu .nm em{font-style:normal; font-size:9.5px; letter-spacing:.05em; color:var(--ink-3);
+  text-transform:none; font-family:var(--serif)}
+/* Each chip previews its own skin's paper and ink, not the current one. */
+.chip-almanac{background:#EEF0EC; box-shadow:inset 0 0 0 3px #1D6A4E}
+.chip-broadsheet{background:#FFFFFF; box-shadow:inset 0 0 0 3px #121212}
+.chip-dispatch{background:#F4EFE6; box-shadow:inset 0 0 0 3px #D2402B}
+.chip-night{background:#111614; box-shadow:inset 0 0 0 3px #5CC095}
+@media(max-width:760px){
+  /* The picker goes full-width here and its caret would land underneath the
+     skin button, so reserve the room rather than letting them overlap. */
+  .skinpick{padding-left:10px}
+  .skinpick > button .lbl{display:none}
+  .skinpick > button{padding:7px 8px}
+  .indexbar .picker{padding-right:56px}
+  .skinmenu{right:var(--pad); left:auto; min-width:196px}
+}
+</style>
+
+<div class="page">
+<div class="indexbar">
+  <nav aria-label="Sections">
+    <a class="home" href="#top">14 Oct &#8593;</a>
+    <a href="#p1">Flagged</a>
+    <a href="#p2">Since yesterday</a>
+    <a href="#p3">Night&#8217;s work</a>
+    <a href="#p4">Wider world</a>
+  </nav>
+  <button class="picker" type="button" aria-expanded="false" aria-controls="almanac-menu">
+    <span class="pk-label">Jump to…</span><span class="pk-caret" aria-hidden="true">⌄</span>
+  </button>
+  <div class="menu" id="almanac-menu" hidden></div>
+  <div class="skinpick">
+    <button type="button" id="skinbtn" aria-expanded="false" aria-haspopup="true" aria-controls="skinmenu">
+      <span class="swatch" aria-hidden="true"></span><span class="lbl">Almanac</span><span class="caret" aria-hidden="true">⌄</span>
+    </button>
+  </div>
+  <div class="skinmenu" id="skinmenu" role="menu" aria-label="Reading style" hidden></div>
+  <span class="thread" aria-hidden="true"></span>
+</div>
+
+<!-- THE PUBLIC DEMO DAY.
+     This file is spliced into digest.html by make-public.ts to produce the
+     copy that ships in the public repo. Everything above <header class="record">
+     and below the colophon — the four skins, the nav, the reel, the lightbox —
+     is carried across byte-for-byte; only this body is swapped in.
+
+     Why it exists: the private template is seeded with a real morning, which
+     is the right choice for a working file (you read it for the shape) and the
+     wrong choice for a public one (it carries a medical appointment, a phone
+     number and half a company's staff list). This is the same page with an
+     invented Tuesday in it.
+
+     Keep it exercising EVERY component, because a stranger reads this to learn
+     the markup: the record head, the ledger, plates + reel, the headline, a
+     flag, an entry with marginalia, a list, a blockquote, a table, and a part
+     rule. If you add a component to the stylesheet, add one here. -->
+<header class="record" id="top">
+  <div class="line">
+    <span>Daily record</span><span>Tuesday &#183; 14 October 2026</span>
+    <span>Six sources</span><span style="color:var(--alarm)">Needs attention</span>
+  </div>
+  <h1>The importer stops eating rows, and a stranger finds the sign-up form</h1>
+  <p class="deck">One sentence on what the day actually was. Not a list of sources &#8212; the margin already says where each entry came from.</p>
+</header>
+
+<div class="ledger">
+  <div><span class="n ac">$0.11</span><span class="c">what the whole overnight run cost</span></div>
+  <div><span class="n al">0</span><span class="c">rows written where 57 were expected</span></div>
+  <div><span class="n">17</span><span class="c">commits across three repositories</span></div>
+  <div><span class="n al">5h27</span><span class="c">Monday night &#183; sleep score 55</span></div>
+</div>
+
+<!-- The reel fills itself from the plates further down. Leave it empty. -->
+<section class="reel" aria-labelledby="reel-k" hidden>
+  <div class="reel-head">
+    <span class="k" id="reel-k">The day in pictures</span>
+    <div class="reel-nav">
+      <button type="button" data-reel="-1" aria-label="Previous photos">&#8592;</button>
+      <button type="button" data-reel="1" aria-label="Next photos">&#8594;</button>
+    </div>
+  </div>
+  <div class="reel-track" tabindex="0" role="group" aria-label="Photos from the day, scrollable"></div>
+</section>
+
+<div class="headline">
+  <span class="k">If you do nothing else</span>
+  <p>One message to the team naming the five records that have no owner, before the person who fixes them goes away on Wednesday.</p>
+</div>
+
+<div class="part" id="p1"><span class="no">Part one</span><h2>Flagged</h2></div>
+<div class="flag">
+  <div class="marg"><span class="src">Database</span><span class="t">live now</span></div>
+  <p><strong>The nightly importer wrote nothing at 02:00 and did not say so.</strong> Fifty-seven rows the night before, zero last night, and the job still exited zero &#8212; so nothing alerted. The upstream file arrived, it is 4MB, and the parser returns an empty array rather than throwing. A job that succeeds at doing nothing is worse than one that fails.</p>
+</div>
+<div class="flag">
+  <div class="marg"><span class="src">Calendar</span><span class="t">expires today</span></div>
+  <p><strong>Two holds die at midnight.</strong> Neither is a commitment you made to another person, which is the only reason they are down here rather than in the queue. Clear them tonight so tomorrow&#8217;s calendar tells you the truth.</p>
+</div>
+
+<div class="part" id="p2"><span class="no">Part two</span><h2>Since yesterday</h2></div>
+<div class="entry">
+  <div class="marg"><span class="src">Six sources</span><span class="t">24 hours</span></div>
+  <div class="body">
+    <ul>
+      <li><strong>The payment still is not in the account.</strong> Marked sent on Friday, expected by the 30th. Not a problem, just not done &#8212; and worth saying plainly rather than reporting it as closed.</li>
+      <li><strong>Yesterday&#8217;s digest got one thing wrong</strong> and the overnight run caught it. The restrictions field it complained about is empty, so the near miss it described could not have happened. Correct it once, in a sentence, and move on.</li>
+      <li><strong>The meeting recorder captured nothing all week.</strong> Zero. If that is two days running it has stopped working, which is better to find out now than before a call that matters.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="part" id="p3"><span class="no">Part three</span><h2>The night&#8217;s work</h2></div>
+<div class="entry">
+  <div class="marg"><span class="src">Git</span><span class="t">17 commits</span><span class="t">agent &#183; you driving</span></div>
+  <div class="body">
+    <h2>Seventeen commits, and sixteen of them are one story</h2>
+    <p>Write this as a narrative, not a changelog. A day with fifty commits on one repository is one story, not fifty bullets: what got built, what broke, what got fixed. Link the substantive commits inline and let the bot volume be a number in the margin.</p>
+    <p>The commit worth leading with is usually the boring one. Here it was the change that made replies come back as text instead of being read aloud &#8212; unglamorous, and the difference between a demo and a thing people use.</p>
+    <h3>What the overnight builder learned</h3>
+    <p>A nightly autonomous run reports back in its own words, and the surprise is often more interesting than the artifact. Give that line a real clause rather than a mention: it is a machine saying what it did not expect.</p>
+    <blockquote><p>There is a full database dump on this disk every night at 02:00, and nothing has ever read it. 319 tables, no network, no credentials.</p></blockquote>
+    <div class="plates">
+      <figure class="plate"><img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23cdd3cd'/%3E%3Ctext x='200' y='150' font-family='monospace' font-size='15' fill='%234e5b54' text-anchor='middle' dominant-baseline='middle'%3Ephoto one%3C/text%3E%3C/svg%3E" alt="Placeholder for the first photo of the day"><figcaption><b>Caption in bold</b> &#183; 15:42</figcaption></figure>
+      <figure class="plate"><img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23c2cfc6'/%3E%3Ctext x='200' y='150' font-family='monospace' font-size='15' fill='%234e5b54' text-anchor='middle' dominant-baseline='middle'%3Ephoto two%3C/text%3E%3C/svg%3E" alt="Placeholder for the second photo of the day"><figcaption><b>Who and where</b> &#183; 16:19</figcaption></figure>
+      <figure class="plate"><img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23d6dcd6'/%3E%3Ctext x='200' y='150' font-family='monospace' font-size='15' fill='%234e5b54' text-anchor='middle' dominant-baseline='middle'%3Ephoto three%3C/text%3E%3C/svg%3E" alt="Placeholder for the third photo of the day"><figcaption><b>Click any of these</b> &#183; 16:21</figcaption></figure>
+    </div>
+    <p>Those three are inline <code>figure.plate</code> elements. The strip at the top of the page cloned them at load, and clicking any of them &#8212; here or up there &#8212; opens the lightbox. Real photos go in as <code>data:</code> URIs, because the artifact viewer&#8217;s CSP blocks anything hotlinked.</p>
+  </div>
+</div>
+
+<div class="part" id="p4"><span class="no">Part four</span><h2>The wider world</h2></div>
+<div class="entry">
+  <div class="marg"><span class="src">Web</span><span class="t">research</span></div>
+  <div class="body">
+    <h3>Every claim carries its source, inline, where the claim is made</h3>
+    <p>This is the single most important formatting rule in the whole thing. The reader is deciding what to dig into, so a research line without a link is a bug. Where there is genuinely no stable link &#8212; an email, say &#8212; name the sender exactly so it is findable.</p>
+    <div class="tw">
+      <table>
+        <tr><th>Asset</th><th>Now</th><th>Day</th></tr>
+        <tr><td>BTC</td><td class="v">$84,000</td><td class="v"><span style="color:var(--alarm)">&#8722;0.6%</span></td></tr>
+        <tr><td>ETH</td><td class="v">$2,688</td><td class="v"><span style="color:var(--alarm)">&#8722;1.1%</span></td></tr>
+      </table>
+    </div>
+    <p>Tables are for anything with a repeating shape &#8212; prices, fixtures, standings. Keep the prose underneath for the part a table cannot hold. Numbers get <code>td.v</code> so they set in tabular figures and do not wrap.</p>
+    <h3>Last word</h3>
+    <p>Close on something that is not a task. The page has spent nine parts telling somebody what needs doing; it can afford one paragraph that is just interesting.</p>
+  </div>
+</div>
+
+<div class="colophon">
+  <span>Daily record &#183; 14 October 2026</span>
+  <span>Telegram &#183; Calendar &#183; Mail &#183; Notes &#183; Git &#183; Database &#183; Web</span>
+  <span>Set in Newsreader</span>
+</div>
+
+</div>
+
+<script>
+/* ── reading style ──────────────────────────────────────────────────────
+   Four skins, remembered per reader. The default is the Almanac and it does
+   not follow the operating system: Night is something you pick, not something
+   that happens to you because it got dark. */
+(function(){
+  var SKINS=[
+    ['almanac',   'Almanac',   'quiet serif, sage paper'],
+    ['broadsheet','Broadsheet','newsprint, no colour'],
+    ['dispatch',  'Dispatch',  'two-ink risograph'],
+    ['night',     'Night',     'the Almanac after dark']
+  ];
+  var root=document.documentElement,
+      btn=document.getElementById('skinbtn'),
+      menu=document.getElementById('skinmenu');
+  if(!btn||!menu) return;
+  var lbl=btn.querySelector('.lbl'), sw=btn.querySelector('.swatch');
+
+  function current(){
+    var v=root.getAttribute('data-skin');
+    for(var i=0;i<SKINS.length;i++) if(SKINS[i][0]===v) return SKINS[i];
+    return SKINS[0];
+  }
+  function apply(id){
+    root.setAttribute('data-skin',id);
+    try{localStorage.setItem('digest-skin',id);}catch(e){}
+    paint();
+  }
+  function paint(){
+    var c=current();
+    lbl.textContent=c[1];
+    sw.className='swatch chip-'+c[0];
+    var items=menu.querySelectorAll('button');
+    for(var i=0;i<items.length;i++)
+      items[i].setAttribute('aria-checked', items[i].dataset.skin===c[0]?'true':'false');
+  }
+
+  SKINS.forEach(function(s){
+    var b=document.createElement('button');
+    b.type='button'; b.dataset.skin=s[0]; b.setAttribute('role','menuitemradio');
+    b.innerHTML='<span class="chip chip-'+s[0]+'" aria-hidden="true"></span>'+
+                '<span class="nm">'+s[1]+'<em>'+s[2]+'</em></span>';
+    b.addEventListener('click',function(){apply(s[0]); close(); btn.focus();});
+    menu.appendChild(b);
+  });
+
+  function open(){menu.hidden=false; btn.setAttribute('aria-expanded','true');
+    var f=menu.querySelector('[aria-checked="true"]')||menu.firstChild; if(f&&f.focus)f.focus();}
+  function close(){menu.hidden=true; btn.setAttribute('aria-expanded','false');}
+  btn.addEventListener('click',function(e){e.stopPropagation(); menu.hidden?open():close();});
+  document.addEventListener('click',function(e){
+    if(!menu.hidden && !menu.contains(e.target) && e.target!==btn) close();});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape' && !menu.hidden){close(); btn.focus();}});
+  paint();
+})();
+</script>
+<script>
+(function(){
+  var bar = document.querySelector('.indexbar');
+  if (!bar) return;
+  var nav    = bar.querySelector('nav');
+  var links  = Array.prototype.slice.call(nav.querySelectorAll('a[href^="#"]'));
+  var jumps  = links.filter(function(a){ return a.getAttribute('href') !== '#top'; });
+  var secs   = jumps.map(function(a){ return document.getElementById(a.getAttribute('href').slice(1)); });
+  var thread = bar.querySelector('.thread');
+  var page   = document.querySelector('.page');
+  var picker = bar.querySelector('.picker');
+  var label  = bar.querySelector('.pk-label');
+  var menu   = bar.querySelector('.menu');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  /* ---- moving the page ------------------------------------------------
+     scrollIntoView is the only reliable primitive here: the artifact viewer
+     frames the page, so the scrolling box is sometimes an ancestor div and
+     sometimes the document. Hand-rolled window.scrollY math guesses which,
+     and a wrong guess scrolls nothing at all. The browser never has to guess.
+     Clearance under this sticky bar comes from scroll-margin-top on the
+     targets, which scrollIntoView honours. */
+  function behaviorFor(distance){
+    /* Smooth reads well over a screen or two and reads as broken over ten —
+       top-to-bottom here is ~15,000px, which Chrome animates for five seconds. */
+    if (reduce.matches) return 'auto';
+    return Math.abs(distance) > window.innerHeight * 2 ? 'auto' : 'smooth';
+  }
+  function fallbackScroller(el){
+    var n = el.parentElement;
+    while (n && n !== document.body && n !== document.documentElement){
+      var ov = getComputedStyle(n).overflowY;
+      if ((ov === 'auto' || ov === 'scroll' || ov === 'overlay') && n.scrollHeight > n.clientHeight + 2) return n;
+      n = n.parentElement;
+    }
+    return null;
+  }
+  function goTo(el){
+    var gap    = bar.getBoundingClientRect().height + 14;
+    var delta  = el.getBoundingClientRect().top - gap;
+    var before = el.getBoundingClientRect().top;
+    try { el.scrollIntoView({ block: 'start', behavior: behaviorFor(delta) }); }
+    catch (err) { el.scrollIntoView(true); }
+
+    /* Belt and braces: if the view genuinely did not move, drive the
+       scrolling ancestor directly rather than leaving a dead link. */
+    setTimeout(function(){
+      if (Math.abs(el.getBoundingClientRect().top - before) > 4) return;
+      var sc = fallbackScroller(el);
+      if (sc){
+        sc.scrollTo({ top: Math.max(0, el.getBoundingClientRect().top - sc.getBoundingClientRect().top + sc.scrollTop - gap), behavior: 'auto' });
+      } else {
+        window.scrollTo({ top: Math.max(0, delta + (window.scrollY || window.pageYOffset)), behavior: 'auto' });
+      }
+    }, 140);
+  }
+
+  /* ---- mobile: a picker that names where you are ----------------------
+     A sideways-scrolling strip shows three of nine sections on a phone and
+     hides which one you are in. This shows the current section and opens
+     the full list on tap. */
+  if (menu){
+    jumps.forEach(function(a){
+      var item = document.createElement('a');
+      item.href = a.getAttribute('href');
+      item.textContent = a.textContent;
+      menu.appendChild(item);
+    });
+  }
+  function setMenu(open){
+    if (!picker || !menu) return;
+    menu.hidden = !open;
+    bar.classList.toggle('open', open);
+    picker.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  if (picker && menu){
+    picker.addEventListener('click', function(e){ e.stopPropagation(); setMenu(menu.hidden); });
+    document.addEventListener('click', function(e){ if (!bar.contains(e.target)) setMenu(false); });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && !menu.hidden){ setMenu(false); picker.focus(); }
+    });
+  }
+
+  /* One handler for the desktop strip and the mobile menu alike. */
+  bar.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a || !bar.contains(a)) return;
+    var id = a.getAttribute('href').slice(1);
+    var el = document.getElementById(id) || document.querySelector('#' + id);
+    if (!el) return;
+    e.preventDefault();
+    setMenu(false);
+    goTo(el);
+    try { history.replaceState(null, '', '#' + id); } catch (err) { /* sandboxed */ }
+  });
+
+  /* ---- scroll spy ---- */
+  var ticking = false;
+  function paint(){
+    ticking = false;
+    if (thread && page){
+      var r = page.getBoundingClientRect();
+      var travel = r.height - window.innerHeight;
+      thread.style.width = (travel > 0 ? Math.min(100, Math.max(0, (-r.top / travel) * 100)) : 0) + '%';
+    }
+    var edge = bar.getBoundingClientRect().height + 26;
+    var active = -1;
+    for (var i = 0; i < secs.length; i++){
+      if (secs[i] && secs[i].getBoundingClientRect().top <= edge) active = i;
+    }
+    for (var j = 0; j < jumps.length; j++){
+      jumps[j].classList.toggle('on', j === active);
+      if (j === active) jumps[j].setAttribute('aria-current', 'true');
+      else jumps[j].removeAttribute('aria-current');
+    }
+    if (menu){
+      var items = menu.children;
+      for (var k = 0; k < items.length; k++) items[k].classList.toggle('on', k === active);
+    }
+    if (label) label.textContent = active > -1 ? jumps[active].textContent : 'Jump to…';
+    if (active > -1){
+      var el = jumps[active], l = el.offsetLeft, rr = l + el.offsetWidth;
+      if (l < nav.scrollLeft + 8) nav.scrollLeft = Math.max(0, l - 24);
+      else if (rr > nav.scrollLeft + nav.clientWidth - 8) nav.scrollLeft = rr - nav.clientWidth + 24;
+    }
+  }
+  function schedule(){ if (!ticking){ ticking = true; requestAnimationFrame(paint); } }
+
+  /* Scroll events don't bubble, but they do run through the capture phase,
+     so this catches the window and any scrolling ancestor alike. */
+  document.addEventListener('scroll', schedule, { capture: true, passive: true });
+  window.addEventListener('resize', schedule, { passive: true });
+  if (window.IntersectionObserver){
+    var io = new IntersectionObserver(schedule, { threshold: [0, .25, .5, 1] });
+    secs.forEach(function(s){ if (s) io.observe(s); });
+  }
+  schedule();
+})();
+
+/* ── the reel ─────────────────────────────────────────────────────────────
+   Arrows page by roughly one viewport of the strip. Swiping and keyboard
+   arrows are the browser's own — the track is focusable and overflows, so
+   it already scrolls with the keyboard; this only adds the mouse affordance
+   and keeps the buttons honest about whether there is anywhere left to go. */
+(function(){
+  var reel = document.querySelector('.reel');
+  if (!reel) return;
+  var track = reel.querySelector('.reel-track');
+  var btns  = reel.querySelectorAll('.reel-nav button');
+  if (!track || !btns.length) { reel.remove(); return; }
+
+  /* Fill from the plates already on the page — one stored copy per photo. */
+  var plates = document.querySelectorAll('figure.plate');
+  if (!plates.length) { reel.remove(); return; }
+  plates.forEach(function(fig){
+    var c = fig.cloneNode(true);
+    c.classList.remove('plate');
+    /* The clone is decorative here; the original below keeps the real alt,
+       so a screen reader is not told about the same photo twice. */
+    var img = c.querySelector('img');
+    if (img) { img.setAttribute('alt', ''); img.setAttribute('loading', 'lazy'); }
+    track.appendChild(c);
+  });
+  reel.hidden = false;
+
+  function step(){
+    var fig = track.querySelector('figure');
+    /* One card plus its gap, times however many fit — a full page, minus a
+       sliver so there is always something carried over for orientation. */
+    var card = fig ? fig.getBoundingClientRect().width + 14 : 276;
+    return Math.max(card, Math.floor(track.clientWidth / card) * card - card * 0.15);
+  }
+  function sync(){
+    /* 2px of slack: fractional scroll widths mean scrollLeft rarely lands
+       exactly on the end, and a button that never enables looks broken. */
+    var max = track.scrollWidth - track.clientWidth;
+    btns.forEach(function(b){
+      var d = +b.dataset.reel;
+      b.disabled = max <= 2 || (d < 0 ? track.scrollLeft <= 2 : track.scrollLeft >= max - 2);
+    });
+  }
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){
+      var from = track.scrollLeft,
+          max  = track.scrollWidth - track.clientWidth,
+          to   = Math.max(0, Math.min(from + (+b.dataset.reel) * step(), max)),
+          reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      try { track.scrollTo({ left: to, behavior: reduce ? 'auto' : 'smooth' }); }
+      catch (e) { track.scrollLeft = to; }
+      /* A smooth scroll is silently swallowed on a scroll-snap-type:mandatory
+         container in some engines — not just slowed, dropped, so the arrows do
+         nothing at all. Verify a frame later and hard-set if it went nowhere.
+         (Measured 2026-08-30: scrollBy smooth moved 0px, a direct assignment
+         moved correctly.) */
+      setTimeout(function(){
+        if (Math.abs(track.scrollLeft - from) < 2) track.scrollLeft = to;
+        sync();                    /* don't wait on the scroll event for state */
+      }, 60);
+      setTimeout(sync, 420);
+    });
+  });
+  track.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync, { passive: true });
+  /* Images are data: URIs so they are decoded, not fetched — but layout can
+     still settle a frame late, and scrollWidth is wrong until it does. */
+  requestAnimationFrame(sync);
+  window.addEventListener('load', sync);
+})();
+</script>
+
+<script>
+/* ── the lightbox ──────────────────────────────────────────────────────────
+   Click any photo — inline plate or reel — and it opens full-screen, with its
+   caption, arrows on a laptop and swipe on a phone. Asked for by Jack on
+   27 Sep 2026: "it'd just be dope if we could click on each of the photos and
+   get a more full-screen look."
+
+   Three things here are deliberate:
+
+   - The overlay is CREATED IN JS, not written into the page. A daily build
+     replaces everything from <header class="record"> down, so any markup the
+     lightbox needed would have to be remembered every single morning. This
+     way it cannot be forgotten, and it costs nothing on a photo-less day
+     because it returns early.
+
+   - It reuses the thumbnail's own src. Every photo is already a data: URI in
+     the DOM, so opening one transfers nothing and adds nothing to page weight.
+     Never "upgrade" this to a second full-size copy — that would double the
+     page, which is the same mistake the reel comment warns about.
+
+   - The gallery is built from the INLINE PLATES only, deduped, even when you
+     click a reel clone. The reel is a view of the same photos, so counting
+     both would give you every picture twice. */
+(function(){
+  var plates = [].slice.call(document.querySelectorAll('figure.plate'));
+  if (!plates.length) return;
+
+  var lb, imgEl, capEl, prevBtn, nextBtn, lastFocus = null, idx = 0;
+
+  function build(){
+    lb = document.createElement('div');
+    lb.className = 'lbx';
+    lb.hidden = true;
+    lb.setAttribute('role','dialog');
+    lb.setAttribute('aria-modal','true');
+    lb.setAttribute('aria-label','Photo');
+    lb.innerHTML =
+      '<button type="button" class="x" aria-label="Close photo">&#10005;</button>' +
+      '<button type="button" class="nav prev" aria-label="Previous photo">&#8592;</button>' +
+      '<button type="button" class="nav next" aria-label="Next photo">&#8594;</button>' +
+      '<figure><img alt=""><figcaption></figcaption></figure>';
+    document.body.appendChild(lb);
+    imgEl   = lb.querySelector('img');
+    capEl   = lb.querySelector('figcaption');
+    prevBtn = lb.querySelector('.prev');
+    nextBtn = lb.querySelector('.next');
+
+    lb.querySelector('.x').addEventListener('click', close);
+    prevBtn.addEventListener('click', function(e){ e.stopPropagation(); go(-1); });
+    nextBtn.addEventListener('click', function(e){ e.stopPropagation(); go(1); });
+    /* Clicking the backdrop closes; clicking the photo itself does not. */
+    lb.addEventListener('click', function(e){
+      if (e.target === lb || e.target.tagName === 'FIGURE') close();
+    });
+
+    /* Swipe: horizontal to change photo, a decisive vertical drag to dismiss.
+       Touch only — a trackpad never fires these, so the arrows stay the
+       laptop control. */
+    var x0 = 0, y0 = 0, t0 = 0;
+    lb.addEventListener('touchstart', function(e){
+      if (e.touches.length !== 1) return;
+      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = Date.now();
+    }, { passive: true });
+    lb.addEventListener('touchend', function(e){
+      if (!t0 || Date.now() - t0 > 700) { t0 = 0; return; }
+      var t = e.changedTouches[0], dx = t.clientX - x0, dy = t.clientY - y0;
+      t0 = 0;
+      if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy)) go(dx < 0 ? 1 : -1);
+      else if (dy > 90 && Math.abs(dy) > Math.abs(dx)) close();
+    }, { passive: true });
+  }
+
+  function show(i){
+    idx = i;
+    var fig = plates[idx];
+    var src = fig.querySelector('img');
+    if (!src) return;
+    imgEl.src = src.currentSrc || src.src;
+    imgEl.alt = src.alt || '';
+    var cap = fig.querySelector('figcaption');
+    capEl.innerHTML = cap ? cap.innerHTML : '';
+    capEl.hidden = !cap;
+    prevBtn.disabled = idx <= 0;
+    nextBtn.disabled = idx >= plates.length - 1;
+  }
+
+  function go(d){
+    var n = idx + d;
+    if (n < 0 || n >= plates.length) return;
+    show(n);
+  }
+
+  function open(i){
+    if (!lb) build();
+    lastFocus = document.activeElement;
+    show(i);
+    lb.hidden = false;
+    document.body.classList.add('lbx-open');
+    lb.querySelector('.x').focus();
+  }
+
+  function close(){
+    if (!lb || lb.hidden) return;
+    lb.hidden = true;
+    document.body.classList.remove('lbx-open');
+    /* Drop the src so a 300KB data: URI is not sitting in a second live <img>
+       for the rest of the session. */
+    imgEl.removeAttribute('src');
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  /* Delegated, because the reel clones its figures at runtime — binding to
+     the images directly would miss every clone. A click on a reel copy is
+     matched back to its inline original by src, so the arrows walk the real
+     gallery in page order either way. */
+  document.addEventListener('click', function(e){
+    var img = e.target.closest ? e.target.closest('figure.plate img, .reel-track figure img') : null;
+    if (!img) return;
+    e.preventDefault();
+    var fig = img.closest('figure');
+    var i = plates.indexOf(fig);
+    if (i < 0) {
+      var s = img.currentSrc || img.src;
+      for (var k = 0; k < plates.length; k++){
+        var pi = plates[k].querySelector('img');
+        if (pi && (pi.currentSrc || pi.src) === s) { i = k; break; }
+      }
+    }
+    open(i < 0 ? 0 : i);
+  });
+
+  document.addEventListener('keydown', function(e){
+    if (!lb || lb.hidden) return;
+    if (e.key === 'Escape') { e.preventDefault(); close(); }
+    else if (e.key === 'ArrowRight') go(1);
+    else if (e.key === 'ArrowLeft') go(-1);
+  });
+})();
+</script>
