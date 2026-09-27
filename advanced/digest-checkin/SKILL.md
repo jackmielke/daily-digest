@@ -240,13 +240,59 @@ The only case for editing the morning's own words is a flagged item that is now 
 misleading** — a deadline that passed, a person named who already replied. Then fix that line *and*
 say so in the evening section.
 
-## Step 7: Publish Last Light
+## Step 7: Publish Last Light — AND append it to this morning's page
 
-The full report — the Notion section is the summary of it, not the other way round.
+**Added 2026-09-27, at Jack's request:** *"I also want to make sure this exact page gets
+updated with the evening digest as well later in the day."* He was reading the morning
+reading page on his phone when he said it. The evening report is the same day; it belongs
+on the page he already has open, not only on a second URL he has to be handed.
+
+**So this step now has two outputs, and the morning page is the one that matters.**
+
+### 7a. Append the evening report to the morning reading page
+
+The morning digest publishes to the **daily-digest** stable URL (see that skill's
+`templates/README.md`). Do not rebuild that page from its template — **read the live
+version and add to it**, because it carries today's photos as data: URIs and re-deriving
+them costs a full re-gather.
+
+1. `Artifact` `action: "read"` on the daily-digest stable URL. The result names the saved
+   file holding the full page; build the update from **that file**, not from the template.
+2. Append one new part at the end of the body, immediately before `<div class="colophon">`,
+   numbered after the last existing part:
+
+   ```html
+   <div class="part" id="p99"><span class="no">Part fourteen</span><h2>How today went</h2></div>
+   <div class="entry">
+     <div class="marg"><span class="src">Evening check-in</span><span class="t">17:00 PT</span></div>
+     <div class="body">…</div>
+   </div>
+   ```
+
+   Use the **real next id and number** — read them off the page, do not assume thirteen.
+3. **Add its nav link too**, before `</nav>`, or the part exists and nothing points at it.
+   Same rule as the morning: ids and nav links move together.
+4. Republish with `url` set to the daily-digest stable URL and `force: true`. Keep the
+   `<title>`, the favicon 🌿, the `<style>` block and **all four `<script>` blocks**
+   byte-identical — the fourth is the photo lightbox and it is easy to lose in a splice.
+5. **If a `How today went` part is already on the page, replace it rather than adding a
+   second one.** The 5pm run can fire twice; the morning page must never carry the evening
+   twice.
+
+**Correct the morning page while you are in there.** Step 6 already says to fix a morning
+line that has stopped being true. Now that you are editing the page itself and not just the
+Notion row, do it there too — that is the copy he actually reads.
+
+### 7b. Last Light, unchanged
 
 | Style | Template | Stable artifact URL — always publish to this |
 |---|---|---|
 | **Last Light** 🌙 | `templates/lastlight.html` | https://… |
+
+Last Light keeps its own URL and its own template for now. **If Jack says he only reads the
+one page, retire it** — he has asked more than once for things to live in one place, and two
+pages carrying the same evening is exactly the duplication he dislikes. Until he says so,
+publish both and link the morning page first in the Telegram ping.
 
 Read `templates/README.md` before touching it — it lists what must not drift and which block earns
 its place when. The short version:
