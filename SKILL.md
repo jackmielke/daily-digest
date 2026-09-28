@@ -147,6 +147,20 @@ clauses instead; vary it, because three mood-labelled titles in a row is a templ
 **a heavy day gets a plain title** — no mood framing on days with illness, money trouble, or
 someone struggling.
 
+**Use `templates/digest.html` and publish to the same URL every day.** It is one
+self-contained file — four reading styles, a photo strip, a lightbox, no build step. Copy
+it to a scratch file (never edit the template in place), replace everything from
+`<header class="record">` down plus the date in the nav, and leave the `<style>` block and
+all four `<script>` blocks byte-identical. Publish however you like — an artifact, a gist,
+a static host — as long as **the URL never changes**, because the habit is a bookmark, not
+a link in a chat. Two things that break it: photos referenced by URL instead of embedded as
+`data:` URIs render as broken boxes, and dropping the viewport meta tag makes the whole
+page pan sideways on a phone.
+
+**Photos are worth the trouble.** Two or three from their own day, embedded, captioned with
+where and when. It is the single thing that makes the page feel like theirs rather than a
+report about them.
+
 **Audio, if they'll use it.** This is what turns it into a habit rather than a tab.
 
 - **Write a new script for the ear.** Not the page read aloud. No URLs, no markdown, no

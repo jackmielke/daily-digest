@@ -13,7 +13,7 @@ worth reading.
 
 ## The 20-minute version
 
-Five steps. You need three things.
+Six steps. You need three things.
 
 **An agent** — Claude Code, Cowork, Codex, whatever you use. These are plain markdown
 files. **A cloud agent is the easier start**, because it runs without your laptop being
@@ -61,10 +61,14 @@ If that arrives on your phone, delivery works. **Get that far before anything el
 `speak-digest.ts` reads tracks from stdin, split on `== Track name ==` lines. Run it with
 `--dry` first: it prints the plan and the cost and spends nothing.
 
-Voice defaults to `ballad`. `--voice ash|onyx|nova|shimmer|coral` are alternatives, and
-`--instructions "..."` steers accent and delivery in plain English — that's how you get a
-particular kind of reader rather than a generic one. Mine is a British broadcaster reading
-it straight.
+Voice defaults to `fable` on a British read. `--voice ballad|ash|onyx|nova|shimmer|coral`
+are alternatives, and `--instructions "..."` steers accent and delivery in plain English —
+that's how you get a particular kind of reader rather than a generic one.
+
+Spend an evening on this one. We ran a blind audition of five casts across a real digest
+and the winner was not the obvious one; the accent comes from `instructions`, not from the
+voice id, so one voice can read British, Irish or Scottish. `--rotate a,b,c` cycles casts
+track by track so you can compare them in context rather than in isolation.
 
 **The hard limit: ~8,800 characters per track.** Over that you get a 400 from OpenAI, and
 because every track renders before the first one sends, *nothing* goes out. Reckon ~840
@@ -78,7 +82,40 @@ ask you three questions — what else it should read, what you want to know abou
 then write you your own version.
 
 
-### 5. Make it actually run every day
+### 5. The page
+
+The audio is for walking and Telegram is for glancing. The page is the one you actually
+read, and it is the part most people never build because a wall of markdown in a chat
+window feels like it should be enough. It isn't — you stop opening it by about day four.
+
+`templates/digest.html` is the whole thing: one self-contained file, four reading styles the
+reader picks and the page remembers, a swipeable strip of the day's photos, and a lightbox.
+No build step, no framework, no network calls.
+
+The loop each morning is:
+
+1. Copy the template to a scratch file. **Never edit the template in place.**
+2. Replace the body — everything from `<header class="record">` down — and the date in the
+   nav. Leave the `<style>` block and all four `<script>` blocks byte-identical.
+3. Publish it to **the same URL every day**, so the link in your pocket never changes.
+
+How you publish depends on your agent. Claude Code has an Artifact tool that takes an HTML
+file and gives you a private URL; republishing to that URL updates it in place. Anything
+that can host a static file works just as well — a gist, a Vercel deploy, an S3 bucket.
+**The only real requirement is that the URL is stable**, because the whole point is a
+bookmark you open at breakfast.
+
+Two traps that cost us real time, both fixed in the template and both easy to reintroduce:
+
+- **Photos must be `data:` URIs.** Artifact viewers block hotlinked images, so anything
+  pointing at a URL renders as a broken box. Embed them.
+- **Keep the viewport meta tag.** Without it iOS lays the page out at 980px and the whole
+  thing pans sideways under your thumb. The artifact wrapper does not add it for you.
+
+`templates/README.md` has the rest, including the four skins and why the photo strip builds
+itself from the photos already on the page rather than holding a second copy.
+
+### 6. Make it actually run every day
 
 **This is the step that turns it from a demo into the product**, and it's the one people
 skip. A digest you have to ask for is just a chat.

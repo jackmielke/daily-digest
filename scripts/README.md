@@ -49,8 +49,8 @@ EOF
 
 **Always `--dry` first.** It prints the plan and the cost and spends nothing.
 
-- `--voice ballad|ash|onyx|fable|nova|shimmer` — `ballad` is the default and the most
-  broadcast-sounding.
+- `--voice fable|ballad|ash|onyx|nova|shimmer` — `fable` is the default; `ballad` is the
+  other broadcast-sounding one.
 - `--instructions "..."` — **this is where the accent lives.** Plain English direction:
   *"a British broadcaster reading a morning briefing, unhurried, never chummy"*. Worth more
   than the voice choice.
