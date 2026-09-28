@@ -43,13 +43,14 @@ It sits beside this file and holds the account identifiers this one refers to. *
 
 Write it as an artifact in the **Almanac family** — same fonts (Newsreader + Spline Sans Mono), same green-grey paper, same theme-aware token structure — but chart-forward, since trends are the point. Title it **The Sunday Ledger**, favicon 📈. **Republish to the stable URL** https://… by passing it as `url`, so the link never changes.
 
-Then send **one audio track**, 90–120 seconds, via
+Then send **an audio track of five minutes or more** — Jack, 27 September: *"Weekly
+reviews could be 5+ mins going forward"* — via
 `cd ~/dev/scheduled-tasks/daily-digest && bun speak-digest.ts --set "Week in review" --title "The week"`,
-following the script rules in Step 10 of the daily-digest skill: no URLs, no markdown, numbers written the way they are said. The weekly track should be the *judgement*, not the data — what moved, what did not, what to do about it.
+following the script rules in Step 10 of the daily-digest skill: no URLs, no markdown, numbers written the way they are said. The weekly track should be the *judgement*, not the data — what moved, what did not, what to do about it. Five minutes is room to argue a case rather than read a list; a week with more in it should run longer still.
 
 Finally a short Telegram note linking the page, via `notify-telegram.ts`.
 
-**Quota:** the ElevenLabs allowance is shared with the daily digest and is tight — roughly a week of daily sets. Keep the weekly track under 1,200 characters. If `speak-digest.ts` exits 2 for quota, send the page and the text note without audio and say so.
+**Length:** reckon **~840 characters per spoken minute**, so five minutes is roughly **4,200 characters** and up. Audio runs on OpenAI at about 1.5¢ a minute, so cost is not the constraint. The one hard limit is the same as the daily's: **one track must stay under ~8,800 characters** (~10 minutes) or the request 400s and nothing goes out — past that, split it into two tracks with a `== title ==` line. If `speak-digest.ts` exits 2, send the page and the text note without audio and say so.
 
 ## Tone
 
