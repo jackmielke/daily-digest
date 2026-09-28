@@ -4,22 +4,44 @@ Every morning something reads my own tools — chat, email, calendar, the code I
 yesterday, the meetings I sat in — researches the handful of things I actually care about,
 and hands it back as a page I read and about twenty minutes of audio I listen to on a walk.
 
-It's been running daily since August 2026. This is the method, in one file.
+It's been running daily since August 2026. **Two files are the whole thing:**
 
-## Start here
+### **[SKILL.md](SKILL.md)** — the skill
 
-**[`SKILL.md`](SKILL.md)** — the whole thing. Give it to your agent, answer the four
-questions it asks you, and let it write you your own.
+One file. Hand it to your agent, answer the three questions it asks you, and let it write
+you your own. It is plain markdown, not code: Claude Code, Cowork, Codex, whatever you use.
 
-**[`SETUP.md`](SETUP.md)** — twenty minutes: a Telegram bot, an API key for the voice, and
-one test message on your phone before anything else.
+### **[EXAMPLE.md](EXAMPLE.md)** — one morning, end to end
 
-**[`SOURCES.md`](SOURCES.md)** — every tool it reads, what each returns, and what each gets
-wrong. A menu, not a checklist: it was good with four of them.
+What it read, what it filed in Notion, the page it published, the audio, and the message
+that arrived on my phone — a real day with the private parts swapped out. Read this first
+if you want to know what you'd actually be getting.
 
-That's it.
+The page it publishes is in here too: **[templates/digest.html](templates/digest.html)**,
+one self-contained file, seeded with the same invented day
+([view it rendered](https://htmlpreview.github.io/?https://github.com/jackmielke/daily-digest/blob/main/templates/digest.html)).
 
-### And when you want the real one
+That's it. Everything below is optional.
+
+---
+
+## When you want to run it
+
+- **[SETUP.md](SETUP.md)** — twenty minutes: a Telegram bot, an API key for the voice, and
+  one test message on your phone before anything else.
+- **[SOURCES.md](SOURCES.md)** — every tool it reads, what each returns, and what each gets
+  wrong. A menu, not a checklist: it was good with four of them.
+- **[scripts/](scripts/)** — the three small scripts it calls: send a message, send a
+  voice note, render the audio.
+
+You need an **agent**, an **API key for the audio**, and **some way to reach your own
+phone**. On the audio key: your agent does the thinking, and the key is *only* for turning
+the finished script into speech. OpenAI's `gpt-4o-mini-tts` is about **1.5¢ a minute**, so
+twenty minutes a day is roughly **$9 a month**. ElevenLabs sounds a little better at about
+**14¢ a minute** — nine times more, which for a daily habit is the difference between not
+thinking about it and thinking about it.
+
+## When you want the real one
 
 [`advanced/`](advanced/) has the files that actually run here, mirrored verbatim on every
 commit. [`advanced/daily-digest/SKILL.md`](advanced/daily-digest/SKILL.md) is the morning
@@ -31,20 +53,6 @@ review.
 
 It is long because it is honest about what went wrong, not because it's thorough. Read the
 starter first; raid `advanced/` for the specific thing you want.
-
-## What you need
-
-- **An agent.** Claude Code, Cowork, Codex, whatever you use — these are plain markdown
-  files, not code that only runs one place. A cloud agent means it runs without your laptop
-  being open, which is the version I'd recommend to start.
-- **An API key for the audio**, and this is the one thing worth being precise about: your
-  agent does the thinking, and the key is *only* for turning the finished script into
-  speech. OpenAI's `gpt-4o-mini-tts` is about **1.5¢ a minute**, so twenty minutes a day is
-  roughly **$9 a month**. ElevenLabs sounds a little better and is about **14¢ a minute** —
-  nine times more, which for a daily habit is the difference between not thinking about it
-  and thinking about it.
-- **A Telegram bot**, or any other way to get it onto your phone. Ten minutes with
-  `@BotFather`.
 
 ## The parts worth stealing, even if you build your own
 
