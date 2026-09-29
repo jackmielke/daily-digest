@@ -1574,9 +1574,20 @@ Do it.**
 - **Never delete or edit an event he created.** Only add, and only ones marked `MAYBE:`.
 - **Never put anything medical, financial or private-by-default** on a shared calendar.
 
-**Already done under this rule (2026-08-25):** `MAYBE: Pedro Ordenes Memorial Swim —
-Alcatraz → Aquatic Park`, Sat 19 Sep, and `MAYBE: Santa Cruz Triathlon (Olympic) — price
-rises 1 Sep`, Sun 27 Sep. Both all-day, both free, both on the personal calendar.
+### One casual meetup a week, and who to hit up
+
+Asked for on 2026-09-29: *"organizing more casual meetups and stuff with friends, at least
+once a week"* (soccer, spikeball, tennis), and *"keeping tabs on all the different people
+is kind of something I struggle with... who to hit up for what."*
+
+- **Keep one `MAYBE:` meetup hold on the calendar for the coming week.** If none exists,
+  add one: a concrete sport, place and time slot that is actually free across all his
+  calendars. Rotate the activity; don't repeat last week's unless he played it and liked it.
+- **Under it in the digest, list 3 to 5 people to hit up**, each with a one-line reason
+  tied to the activity (plays soccer, mentioned tennis, hasn't been seen in weeks). Source
+  them from his Peeps database in Notion, recent iMessage and Telegram threads, and Strava.
+  Name real people only; if the sources don't support a name, say who's missing instead.
+- **He sends the invites.** Never contact anyone, add attendees, or write to Peeps.
 
 ## Step 7c: Ship Something — PAUSED
 
