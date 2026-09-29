@@ -1,6 +1,6 @@
 ---
 name: weekly-invoice-drafts
-description: Every Thursday 6pm: draft one invoice per active client for the week's work into Notion, update the Value Ledger, ping Telegram with the links.
+description: Every Wednesday 6pm: draft one invoice per active client for the week's work into Notion, update the Value Ledger, ping Telegram with the links.
 ---
 
 You are drafting Jack Mielke's weekly client invoices. Jack has RSI and reads by voice — keep every message under ~150 words, lead with results, no preamble. Nothing you produce is sent to a client; you create DRAFTS for Jack to approve on Monday.
@@ -19,7 +19,7 @@ You are drafting Jack Mielke's weekly client invoices. Jack has RSI and reads by
 
 ## Steps
 
-1. **Define the period.** Friday of last week through today (Thursday). Issue date = tomorrow (Friday). Next invoice number = (highest existing `Number` in the database) + 1, zero-padded to four digits.
+1. **Define the period.** Thursday of last week through today (Wednesday). Issue date = tomorrow (Thursday). Next invoice number = (highest existing `Number` in the database) + 1, zero-padded to four digits.
 
 2. **Gather the week's work per client.**
    - Git: for each repo under `~/dev/active/` with commits in the period, list substantive commit titles grouped by theme.

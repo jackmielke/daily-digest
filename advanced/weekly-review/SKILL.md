@@ -39,6 +39,12 @@ It sits beside this file and holds the account identifiers this one refers to. *
 
 **What to watch next week.** Three to five things, each with a reason it is checkable next Sunday. Self-imposed deadlines count and should be named.
 
+**Ten smart ideas of the week.** Added 2026-09-28. Jack: *"We should add 10 smart ideas of the week to this as well. I feel like we could make these longer every week."* This is the generative half of the review and **the section to spend new length on**; the data sections stay the length they earn. Ten, every week, each a short paragraph (surface, trigger, rough size, and the clause that says what would make it fail). The bar and the taste are the daily's Step 7h plus memory `idea_taste.md` and `idea_backlog.md`: mechanisms built from things already in his world, playful and physical over abstract, things that compound if left running.
+
+What makes a *weekly* idea different from a daily one: **it should only be thinkable with seven days in view.** Build each one on a trend, a gap or a collision this review found (a number that moved, two threads from different days that are the same thing, a pattern in what closes and what doesn't). Tag each with the finding it grows from, so the link to the data is visible. Rough mix: three building, two Radish or Mise, two social or community, two money or career, one wildcard.
+
+Before writing, read the week's daily idea sections (morning and evening sets on each daily row) so none of the ten repeats them. Then do one thing the dailies can't: **carry forward** the one or two daily ideas that the week's evidence now makes stronger, marked as carried, with the new reason. Anything Jack reacted to during the week (replies, dictation, a commit that built one) goes in `idea_backlog.md`, and the review says in one line which of last week's ten moved.
+
 ## Publish
 
 Write it as an artifact in the **Almanac family** — same fonts (Newsreader + Spline Sans Mono), same green-grey paper, same theme-aware token structure — but chart-forward, since trends are the point. Title it **The Sunday Ledger**, favicon 📈. **Republish to the stable URL** https://… by passing it as `url`, so the link never changes.
@@ -46,7 +52,7 @@ Write it as an artifact in the **Almanac family** — same fonts (Newsreader + S
 Then send **an audio track of five minutes or more** — Jack, 27 September: *"Weekly
 reviews could be 5+ mins going forward"* — via
 `cd ~/dev/scheduled-tasks/daily-digest && bun speak-digest.ts --set "Week in review" --title "The week"`,
-following the script rules in Step 10 of the daily-digest skill: no URLs, no markdown, numbers written the way they are said. The weekly track should be the *judgement*, not the data — what moved, what did not, what to do about it. Five minutes is room to argue a case rather than read a list; a week with more in it should run longer still.
+following the script rules in Step 10 of the daily-digest skill: no URLs, no markdown, numbers written the way they are said. The weekly track should be the *judgement*, not the data — what moved, what did not, what to do about it. Five minutes is room to argue a case rather than read a list; a week with more in it should run longer still. The ten ideas get **their own second track**, `== Ten ideas ==`, so he can skip straight to them on a run: each idea in two or three spoken sentences.
 
 Finally a short Telegram note linking the page, via `notify-telegram.ts`.
 
