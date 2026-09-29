@@ -1585,7 +1585,9 @@ is kind of something I struggle with... who to hit up for what."*
   calendars. Rotate the activity; don't repeat last week's unless he played it and liked it.
 - **Under it in the digest, list 3 to 5 people to hit up**, each with a one-line reason
   tied to the activity (plays soccer, mentioned tennis, hasn't been seen in weeks). Source
-  them from his Peeps database in Notion, recent iMessage and Telegram threads, and Strava.
+  them from his Peeps database in Notion (its `Tags` already has `Soccer`, `Spikeball`,
+  `Basketball`; no `Tennis` yet — suggest it when needed), recent iMessage and Telegram
+  threads, and Strava. Favour the oldest `Last touch`.
   Name real people only; if the sources don't support a name, say who's missing instead.
 - **He sends the invites.** Never contact anyone, add attendees, or write to Peeps.
 
