@@ -1213,8 +1213,10 @@ workaround.
 
 **What to read, in priority order:**
 
-1. **`x.com/home`** — the timeline itself. Scroll a few times; the first screen is four or
-   five posts. This is the thing that has been missing.
+1. **`x.com/home`** — the timeline itself. **The feed is virtualised: only about five
+   `article` elements are mounted at any moment**, so a single read of the DOM returns five
+   posts no matter how long the feed is. You have to scroll and accumulate. The script below
+   does that and is the measured difference between 5 posts and 31.
 2. **His own profile** — what he posted. Still worth it for the reason below.
 3. **`/following`** occasionally, to know who is actually in the feed.
 
@@ -1236,10 +1238,51 @@ every other source in this file applies, harder:
   written, say so once and note what he changed** — that is the only feedback loop Step 24
   has ever had.
 
-**Verify on first use and say what you found.** This route has not run inside a digest yet.
-If the timeline reads cleanly, report it normally. If it does not — logged out, rate
-limited, the DOM moved — **say which, in one line, and fall back** to the substitutes
-below. Do not silently produce a thinner research section and leave him to wonder.
+**The extractor, verified 2026-09-30 (31 posts, with permalinks).** Run it in the
+signed-in browser tab after navigating to `x.com/home`. Two things about it are load-bearing
+and both were learned the hard way: **use top-level `await` with a bare final expression** (an
+`async` IIFE returns `{}` through the JS bridge), and **key the map on the permalink** so the
+scroll passes dedupe against each other.
+
+```js
+const seen = new Map();
+const grab = () => {
+  document.querySelectorAll('article[data-testid="tweet"]').forEach(a => {
+    const un = a.querySelector('div[data-testid="User-Name"]');
+    const tx = a.querySelector('div[data-testid="tweetText"]');
+    const tm = a.querySelector('time');
+    if (!un || !tm) return;
+    const link = tm.closest('a');
+    const href = link ? link.getAttribute('href') : null;
+    if (!href || seen.has(href)) return;
+    const social = a.querySelector('[data-testid="socialContext"]');
+    const nm = un.innerText.split('\n').filter(Boolean);
+    seen.set(href, { who: nm[0] || '', handle: nm.find(x => x.startsWith('@')) || '',
+      when: tm.getAttribute('datetime'), ctx: social ? social.innerText : null,
+      text: (tx ? tx.innerText : '(media only)').replace(/\s+/g, ' ').slice(0, 350),
+      url: 'https://x.com' + href });
+  });
+};
+grab();
+for (let i = 0; i < 10; i++) {
+  window.scrollBy(0, window.innerHeight * 1.4);
+  await new Promise(r => setTimeout(r, 1200));
+  grab();
+}
+window.scrollTo(0, 0);
+'GOT ' + seen.size + '\n' + [...seen.values()].map(v =>
+  v.handle + ' | ' + v.when.slice(5, 16) + ' | ' + v.text.slice(0, 150) + ' | ' + v.url).join('\n')
+```
+
+`ctx` carries the repost or "liked by" line, which tells you whether he follows the author or
+merely got shown the post. Ten passes is roughly a morning's feed; raise it if the top of the
+timeline is all posts you already reported yesterday.
+
+**Say what you found.** If the timeline reads cleanly, report it normally. If it does not —
+logged out, rate limited, the DOM moved — **say which, in one line, and fall back** to the
+substitutes below. Do not silently produce a thinner research section and leave him to wonder.
+**The feed also refreshes under you:** a second read minutes later can return an entirely
+different top-of-feed, so extract once and work from that capture.
 
 **The substitutes, still useful even when the timeline works:** the tech aggregators, the
 front page of the big comment boards, and **the people rather than the platform** — most of
