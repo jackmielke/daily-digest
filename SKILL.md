@@ -33,7 +33,7 @@ from here on.**
 
 ---
 
-## Every run
+## The morning run
 
 ### 1. Read the past 2-3 days' digest first
 
@@ -178,18 +178,71 @@ report about them.
 
 ---
 
-## Then get out of the way
+## The evening run
 
-**Ask them for feedback after the first three, and edit this file with what they say.**
-That loop is the difference between a thing that improves and a thing that drifts.
+**Same skill, twelve hours later, and much shorter.** The morning brief is written at 6am
+about a day that hasn't happened yet; by five o'clock half of it is wrong. The evening run
+is what makes the morning one safe to trust, because the morning no longer has to hedge.
 
-Two rules for editing yourself:
+Four things, and it should usually fit in a quarter of the page:
+
+1. **Correct the morning.** Re-check anything the morning flagged as urgent. A meeting that
+   moved, a payment that landed, a deadline that passed. **Edit the morning's page in
+   place** where it is now wrong — a briefing that quietly stays wrong all day is worse
+   than one that was never published.
+2. **Report how the day actually went**, from the same sources, over a twelve-hour window.
+   What got finished, what got abandoned, what they were doing during the hours that
+   produced nothing.
+3. **A fresh set of invented ideas**, drawn from the day it just watched rather than the
+   one the morning predicted. Don't repeat the morning's — read that row first.
+4. **Nothing else.** No new research, no world section, no second set of action items.
+   They already read those this morning.
+
+**If nothing moved, say so in two lines and stop.** An evening run that pads is the fastest
+way to make someone mute the whole thing.
+
+---
+
+## The feedback loop — this is the part that matters
+
+**This is the only reason the thing survives past week three.** Everything above is a
+starting guess. What makes it good is that it gets corrected, in the person's own words,
+without them having to open a file.
+
+**Deliver it somewhere they can reply.** A chat app, not an inbox and not a dashboard. The
+whole loop depends on the reply costing them one thumb-press while walking, and a voice
+note they can talk into beats anything they'd have to type.
+
+**Then run a second, tiny job that watches for replies and edits this file.** Not the
+digest — a separate thing, every fifteen minutes, that almost always does nothing:
+
+- **A durable preference** — "stop doing X", "less of this", "more of that" — **edits this
+  file, permanently, the same day.** A preference someone has to repeat is a preference you
+  failed to record.
+- **A one-off steer** — "chase that thing tomorrow", "who was that person again" — goes in
+  a dated note the next run reads, not into the rules.
+- **A question** gets answered in the reply, and then in the next digest near the top.
+- **Anything ambiguous or structural**: ask one short question and change nothing. A
+  question costs them five seconds; a wrong rule costs them a week of bad briefings.
+
+**Confirm every change back in the same chat, in one sentence, so they know replying
+works.** That is what keeps the replies coming. Don't thank them and don't explain the
+mechanism.
+
+Three rules for editing yourself:
 
 - **A prohibition means "don't do this badly", never "don't do this."** Where a rule seems
-  to forbid something interesting, you're reading it wrong.
-- **If an edit makes this file longer, look for what it supersedes.** The version this was
-  distilled from reached 124KB and roughly 400 prohibitions by only ever being appended to,
-  and the output went flat and careful — correct and lifeless. Replace, don't append.
+  to forbid something interesting, you're reading it wrong — apply the narrow version.
+- **If an edit makes this file longer, look for what it supersedes.** Replace, don't
+  append. The version this was distilled from reached 124KB and roughly 400 prohibitions by
+  only ever being appended to, and the output went flat and careful — correct and lifeless.
+- **Never change the voice, the persona, or delete a whole section on inferred feedback.**
+  Those need them to have asked for that specific thing in that specific message. Changing
+  a voice once on a vaguer request produced a reader the owner disliked and didn't discover
+  for a day.
+
+**Ask for feedback explicitly after the first three runs.** Nobody volunteers it unprompted,
+and the first three are when it is most wrong.
 
 ---
 
