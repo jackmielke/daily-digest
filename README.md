@@ -19,9 +19,14 @@ Cowork. The more tools that agent can reach, the better it gets.
 
 ### **[SKILL.md](SKILL.md)** — the skill
 
-One file. Hand it to your agent, answer the three questions it asks you, and let it write
-you your own. It covers the morning run, the evening run, the register that makes it worth
-reading, and the feedback loop that keeps it from going stale.
+**The real one.** Not a starter, not a cleaned-up version for an audience: this is the
+working file my agent reads every morning, with the account identifiers stripped out and
+nothing else changed. About 27,000 words.
+
+It is long on purpose. Almost every rule in it exists because something specific went
+wrong once, and it carries the date and the quote that produced it. A rule you can see
+the reason for is one an agent can apply intelligently; a rule without one gets followed
+stupidly. Hand it to your agent, swap my name for yours, and cut what you don't use.
 
 ### **[EXAMPLE.md](EXAMPLE.md)** — one morning, end to end
 
@@ -41,14 +46,8 @@ That's it. Everything below is optional.
 
 - **[SETUP.md](SETUP.md)** — twenty minutes: a Telegram bot, an API key for the voice, and
   one test message on your phone before anything else.
-- **[SOURCES.md](SOURCES.md)** — every tool it reads, what each returns, and what each gets
-  wrong. **A menu, not a checklist** — it was good with four of them.
 - **[scripts/](scripts/)** — the three small scripts it calls: send a message, send a voice
   note, render the audio. The only things here that actually run.
-- **[reference/](reference/)** — a frozen snapshot of the two files that really ran on my
-  machine on 29 September 2026: the 2,400-line morning brief and the evening check-in. Not
-  synced, deliberately allowed to drift. Read `SKILL.md` first and raid these for the one
-  rule you want.
 
 You need an **agent**, an **API key for the audio**, and **some way to reach your own
 phone**. On the audio key: your agent does the thinking, and the key is *only* for turning
@@ -59,14 +58,15 @@ thinking about it and thinking about it.
 
 ## What changed in this version
 
-The repo used to mirror all twelve of my scheduled-task skill files into an `advanced/`
-folder on every commit, eight of which were specific to a catering company and meaningless
-to anyone else. It made a one-file starter look like a monorepo, and the sanitising pass
-that was supposed to keep private things out of it was never something I fully trusted.
+This used to be a monorepo of twelve skill files, a distilled starter, a `reference/`
+folder, a sources menu and an auto-sync that mirrored my private repo on every commit.
+Eight of those files were specific to one catering company and meaningless to anyone else,
+and the sanitising pass that was meant to keep private things out was never something I
+fully trusted.
 
-**So the syncing is gone.** The front door is hand-written for a stranger, `reference/`
-is two frozen files, and nothing is auto-published from my private repo any more except
-the scripts and the page template — because prose drifting is a curation choice and code
+**Now it is one skill and one example.** The skill is the genuine article rather than a
+summary of it, sanitised by hand, published deliberately. The scripts and the page
+template still mirror automatically, because prose drifting is a curation choice and code
 drifting is a bug.
 
 ## The parts worth stealing, even if you build your own
