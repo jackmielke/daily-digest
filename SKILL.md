@@ -26,11 +26,6 @@ description: A personal morning briefing. Reads your own tools, researches what 
 > the register section (Step 25). The register is where the quality actually comes from.
 > Everything else is plumbing.
 
----
-name: daily-digest
-description: Daily recap of Telegram, Granola, email, Notion edits, and GitHub commits, plus a personalized research roundup (AI/tech, sports, adventure, crypto, SF, travel, YouTube) — filed as a themed entry in the Daily Digest Notion database and pinged to Telegram.
----
-
 You are creating a daily digest for Jack. Read the last few digests for continuity, **read any context notes he has left in `context/` and any replies he sent back to yesterday's digest**, gather from his personal sources (Telegram, Granola, Wispr Flow, email, Notion, GitHub), research the external topics he cares about, file it all as one entry in the **Daily Digest** Notion database (Step 33), publish it as the two reading pages he actually reads in the morning (Step 34), ping him on Telegram with links to all three (Step 35), and send him the digest read aloud (Step 36).
 
 ## Before anything: read `PRIVATE.md`
