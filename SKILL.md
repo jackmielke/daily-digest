@@ -23,11 +23,15 @@ description: A personal morning briefing. Reads your own tools, researches what 
 > is what is missing and what you would fill in with your own.
 >
 > **If you only read one part**, read *How to read this file* immediately below, and then
-> the register section (Step 7d). The register is where the quality actually comes from.
+> the register section (Step 25). The register is where the quality actually comes from.
 > Everything else is plumbing.
 
+---
+name: daily-digest
+description: Daily recap of Telegram, Granola, email, Notion edits, and GitHub commits, plus a personalized research roundup (AI/tech, sports, adventure, crypto, SF, travel, YouTube) — filed as a themed entry in the Daily Digest Notion database and pinged to Telegram.
+---
 
-You are creating a daily digest for Jack. Read the last few digests for continuity, **read any context notes he has left in `context/` and any replies he sent back to yesterday's digest**, gather from his personal sources (Telegram, Granola, Wispr Flow, email, Notion, GitHub), research the external topics he cares about, file it all as one entry in the **Daily Digest** Notion database (Step 8), publish it as the two reading pages he actually reads in the morning (Step 8b), ping him on Telegram with links to all three (Step 9), and send him the digest read aloud (Step 10).
+You are creating a daily digest for Jack. Read the last few digests for continuity, **read any context notes he has left in `context/` and any replies he sent back to yesterday's digest**, gather from his personal sources (Telegram, Granola, Wispr Flow, email, Notion, GitHub), research the external topics he cares about, file it all as one entry in the **Daily Digest** Notion database (Step 33), publish it as the two reading pages he actually reads in the morning (Step 34), ping him on Telegram with links to all three (Step 35), and send him the digest read aloud (Step 36).
 
 ## Before anything: read `PRIVATE.md`
 
@@ -102,7 +106,7 @@ Use this to:
 
 Add a short **"Since yesterday"** note near the top of the page when there's genuine continuity to report. Skip it if there isn't.
 
-## Step 1a: Read Any Context Notes From Jack
+## Step 2: Read Any Context Notes From Jack
 
 ```
 ls context/ && cat context/*.md
@@ -122,7 +126,7 @@ cares about this week, which no amount of scraping his tools will tell you.
 - **A note stays live until its threads close**, not just for the next day. Re-read
   the whole directory each run; delete a file only when everything in it is done.
 
-## Step 1b: Read Jack's Replies
+## Step 3: Read Jack's Replies
 
 ```
 cd ~/dev/telegram-cli-scripts && bun read-digest-replies.ts
@@ -157,7 +161,7 @@ If a reply asks for something you cannot do, say so plainly in the digest and sa
 what would make it possible — that is how the X-feed limitation and the Substack
 gap have been handled.
 
-## Step 2: Gather Telegram Messages
+## Step 4: Gather Telegram Messages
 
 List recent/unread conversations:
 ```
@@ -178,11 +182,11 @@ Skip deep-diving huge community backlogs (hundreds+ unread) — that's backlog n
 
 Note that `list-recent.ts` sometimes reports a stale window. If its timestamps look older than other sources, re-run it, and trust `read-messages.ts` timestamps over the summary line.
 
-## Step 3: Gather Granola Meeting Notes
+## Step 5: Gather Granola Meeting Notes
 
 Use `list_meetings` with time_range "this_week", then `get_meetings` for anything in the last 24 hours. Summarize decisions, action items, and takeaways.
 
-## Step 3b: Gather Wispr Flow Meetings and Notes
+## Step 6: Gather Wispr Flow Meetings and Notes
 
 **Wispr Flow's meeting recorder is a second, overlapping capture — and on 2026-08-21 it held things Granola did not.** Use both; treat neither as complete.
 
@@ -193,23 +197,23 @@ Tools live on the Wispr Flow connector (`mcp__d31b7a96-…`). It is authenticate
 - `search_scratchpad_notes` / `get_scratchpad_note` — **Jack's own dictated notes.** These are him thinking out loud, unedited, and they are often the most honest signal in the digest. Sort by `modified_at` and read anything from the last 24 hours.
 - `list_upcoming_meetings` — the calendar ahead, with pre-reads when the desktop app has generated one.
 
-**Why this is not redundant with Step 3.** On the day it was added, Wispr Flow had six meetings Granola missed — including the two-hour call with his dad that the whole Wispr Flow job thesis came out of, which the digest had only second-hand through the call with his mom. It also caught a **9:06am call cancelling that day's medical procedure**, hours after the digest had gone out leading with the old appointment time.
+**Why this is not redundant with Step 5.** On the day it was added, Wispr Flow had six meetings Granola missed — including the two-hour call with his dad that the whole Wispr Flow job thesis came out of, which the digest had only second-hand through the call with his mom. It also caught a **9:06am call cancelling that day's medical procedure**, hours after the digest had gone out leading with the old appointment time.
 
 **Two things follow from that:**
 
 1. **Timestamps are UTC.** Convert to Pacific before writing anything. `16:06Z` is `9:06am PT`, and getting this wrong turns a live item into a wrong one.
-2. **Run this step late, after Steps 2–6.** It is the source most likely to contain something that *supersedes* what the earlier sources said. If it contradicts an earlier source, the later capture usually wins — say so plainly and name both, rather than quietly picking one.
+2. **Run this step late, after Steps 4–22.** It is the source most likely to contain something that *supersedes* what the earlier sources said. If it contradicts an earlier source, the later capture usually wins — say so plainly and name both, rather than quietly picking one.
 
 Attribute these as **Wispr Flow** in the reading pages' margin, distinct from Granola.
 
 **Mine every transcript for the funny.** The three funniest things of the day are now
-a fixed daily section — see **Step 7f**, which is the full brief on how to find them.
+a fixed daily section — see **Step 27**, which is the full brief on how to find them.
 The short version: open at least one verbatim transcript on any day with a captured
 conversation, because the summaries strip out exactly the personality you are hunting.
 
 **What it does not have:** dictation usage statistics. There is no usage or word-count tool on this connector — only meetings, notes and calendar. Jack's own Flow usage numbers, which he wants for the founder pitch, live in the Wispr Flow app itself and have to come from him.
 
-## Step 3c: The Calendar — ALL of it, never just the primary
+## Step 7: The Calendar — ALL of it, never just the primary
 
 **Jack colour-codes his life across eighteen Google calendars, and `list_events` with no
 `calendarId` reads exactly one of them.** Reading only the primary once produced two
@@ -236,7 +240,7 @@ Canvas, two residency calendars, three tide feeds, US
 holidays, a raw Supabase `calendar-feed` URL, and a personal address.
 **Re-run `list_calendars` occasionally** — he adds calendars when he starts something new.
 
-## Step 3d: the client's Slack — READ IT EVERY DAY, it is not optional
+## Step 8: the client's Slack — READ IT EVERY DAY, it is not optional
 
 **This step was added 2026-08-27 and did not happen on the 2026-08-28 run.** Jack
 noticed the same morning that the client activity was thin, and asked for it directly:
@@ -266,12 +270,12 @@ The channel ids, and which of them carry real signal, are in **`PRIVATE.md` →
 Slack channels**. The shape that matters: an **urgent** channel checked first every run, an
 **ops** channel where the questions land, a **finance** channel where the invoice reality
 lives, a **staffing** channel to cross-check the roster against, and a **jokes** channel
-that feeds Step 7f.
+that feeds Step 27.
 
 **Two things Jack named specifically.**
 
 - **`#the-team-patch` is for the funny.** It exists for team jokes and GIFs, and it
-  feeds **Step 7f** (the three funniest things) as much as it feeds the client section.
+  feeds **Step 27** (the three funniest things) as much as it feeds the client section.
 - **The Hub posts into Slack.** `slack_channel_messages` in the client database carries
   what the Hub has sent, and Jack referred to *"a the client hub bot that should be getting
   context."* Cross-check the two: **a Hub notification that fired and got no human
@@ -289,7 +293,7 @@ neither is reachable from a headless run. If Jack wants those in, the
 realistic route is getting the documents into the Hub's documents tab, which is already
 on the roadmap.
 
-## Step 3f: the client's shared drive — READ-ONLY
+## Step 9: the client's shared drive — READ-ONLY
 
 **Working since 2026-08-30, and it closes the biggest blind spot this digest had.**
 The share is synced to this Mac by OneDrive at
@@ -362,12 +366,12 @@ the page and in the audio.
 is routine; a menu going FINAL two days before an event where the Hub still shows nothing
 is a story. **The prep-list ban still applies** — no row counts, no readiness grading.
 
-## Step 3e: Gather iMessages
+## Step 10: Gather iMessages
 
 **Working since 2026-08-29**, once Jack granted Full Disk Access to `/Applications/Claude.app`.
 He asked for it as a first-class source: *"part of my daily digest can include iMessage.
 iMessage is just contacts alongside the Telegram and all the other stuff that I get."*
-So treat it exactly like Step 2 — a peer of Telegram, not an appendix.
+So treat it exactly like Step 4 — a peer of Telegram, not an appendix.
 
 Tools: `mcp__Read_and_Send_iMessages__get_unread_imessages`,
 `read_imessages` (by phone number), `search_contacts`.
@@ -452,7 +456,7 @@ and often useful; sending is messaging people on his behalf and is not covered b
 standing authorization. Family and close-friend threads especially: report what needs a
 reply, quote sparingly, and leave the sending to him.
 
-## Step 3g: The day's photos
+## Step 11: The day's photos
 
 ```
 bun photos-of-the-day.ts --list                      # what it found, downloads nothing
@@ -512,7 +516,7 @@ You can see images. Open them.
   panel" was Jack's photo at 12:49pm and Ray's 1:32pm photo was a map pin, not the other way round.
 - **Attribution travels with every photo** — who, which chat, what time. Keep it.
 
-## Step 3h: Strava — what his body actually did
+## Step 12: Strava — what his body actually did
 
 **Connected 2026-09-05**, and verified working the same day. Tools live on the Strava connector.
 `list_activities` (date-range filterable, newest first, metric units — his profile is set to
@@ -537,14 +541,14 @@ race, a first, an unusual gap), and a real read in the weekly review.
 **And never prescribe.** Report the pattern, name the correlation, stop. No training advice, no
 sleep moralising, no recovery scoring. He has RSI and a full life; the digest is not a coach.
 
-## Step 3i: Garmin — the half of his body Strava never carries
+## Step 13: Garmin — the half of his body Strava never carries
 
 ```
 ./garmin-daily.py --days 3            # sleep, RHR, stress, steps, body battery
 ./garmin-daily.py --days 7 --json     # a week, machine-readable
 ```
 
-**Verified working 2026-09-09**, and it had been sitting unused. Step 3h says the physiology
+**Verified working 2026-09-09**, and it had been sitting unused. Step 12 says the physiology
 "needs a separate route" — this is that route, it has been here since 6 September, and no
 digest has ever opened it. Jack, 9 September: *"The Garmin watch data, I think, works…
 I don't think you're actually using it enough."* He was right.
@@ -558,7 +562,7 @@ company. This runs on `garminconnect`, the unofficial library every personal das
 It works and it breaks whenever Garmin changes auth; when that happens the script fails loudly
 rather than writing half a file, and the fix is `pip install -U garminconnect`.
 
-**Use it the way Step 3h says to use Strava, and for the same reason: weekly, not daily.**
+**Use it the way Step 12 says to use Strava, and for the same reason: weekly, not daily.**
 A single night's sleep score is noise you would start believing. What earns a line:
 
 - **A number that contradicts the day around it.** Six hours' sleep before an eight-hour
@@ -576,10 +580,10 @@ night just ended from the morning run.** Use the last *complete* night and label
 date ("Monday night"), and leave last night's sleep to the 5pm check-in, which reads it after
 sync. A partial night reported as "you slept 2h" is worse than saying nothing.
 
-**The prescribing ban from Step 3h applies here twice over.** Sleep and heart-rate data invite
+**The prescribing ban from Step 12 applies here twice over.** Sleep and heart-rate data invite
 advice and he has not asked for any. Report the pattern, name the correlation, stop.
 
-## Step 3j: The money feed — real balances, read-only
+## Step 14: The money feed — real balances, read-only
 
 ```
 ./bank-weekly.py                      # 7 days of transactions across every account
@@ -624,13 +628,13 @@ Auth required` before returning good data. That is SimpleFIN warning that the ba
 close to lapsing. Data is still flowing; say so once if it starts failing, and the fix is
 re-authorising at the SimpleFIN bridge — **which is his to do. Never handle the credentials.**
 
-## Step 4: Gather Emails
+## Step 15: Gather Emails
 
 Search Gmail for `newer_than:1d`. Read the important ones, skip obvious marketing. Watch for phishing (anything asking for bank/financial details via "refund" or "verification" framing) and flag it explicitly rather than treating it as normal mail.
 
 Login codes and security alerts are worth a line even when legitimate — cluster them and note whether they look self-initiated.
 
-**the catering company inquiries get one line, and that's it.** New inquiries from `events@<the client's domain>` are routine business intake — they already arrive in Jack's inbox and land in the Hub, and he is not the person who answers them. Report them as a **single consolidated line in Email Summary** with the details that would matter if he did look (name, event type, date, guest count, budget if stated, venue booked or not, source) plus the current open count. Then stop.
+**Client inquiries get one line, and that's it.** New inquiries from `events@<the client's domain>` are routine business intake — they already arrive in Jack's inbox and land in the Hub, and he is not the person who answers them. Report them as a **single consolidated line in Email Summary** with the details that would matter if he did look (name, event type, date, guest count, budget if stated, venue booked or not, source) plus the current open count. Then stop.
 
 Specifically, do **not**:
 - put an inquiry in the ⚡ Flagged callout,
@@ -643,7 +647,7 @@ The exception is a genuine anomaly, not volume: an inquiry that arrives broken, 
 
 **Platform notification mail is his own maintenance, not news.** Vercel failed-deployment and "domains need configuration" notices, and the same genre from any other host or registrar, get **at most one line in Email Summary and never the ⚡ Flagged callout** — *"Vercel notification isn't that relevant, I can tackle that on my own terms"* (9 Sep). Report it once when it first appears; if it's still sitting there tomorrow, that is not a new fact and it doesn't get another line. Anything actually taking a live site down for real users is a different thing and belongs in Flagged.
 
-## Step 5: Review Notion Activity
+## Step 16: Review Notion Activity
 
 ```
 cd ~/dev/scheduled-tasks/daily-digest && bun notion-edits.ts --all
@@ -658,7 +662,7 @@ Lists everything created or edited in the workspace in the last 24 hours, with p
 
 Summarize as **what Jack was working on**. Group related edits — ten rows in one database is "built out the Stages database for the client event workflow," not ten bullets. Skip pages this digest itself created. Note bot-written pages separately rather than crediting them to Jack.
 
-## Step 5b: The Outreach Board
+## Step 17: The Outreach Board
 
 **Jack's personal pipeline already exists — it is the Notion `Projects & Collabs`
 database, and nothing surfaces it.** He asked for an outreach board on 2026-08-22 and
@@ -703,7 +707,7 @@ conversation actually happened. If a row says `Set Up Convo` and the sources sho
 they spoke last week, say so — the board is only useful if it reflects the world, and
 a stale stage is worth flagging back to him so he fixes the row.
 
-## Step 6: Review GitHub Commits
+## Step 18: Review GitHub Commits
 
 ```
 cd ~/dev/scheduled-tasks/daily-digest && bun github-activity.ts
@@ -745,7 +749,7 @@ busy repos — the first weekly review reported 288 commits for a week that had 
 
 Write this as a **development narrative**, not a changelog: what got built, what broke, what got fixed. A day with 57 commits on one repo is one story, not 57 bullets. Lead with the substantive commits and link them; let the bot volume be a number. Only pushed commits appear — local-only work is invisible here, so don't claim completeness.
 
-## Step 6c: What He Was Trying To Do — the Claude Code sessions
+## Step 19: What He Was Trying To Do — the Claude Code sessions
 
 ```
 bun claude-sessions.ts --hours 24
@@ -797,7 +801,7 @@ where the exact words carry something a paraphrase loses.
 over a 12-hour window and reports how the day went. This morning step covers the
 overnight and yesterday-evening work that the 5pm run has not seen.
 
-## Step 6d: What he watched on YouTube
+## Step 20: What he watched on YouTube
 
 ```
 bun youtube-watched.ts --hours 24 --arc     # ALL devices — use this one
@@ -864,7 +868,7 @@ YouTube now rejects yt-dlp's default web client (*"The page needs to be reloaded
 the `youtube:player_client=android` extractor-arg is required; and the history databases
 are locked while the browser is running, so always copy before reading.
 
-## Step 6e: What the gauntlet loop built overnight
+## Step 21: What the gauntlet loop built overnight
 
 ```
 cat ~/dev/scheduled-tasks/daily-digest/context/<today>-gauntlet.md
@@ -878,7 +882,7 @@ for it on 18 September: *"one new interesting build every night, pushes the limi
 what's possible and then teaches me what it did."*
 
 **"Teaches me what it did" is the part this step owns.** The report file arrives via
-Step 1a like any other context note, but it is not background — it is the only account he
+Step 2 like any other context note, but it is not background — it is the only account he
 will get of eight hours of work done while he slept, and it goes **in `What You Shipped`,
 led, with the URL if the night produced one.** He can open a link on a walk; he cannot
 open a path.
@@ -890,9 +894,9 @@ open a path.
   launcher writes a failure report itself if the agent dies without one, so *no file at
   all* means the loop never fired — a different and more serious fact. Say which.
 - **Three failures running and the loop leads the section**, per Step 5 of that skill.
-- **Never merge it into the GitHub narrative in Step 6.** Those commits are his day and
+- **Never merge it into the GitHub narrative in Step 18.** Those commits are his day and
   these are the night's; blurring them re-creates exactly the "hand-written" confusion
-  Step 6 exists to prevent.
+  Step 18 exists to prevent.
 - **Check the loop's own diagnosis before repeating it.** Night one (20 Sep) reported "add
   `Bash(git:*)` to the allowlist"; git was already allowed and the real cause was `git -C <path>`
   and `&&` compounds, which prefix rules never match. Open the run's JSONL, find the denied
@@ -901,7 +905,7 @@ open a path.
   does not.
 - **Delete the context file once the thread closes.** `LOG.md` is the permanent record.
 
-## Step 6b: Review Supabase Activity
+## Step 22: Review Supabase Activity
 
 GitHub says what Jack *built*. Supabase says what people actually *did with it* — and the two are often a different story. This section is where the digest earns the "thinking partner" framing: read the data like a co-founder would, not like a monitoring dashboard.
 
@@ -938,7 +942,7 @@ Use the Supabase MCP `execute_sql` tool. The queries live in **`supabase-activit
    **Two traps.** `start_time`/`end_time` are TEXT, so `min()`/`max()` sorts them lexically — `"11:30pm"` sorts *before* `"12:30am"`. Never report a min/max as the day's first-in/last-out; it will be nonsense. And `event_label` is free text from Nowsta, not a foreign key, so it will not always match an event title.
 2. **A number moved hard against its own baseline.** Compare today to the last 7 days, which query 2 gives you. A 10x day is a story; a steady day is one line.
 3. **A bulk rewrite happened** (query 6). A few thousand DELETEs in a three-minute window is never a person editing — it's a delete-all-and-reinsert, and it silently cascades. See the incident below.
-4. **Adoption of something just shipped.** When a feature lands in Step 6, check whether anyone touched it. the client's bot shipping and then getting 2 conversations is a more honest report than the commit alone.
+4. **Adoption of something just shipped.** When a feature lands in Step 18, check whether anyone touched it. the client's bot shipping and then getting 2 conversations is a more honest report than the commit alone.
 5. **Errors — but verify the source first.** See the preview-iframe trap below.
 
 **Do not grade the prep list. Jack asked me to stop on 2026-08-22.**
@@ -962,7 +966,7 @@ So: **no prep-row counts, no "thin vs absent", no comparing one day's prep to an
 
 Keep the whole section to **4–8 bullets across both projects**, prose not tables, and put anything genuinely broken in the ⚡ Flagged callout instead of burying it here. **Read-only** — never write, migrate, or "fix" anything from this skill.
 
-## Step 7: Research External Topics
+## Step 23: Research External Topics
 
 ### Chase the claims he makes himself — this is where the misses come from
 
@@ -975,7 +979,7 @@ I mined for the funny section, he says: *"Apparently I just learned today they I
 they got bought for like 12 billion or something."* I used that transcript for a joke and
 did not spend one search on the claim inside it.
 
-**So, a hard rule.** While reading transcripts in Steps 3/3b, keep a list of every
+**So, a hard rule.** While reading transcripts in Steps 5 and 6, keep a list of every
 **checkable factual claim** anyone makes — an acquisition, a launch, a number, a
 "apparently X happened" — and **run a search on each one before writing the research
 sections.** They are the highest-yield leads available, because someone he trusts already
@@ -1038,7 +1042,7 @@ restate most**, because it keeps reaching for them and there is rarely new news.
 - **A standing watch is permission to look, not an obligation to print.** Omitting a
   section for a day is correct and costs nothing. Restating a fact he already knows costs
   him attention and makes the whole page feel automated.
-- **The same applies to `Five New Ideas`** (Step 7h), which will drift toward the same
+- **The same applies to `Five New Ideas`** (Step 29), which will drift toward the same
   three obsessions faster than anything else. Check the last week's ideas before writing
   today's five.
 
@@ -1215,7 +1219,7 @@ flat no — was wrong on the half he actually asked about. Two routes were teste
 
 - **What he actually posted**, which is context nothing else in this skill has. If he
   posted a build update last night, do not hand him a draft of the same post this morning.
-- **A read on whether the drafts land.** Step 7b writes X posts every day. Until now there
+- **A read on whether the drafts land.** Step 24 writes X posts every day. Until now there
   was no way to know whether any of them were ever sent, let alone how he edited them.
   **If a draft went out roughly as written, say so once and note what he changed** — that
   is the only feedback loop this section has ever had.
@@ -1229,17 +1233,17 @@ company blogs), and **search by name** when something is clearly circulating. Re
 as *"what's circulating,"* sourced. **Stop apologising about the timeline either way** — he
 has been told three times, and the limitation is not news.
 
-### Step 7a: What he posted himself
+### What he posted himself
 
 ```
 bun x-posts.ts --hours 24        # syndication route, with backoff
 bun x-posts.ts --hours 24 --arc  # 6am only — opens a tab in Arc and leaves it there
 ```
 
-Run it before writing Step 7b. See the X section above for what the two routes are and
+Run it before writing Step 24. See the X section above for what the two routes are and
 why one of them is a 6am-only tool.
 
-## Step 7b: Draft Content and Outreach
+## Step 24: Draft Content and Outreach
 
 Jack wants to post more about what he's building — especially the **Vibeverse** — and to do more warm outreach. Drafting is cheap for you and expensive for him (RSI, voice-first), so **write the actual text, don't suggest topics.** This section goes on every digest.
 
@@ -1253,13 +1257,13 @@ Put these under a **## Drafts for You** heading, right after Action Items, each 
 
 **Never send anything.** These are drafts for Jack to review, edit, and send himself.
 
-## Step 7d: The register
+## Step 25: The register
 
 **This is the voice for every surface — the page, the Telegram message and the audio.**
 It is one voice, not three. Since 2026-09-03 that voice has a name — **Vibey** — and a
 register: *"You can feel a little bit more like a homie."* A well-read friend who did the
 reading and lives in his house, not a system reporting and not a character in costume. See
-the narrator section under Step 10 for where the line is between the two.
+the narrator section under Step 36 for where the line is between the two.
 
 **Homie means closer, not looser.** It buys you: contractions, the occasional direct
 address, saying "this is the good one" about a good one, and skipping the throat-clearing
@@ -1334,7 +1338,7 @@ rescheduled in channels this skill cannot see.
 - **When he corrects a date**, write it into `context/` as "do not reintroduce X" and say
   plainly in the next digest that it was wrong. Don't quietly swap the number.
 
-## Step 7j: Ask him three questions — a fixed block, every day
+## Step 26: Ask him three questions — a fixed block, every day
 
 **Asked for 2026-09-04, 9:34am, in the Wonder chat:** *"U should ask Qs for the day
 lol, going forward."* The handler was dead for 299 consecutive runs that day, so the
@@ -1359,10 +1363,10 @@ What makes a question worth asking:
 **Never use it to nag.** "Did you text that person back yet?" is the action list wearing a question
 mark. Ask about intent, preference and direction — the things only he knows.
 
-**Answers arrive through Step 1b.** When one comes back, use it and say you heard it in
+**Answers arrive through Step 3.** When one comes back, use it and say you heard it in
 one clause. A question he answered does not get asked again.
 
-## Step 7f: Funny shit — the funniest three, the best quote, and one absurd fact
+## Step 27: Funny shit — the funniest three, the best quote, and one absurd fact
 
 **Renamed from `Comedy` on 2026-09-29, at his ask:** *"instead of just saying 'comedy,' we
 could just say 'funny shit.' I think that'd be a better thing."* That is the section name on
@@ -1410,7 +1414,7 @@ Put it in the page and in its own audio track.
   house. It gets picked up by whatever recorder is in the room.
 - **Telegram**, including the group chats, and **Slack `#the-team-patch`**, which
   exists specifically for jokes and GIFs.
-- **His own Claude Code prompts** (Step 6c) — the frustration ones are often the best.
+- **His own Claude Code prompts** (Step 19) — the frustration ones are often the best.
 - **Whisper's mis-hearings of his own dictation.** A standing goldmine: *"different
   approaches in the way the dog could go down"*, and mangling his own surname into something unrecognisable.
 - **His family.** His mom is consistently the funniest person in the corpus.
@@ -1427,7 +1431,7 @@ Put it in the page and in its own audio track.
   Do not pad with something that is not funny. But "I didn't look" is not "there was
   nothing", and under-mining is now the failure mode to watch for, not over-padding.
 
-## Step 7g: Sharpening — one technique a day, aimed at how he actually works
+## Step 28: Sharpening — one technique a day, aimed at how he actually works
 
 **Asked for by name on 2026-08-29:** *"upskilling in certain technical tools and the
 latest AI tools... a separate two-minute block each day, based on how I'm using Claude
@@ -1444,9 +1448,9 @@ section exists instead of.
 Generic best-practice advice is worthless to him and he will stop reading. The evidence
 is already in this skill's own gather:
 
-- **Step 6c** (`claude-sessions.ts`) — his real prompts, the frustration ones especially.
+- **Step 19** (`claude-sessions.ts`) — his real prompts, the frustration ones especially.
   A complaint repeated across sessions is a workflow bug, not a tool bug.
-- **Step 6** — what the commits say about how the work actually got done.
+- **Step 18** — what the commits say about how the work actually got done.
 - **The filesystem.** Check it directly; it is the highest-yield source here and nothing
   else in this skill looks at it:
   ```bash
@@ -1480,7 +1484,7 @@ Roughly in this order, skipping any lane with nothing real: **Claude Code** →
   *Claude Code in Action*. Mine it for one idea at a time, never link the whole catalogue.
 - [Prompt engineering best practices](https://claude.com/blog/best-practices-for-prompt-engineering) — Anthropic's own.
 - [Claude Code release notes](https://releasebot.io/updates/anthropic/claude-code) —
-  already read in Step 7. **A shipped feature he isn't using is the best Sharpening item
+  already read in Step 23. **A shipped feature he isn't using is the best Sharpening item
   there is**, because it is dated, real, and free.
 - [The Lovable Prompting Bible](https://lovable.dev/blog/2025-01-16-lovable-prompting-handbook)
   and Lovable's docs — the Knowledge Base is their own stated highest-leverage setting.
@@ -1530,10 +1534,10 @@ not moved — **ship no Sharpening track that day** rather than a generic one.
 
 **It may also just be one of the ideas.** Jack, 2026-09-10: *"sharpening could just be part
 of the 5 potentially genius ideas!"* When the day's technique is more of a swing than a
-lesson, run it as one of the ideas in Step 7h and skip the separate track — same item, better
+lesson, run it as one of the ideas in Step 29 and skip the separate track — same item, better
 company. Keep it separate when it is a genuine how-to with a command at the end.
 
-## Step 7h: Five potentially genius ideas — the block to grow, not trim
+## Step 29: Five potentially genius ideas — the block to grow, not trim
 
 **Asked for on 2026-08-29, and it came from him liking one specific thing:** the
 suggestion that Vibey tip a little VibeCoin to anyone whose face it learns. *"That's a
@@ -1637,7 +1641,7 @@ Sharpening block. Jack's response the next morning was *"I'm not sure if we're d
 five potentially genius ideas right now, but I would love to."* He had not reached them.
 **A section he cannot find is a section that did not run.**
 
-## Step 7e: Put it on his calendar — standing authorization
+## Step 30: Put it on his calendar — standing authorization
 
 Given directly on 2026-08-25: *"ideally you just link to that so I can see it, and ideally
 you just put it on my calendar for me so I can at least know it's there. Feel free to just
@@ -1681,7 +1685,7 @@ is kind of something I struggle with... who to hit up for what."*
   Name real people only; if the sources don't support a name, say who's missing instead.
 - **He sends the invites.** Never contact anyone, add attendees, or write to Peeps.
 
-## Step 7c: Ship Something — PAUSED
+## Step 31: Ship Something — PAUSED
 
 **Paused 2026-08-27.** Jack: *"No need to continue these nightly reviews or the house
 search."* **Do not ship unrequested code overnight.** Build only when he asks for
@@ -1693,7 +1697,7 @@ client-facing surfaces, or edge functions that send email or SMS. Typecheck and
 `git pull --rebase` before pushing; never force. The standard, in his words: *"which human
 keystrokes does this remove?"* If none, it is a dashboard, and he has enough dashboards.
 
-## Step 7i: The Work Board — the system of record for open threads
+## Step 32: The Work Board — the system of record for open threads
 
 **Added 2026-08-30.** Jack asked for it after seeing someone's board on X:
 *"having a little database of all the tasks... a new method that's a little more organized."*
@@ -1733,12 +1737,12 @@ or to Dropped on purpose.
 ### What not to do with it
 
 - **Don't nag from it.** A Backlog row nine months old gets mentioned once, flat, if at
-  all. The ledger rule in Step 7d governs the board exactly like everything else.
+  all. The ledger rule in Step 25 governs the board exactly like everything else.
 - **Don't inflate it.** A thought is not a task. If it has no next action, it belongs in
   Five New Ideas, not here.
-- **Don't put routine intake on it.** Client inquiries are not tasks — see Step 4.
+- **Don't put routine intake on it.** Client inquiries are not tasks — see Step 15.
 
-## Step 8: Add an Entry to the Daily Digest Database
+## Step 33: Add an Entry to the Daily Digest Database
 
 Every digest is a row in the database, not a loose workspace page.
 
@@ -1798,7 +1802,7 @@ The title is the point of the database — it should let Jack scan a year of row
 - **Every clause must be a real topic, not a micro-incident.** This is the whole difference between an All-In title and the arbitrary-feeling comma pairs this section used to ban. The test: would each clause, on its own, be worth remembering in six months? A bug, a bounce, a failed cron, or a new inbox item usually fails that test and belongs in ⚡ Flagged, not the title. Two ops incidents stapled together is still a bad title.
 - **Order by weight.** Biggest thing first. The reader should be able to stop after the first clause and still have the day.
 - **Don't pad to three.** A quiet day gets one clause and says so — `A quiet Sunday` is a fine title. Inventing a second topic to fill the pattern is exactly what made the old house style feel arbitrary.
-- **Rotate the subject.** client operations are not the default lead. Across a week, titles should land on the things actually in his life — building, people and community, SF and housing, health and sport, travel decisions, money — in whatever proportion the day had. If three days running open on the client, at least one is mis-titled.
+- **Rotate the subject.** Client operations are not the default lead. Across a week, titles should land on the things actually in his life — building, people and community, SF and housing, health and sport, travel decisions, money — in whatever proportion the day had. If three days running open on the client, at least one is mis-titled.
 - **Draw from the personal sources**, not the research roundup — research is the same shape most days and makes interchangeable titles.
 - **Never** use "Daily Digest", the date, or a generic label. The date has its own field.
 
@@ -1915,7 +1919,7 @@ The visual header goes first, then the ⚡ Flagged callout, then:
 ## Three questions for you
 [Three questions, every day, that only he can answer and that change what gets
 written tomorrow. Never nagging, never anything a source already answers. See
-Step 7j. Runs every day; answers come back through Step 1b.]
+Step 26. Runs every day; answers come back through Step 3.]
 
 ## Since Yesterday
 [What moved on threads flagged in recent digests. Omit if no real continuity.]
@@ -1947,7 +1951,7 @@ a normal day. Not a list of meetings; a narrative of a day.
 **Where the material comes from, in order of trust:**
 1. **Verbatim transcripts** — Granola `get_meeting_transcript`, Wispr Flow
    `view_transcript={}`. These are the source of truth and the only place the texture is.
-2. **His own prompts** in the Claude Code sessions (Step 6c) — they timestamp what he
+2. **His own prompts** in the Claude Code sessions (Step 19) — they timestamp what he
    was actually doing at the keyboard, including the stretches that produced no commits.
 3. Telegram, Gmail, calendar and Supabase to place him in time and confirm.
 4. The recorders' own summaries **last** — they flatten, and they guess at titles.
@@ -1968,7 +1972,7 @@ Omit only on a day with genuinely nothing captured.]
 
 ## Email Summary
 [Key emails, flagging anything needing a response; phishing called out explicitly.
-Client inquiries get one consolidated line here and nowhere else — see Step 4.]
+Client inquiries get one consolidated line here and nowhere else — see Step 15.]
 
 ## What You Shipped
 [Development narrative from GitHub — what got built, broke, got fixed. Substantive
@@ -1977,7 +1981,7 @@ commits linked; bot volume as a number. Omit on days with no pushes.]
 ## Sharpening
 [ONE technique a day, ~250–350 words, aimed at how he actually works — grounded in
 something he did in the last 24–72 hours, with a real source link and one concrete
-five-minute move. Runs every day. Never a list of tips. See Step 7g.]
+five-minute move. Runs every day. Never a list of tips. See Step 28.]
 
 ## What You Built in Notion
 [Grouped narrative of the day's Notion work, pages linked. Omit if nothing real.]
@@ -1989,7 +1993,7 @@ stands (no row counts, no "enough vs not enough"); what he wants instead is **wh
 what, what got decided, what broke, and what the team is actually talking about**.
 What people actually did, not row counts.
 Lead with anything missing or anomalous, compare against the week, call out bulk
-rewrites, and add the co-founder read. 4–8 bullets. See Step 6b.
+rewrites, and add the co-founder read. 4–8 bullets. See Step 22.
 Omit only if both databases were genuinely quiet.]
 
 ## The main client engagement
@@ -2020,20 +2024,20 @@ on this page. Link the board once, underneath.]
 asked for by name on 2026-08-27 and widened on 2026-09-04. Sub-headings:
 **The three funniest things** (a ranked top three) · **Best quote of the day** (one
 line or exchange, chosen for how it is said) · **Most absurd fact** (the strange
-number inside a real story, or from his own day). See Step 7f.]
+number inside a real story, or from his own day). See Step 27.]
 
 ## The Board
 [The outreach pipeline from Projects & Collabs — who, what stage, how long it has sat,
-what has a date on it. Dated opportunities first. See Step 5b. Omit if nothing moved
+what has a date on it. Dated opportunities first. See Step 17. Omit if nothing moved
 and nothing is ageing.]
 
 ## Drafts for You
-[2–3 X posts, 1–2 warm outreach messages, each in its own block. See Step 7b.]
+[2–3 X posts, 1–2 warm outreach messages, each in its own block. See Step 24.]
 
 ## Five New Ideas
 [Four to eight invented ideas a day — your call, headed with the real number — ~400–500 words. Mechanisms, not suggestions — surface,
 trigger, size, second-order effect. Two building / one social / one money-or-career /
-one wildcard. Never repeats. See Step 7h.]
+one wildcard. Never repeats. See Step 29.]
 
 ## Sports
 [Seahawks first, then Mariners, NBA, Giants. A scoreboard table where there are
@@ -2104,7 +2108,7 @@ unit of progress is a chapter and the pace is his.
 
 After the visual header, a **"⚡ Flagged for today"** callout holds the 2–5 things that genuinely can't wait, before the first heading. Personal sources only. Skip the callout entirely if nothing qualifies (and if you skip it, the "one thing" box in the header should say the day was quiet rather than inventing urgency).
 
-"Can't wait" means **time-bound or breaking**: something happening today, a deadline arriving, a commitment already made, something that broke and is still broken. A standing backlog is not urgent just because it is large — if it was flagged yesterday and nothing moved, it belongs in "Since Yesterday", not here. Client inquiries never qualify (see Step 4).
+"Can't wait" means **time-bound or breaking**: something happening today, a deadline arriving, a commitment already made, something that broke and is still broken. A standing backlog is not urgent just because it is large — if it was flagged yesterday and nothing moved, it belongs in "Since Yesterday", not here. Client inquiries never qualify (see Step 15).
 
 **There is an evening review.** A second task (`digest-checkin`, 5pm) reports how the day actually went — reading the Claude Code transcripts, the commits and his replies — and re-checks whether anything flagged here has stopped being true, correcting these pages if so. That means this digest does not have to hedge about things that might change during the day — state what is true at 6am, and let the check-in handle the rest.
 
@@ -2114,7 +2118,7 @@ Keep summaries concise without losing important details. External research is lo
 
 Be honest about gaps: if a source failed, a search returned nothing current, or data wasn't published yet (weekend crypto pricing, say), state that rather than substituting stale numbers or implying freshness you don't have.
 
-## Step 8b: Publish the Reading Page
+## Step 34: Publish the Reading Page
 
 The Notion row is the archive. **This** is what Jack actually reads in the morning.
 
@@ -2187,7 +2191,7 @@ swipes and clicks fire it normally.
 Publish **after** the Notion page exists and **before** the Telegram ping, since the ping
 links to both. If it fails, still send the ping — link what exists and say what failed.
 
-## Step 9: Ping Jack on Telegram
+## Step 35: Ping Jack on Telegram
 
 Once the Notion entry and both reading pages exist, notify him through the **Wonder** bot (`@<your-bot>`) so he can read the gist without opening anything — and pick a reading style from the message itself.
 
@@ -2220,7 +2224,7 @@ Send **once**, after the Notion page is confirmed created and both reading pages
 
 Auth lives in `WONDER_BOT_TOKEN` (env var, or `.env` beside the script). If the token is missing the script exits with instructions — surface that to Jack rather than skipping the step silently.
 
-## Step 10: Send the Audio Digest
+## Step 36: Send the Audio Digest
 
 Jack is voice-first (RSI in both wrists) and asked to be able to listen instead of
 read. After the Telegram ping, send the digest as **a set of short tracks** — separate
@@ -2318,14 +2322,14 @@ thing, and let its length follow the material:
   for segments: `Sports` · `The city` · `Tech and the world` · `The fun stuff`. Each 2–4
   minutes, in that order, and any of the four can be dropped on a day with nothing. This
   also fixes the old failure where `Now the world` ran eight minutes and the back half got
-  buried. See Step 7 for what belongs in each.
+  buried. See Step 23 for what belongs in each.
 - **Funny shit** — the funniest three, the best quote, the absurd fact. His favourite part of
-  the whole thing, so give it the room. See Step 7f.
+  the whole thing, so give it the room. See Step 27.
 - **Sharpening** — **its own track now**, not a preamble to the closer. Jack, 2026-09-03:
   *"I think sharpening is a cool section, and that should stand on its own in terms of the
-  audio snippet."* See Step 7g.
+  audio snippet."* See Step 28.
 - **Five potentially genius ideas** — its own track whenever the ideas are good enough to
-  deserve one, which is most days. See Step 7h. It may also live at the top of
+  deserve one, which is most days. See Step 29. It may also live at the top of
   `Closing thoughts` on a thin day; what it must not do is get buried at the end of a
   nine-minute track, which is how it happened on 3 September and why he was not sure it
   had run at all.
