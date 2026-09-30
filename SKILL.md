@@ -1821,7 +1821,9 @@ Use `notion-create-pages` with `parent: {"type": "data_source_id", "data_source_
 
 If a property fails to set, `notion-fetch` the data source to re-read the live schema, then retry — the table below may have drifted. (Jack renames things; target by ID, never by title.)
 
-**Gotcha when editing a digest after it's published.** `notion-update-page` with `update_content` **silently no-ops on an `old_str` that doesn't match** — it returns success either way, so a failed edit looks identical to a successful one. Notion also rewrites your markdown on save: `~` becomes `\~`, `$` becomes `\$`, bare domains like `Cal.com` become links, and nested bold+italic gets split into multiple link spans. So:
+**Gotcha when editing a digest after it's published.** `notion-update-page` with `update_content` is unreliable on `old_str`. Measured 2026-09-30: it now returns an explicit `No matches found for …` error and **rejects the whole call**, so a batch of five edits with one bad anchor applies none of them — which is the safe behaviour, but it means one stale anchor blocks four good edits. Earlier it silently no-opped and returned success either way. **Assume either, and verify.**
+
+**Long anchors fail; short plain ones work.** The same run: a two-sentence anchor containing an em dash, inline code and italics did not match, while a seven-word plain-text fragment from the same paragraph matched first time. Notion rewrites markdown on save, so the longer the anchor the more of it has been rewritten. Notion also rewrites your markdown on save: `~` becomes `\~`, `$` becomes `\$`, bare domains like `Cal.com` become links, and nested bold+italic gets split into multiple link spans. So:
 
 - **Always `notion-fetch` the page first** and copy `old_str` verbatim from the fetched text, escapes included. Do not retype it from what you originally sent.
 - **Always re-fetch and verify after editing.** Don't trust the success response.
