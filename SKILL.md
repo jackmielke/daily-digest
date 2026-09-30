@@ -26,17 +26,9 @@ description: A personal morning briefing. Reads your own tools, researches what 
 > the register section (Step 25). The register is where the quality actually comes from.
 > Everything else is plumbing.
 
-You are creating a daily digest for Jack. Read the last few digests for continuity, **read any context notes he has left in `context/` and any replies he sent back to yesterday's digest**, gather from his personal sources (Telegram, Granola, Wispr Flow, email, Notion, GitHub), research the external topics he cares about, file it all as one entry in the **Daily Digest** Notion database (Step 33), publish it as the two reading pages he actually reads in the morning (Step 34), ping him on Telegram with links to all three (Step 35), and send him the digest read aloud (Step 36).
+You are creating a daily digest for Jack. Read the last few digests for continuity, **read any context notes he has left in `context/` and any replies he sent back to yesterday's digest**, gather from his personal sources, research the external topics he cares about, file it as one entry in the archive database (Step 33), publish it as the reading page he actually opens in the morning (Step 34), ping him with links (Step 35), and send him the digest read aloud (Step 36).
 
-## Before anything: read `PRIVATE.md`
-
-It sits beside this file and holds the account identifiers and personal specifics —
-channel ids, calendar ids, project refs, Notion data sources, who the named colleagues
-are. **This file is the method and it is public; that one is the address book and it is
-not.** Wherever a step says *see `PRIVATE.md`*, the value is there.
-
-If you are reading this in the public repo: there is no `PRIVATE.md`, and that is the
-point. Fill in your own and the rest works unchanged.
+**Four things go out every morning, in this order:** a row in the archive, a page at a URL that never changes, a chat message that stands on its own, and a set of short audio tracks for a walk. Everything in this file is in service of those four.
 
 ## How to read this file — the brief comes first, the rules are guardrails
 
@@ -73,6 +65,16 @@ that has nothing is correct and always has been.
 
 **When you finish a draft, read it back and ask one question: would he forward any
 line of this to a friend?** If not, the problem is never that you missed a rule.
+
+## Where the account identifiers live
+
+Anything specific to one account — channel ids, calendar ids, project refs, data sources,
+who the named colleagues are — sits in a `PRIVATE.md` beside this file and never in it.
+**This file is the method; that one is the address book.** Wherever a step says *see
+`PRIVATE.md`*, that is the value it wants.
+
+If you are setting this up for yourself: make your own, put your own ids in it, and the
+rest of the file works unchanged. That is the only thing you have to supply.
 
 ## Global rule: link everything
 
@@ -1191,51 +1193,67 @@ watch is permission to look, not an obligation to print.
 13. **YouTube picks.** Specific recent videos in his lanes, named with creators and links.
 14. **Culture.** One open slot for whatever is dominating the discourse. Skip if nothing.
 
-### X: his own posts are reachable. His timeline still is not.
+### X — the timeline, and how to actually read it
 
-**Corrected 2026-09-03**, when Jack asked *"when I post on X, do you even have access to
-tell me what I just posted within the last few hours?"* The old answer in this file — a
-flat no — was wrong on the half he actually asked about. Two routes were tested that day:
+**Jack, 2026-09-30: *"This would be a huge win if we could get my X timeline… I want to
+solve this problem today of having you be able to just look through my X account for me
+and even link some posts in the digest."*** So this section stops being an apology and
+becomes a route.
 
-1. **The public syndication endpoint**, no login and no API key:
-   `https://syndication.twitter.com/srv/timeline-profile/screen-name/<his handle — see PRIVATE.md>`.
-   It returns his recent posts inside a `__NEXT_DATA__` blob. **It answered 429 Rate limit
-   exceeded on both attempts** from this machine mid-morning — rate-limited, note, not
-   blocked, which is a different and much more hopeful failure. A 6am run has a far better
-   chance than a midday one. `x-posts.ts` wraps it with backoff.
-2. **Arc, via `osascript` JS injection**, which is how his *logged-in* view is reachable at
-   all — verified working the same morning by reading the front tab's DOM. **It can only
-   drive the currently-active tab and cannot close tabs afterwards** (see the Arc notes in
-   memory), so running it steals focus and leaves a tab behind. **That makes it a 6am tool
-   and not a daytime one** — which is exactly when this skill runs.
+**The route: a browser that is already signed in.** X walls `/home` behind a login and
+will not serve a timeline to anything anonymous, so every API-shaped approach is dead.
+What works is reading the page in a browser that already holds his session. Sign in once,
+by hand, in the browser the agent can drive — after that, reading a logged-in page needs
+no credentials at all, which means **it works from the unattended 6am run.**
 
-**So: run `bun x-posts.ts --hours 24` in the gather.** What it gets you:
+**Do not try to sign in from a scheduled run.** The password-manager flow requires an
+attended session and will refuse; that was measured on 2026-09-30. If the timeline comes
+back as a login wall, the correct response is one line in the digest saying so, not a
+workaround.
 
-- **What he actually posted**, which is context nothing else in this skill has. If he
-  posted a build update last night, do not hand him a draft of the same post this morning.
-- **A read on whether the drafts land.** Step 24 writes X posts every day. Until now there
-  was no way to know whether any of them were ever sent, let alone how he edited them.
-  **If a draft went out roughly as written, say so once and note what he changed** — that
-  is the only feedback loop this section has ever had.
-- **Never present it as his feed.** It is his own profile, not his timeline. Other people's
-  posts remain out of reach.
+**What to read, in priority order:**
 
-**For the discourse, the substitutes still stand and are still the main route:** mine
-**Techmeme**, the **Hacker News** front page and its comments, **the people rather than the
-platform** (most of those accounts also publish newsletters, Substacks, podcasts and
-company blogs), and **search by name** when something is clearly circulating. Report that
-as *"what's circulating,"* sourced. **Stop apologising about the timeline either way** — he
-has been told three times, and the limitation is not news.
+1. **`x.com/home`** — the timeline itself. Scroll a few times; the first screen is four or
+   five posts. This is the thing that has been missing.
+2. **His own profile** — what he posted. Still worth it for the reason below.
+3. **`/following`** occasionally, to know who is actually in the feed.
+
+**How to report it — and this is where it goes wrong.** A timeline is an infinite scroll
+of other people's opinions and **almost none of it is a finding.** The same standard as
+every other source in this file applies, harder:
+
+- **Report what is circulating, not what exists.** Three people he follows arguing about
+  the same thing is a story. One good post is a link.
+- **Link the posts.** He asked for this specifically. A named account plus the permalink,
+  inline, at the claim — same as any other research link.
+- **Feed it into the four segments** rather than giving X its own section. A robotics post
+  belongs in Tech and the world; a thing happening in the city belongs in The city. **X is
+  a source, not a topic.**
+- **Never quote a stranger's post as fact.** It is someone's claim; check it before it
+  becomes a bullet, exactly like the claims-he-makes-himself rule above.
+- **His own posts still matter for the drafts.** If he posted a build update last night, do
+  not hand him a draft of the same post this morning. **And if a draft went out roughly as
+  written, say so once and note what he changed** — that is the only feedback loop Step 24
+  has ever had.
+
+**Verify on first use and say what you found.** This route has not run inside a digest yet.
+If the timeline reads cleanly, report it normally. If it does not — logged out, rate
+limited, the DOM moved — **say which, in one line, and fall back** to the substitutes
+below. Do not silently produce a thinner research section and leave him to wonder.
+
+**The substitutes, still useful even when the timeline works:** the tech aggregators, the
+front page of the big comment boards, and **the people rather than the platform** — most of
+those accounts also publish newsletters, Substacks, podcasts and company blogs, which are
+better sourced than the post that summarised them.
 
 ### What he posted himself
 
 ```
-bun x-posts.ts --hours 24        # syndication route, with backoff
-bun x-posts.ts --hours 24 --arc  # 6am only — opens a tab in Arc and leaves it there
+bun x-posts.ts --hours 24        # public syndication route, with backoff
 ```
 
-Run it before writing Step 24. See the X section above for what the two routes are and
-why one of them is a 6am-only tool.
+The syndication endpoint needs no login and returns his recent posts, but it rate-limits
+readily; a 6am run has a far better chance than a midday one. Run it before writing Step 24.
 
 ## Step 24: Draft Content and Outreach
 
@@ -1338,8 +1356,15 @@ rescheduled in channels this skill cannot see.
 lol, going forward."* The handler was dead for 299 consecutive runs that day, so the
 request never reached a digest until 5 September. It is permanent now.
 
-**Three questions, near the top of the page, right after ⚡ Flagged.** Also read them
-in `Good morning` only if they are short; otherwise the page carries them alone.
+**Three questions, near the top of the page, right after ⚡ Flagged — and in the chat
+message too.** Added 2026-09-30, at his ask: *"the open questions should be asked in the
+Telegram text as well, because having to listen to those is not the best. I'd rather just
+be able to see the questions every time in the text."*
+
+So they appear in **two** places, every day: the page, and the ping (Step 35), where they
+go under the ⚡ block as three short lines. **Reading them aloud is optional and usually
+skip it** — a question you have to rewind to hear is a question that does not get
+answered. Text is the surface for these.
 
 What makes a question worth asking:
 
@@ -1425,16 +1450,21 @@ Put it in the page and in its own audio track.
   Do not pad with something that is not funny. But "I didn't look" is not "there was
   nothing", and under-mining is now the failure mode to watch for, not over-padding.
 
-## Step 28: Sharpening — one technique a day, aimed at how he actually works
+## Step 28: Sharpening — at least one technique a day, aimed at how he actually works
 
 **Asked for by name on 2026-08-29:** *"upskilling in certain technical tools and the
 latest AI tools... a separate two-minute block each day, based on how I'm using Claude
 and how I'm using Lovable and all these different tools, like how you think I could
 improve my ways of working."*
 
-**This runs every day, and it is ONE technique, not a list.** Two minutes spoken is
-about 250–350 words. A roundup of five tips is not this section; it is the thing this
-section exists instead of.
+**This runs every day, and it is at least one technique — more when the day earns them.**
+Relaxed 2026-09-30: *"we could just say at least one technique a day… It doesn't just have
+to be one technique; it could be multiple."*
+
+The bar did not move, only the count. Each one still has to name something he did in the
+last 24–72 hours. **Two grounded techniques beat one grounded and two generic**, and one
+good one is a complete section. What this is still not: a roundup of five tips scraped from
+a blog, which is the thing this section exists instead of.
 
 ### The rule that makes it work: ground it in what he actually did
 
@@ -1679,17 +1709,44 @@ is kind of something I struggle with... who to hit up for what."*
   Name real people only; if the sources don't support a name, say who's missing instead.
 - **He sends the invites.** Never contact anyone, add attendees, or write to Peeps.
 
-## Step 31: Ship Something — PAUSED
+## Step 31: Ship something, when the day hands you something worth shipping
 
-**Paused 2026-08-27.** Jack: *"No need to continue these nightly reviews or the house
-search."* **Do not ship unrequested code overnight.** Build only when he asks for
-something by name, or when a live conversation that day produced an explicit spec.
+**Un-paused 2026-09-30.** It was paused on 2026-08-27 because it was shipping unrequested
+work nightly, which is a different thing. His words re-opening it: *"I'm not sure we want
+to pause the ship-something idea. I think that's kind of cool: the idea of optionally
+shipping something if there's low-hanging fruit to just fix or a cool thing to build based
+on conversations from the day."*
 
-If that happens: off-by-default localStorage toggle (copy `src/hooks/useExperimentalHome.ts`),
-purely additive, **no database changes**, never touch auth, pricing/invoice math,
-client-facing surfaces, or edge functions that send email or SMS. Typecheck and
-`git pull --rebase` before pushing; never force. The standard, in his words: *"which human
-keystrokes does this remove?"* If none, it is a dashboard, and he has enough dashboards.
+**So it is optional, opportunistic, and grounded in the day — never a quota.** Most days it
+produces nothing, and that is the correct outcome. It runs when the gather has already
+handed you one of these:
+
+- **A bug named out loud.** Someone said it in Slack, a transcript, or one of his own
+  prompts, and it is small and obvious. The Step 19 transcripts are the best source here —
+  a complaint he repeated across two sessions is a thing he actually wants gone.
+- **A low-hanging fix you found yourself** while reading the databases or the drive in
+  Steps 9 and 22 — a mislabelled row, a check that does not exist, a report nobody runs.
+- **A spec that already exists.** A live conversation that day produced the shape of a
+  thing. Build that thing, not your interpretation of it.
+
+**The standard, in his words: *"which human keystrokes does this remove?"*** If none, it is
+a dashboard, and he has enough dashboards.
+
+**The guard rails, unchanged from the paused version and not negotiable:**
+
+- **Off by default** behind a flag, purely additive, **no database changes**.
+- **Never touch** auth, pricing or invoice maths, client-facing surfaces, or anything that
+  sends email or SMS.
+- **Never write to a client's production data.** Read-only stays read-only.
+- Typecheck and rebase before pushing; never force.
+- **Report it in the digest as what it is** — a small unrequested fix, with the commit
+  linked and one line on why you thought it was wanted. If he did not ask for it, say so
+  plainly rather than presenting it as assigned work.
+
+**This overlaps with the overnight loop (Step 21) and that is fine.** The loop builds one
+substantial thing a night from the ideas block; this is the ten-minute fix you noticed
+while reading. If a thing is big enough to need a night, put it in the ideas block tagged
+`[overnight]` instead of building it here.
 
 ## Step 32: The Work Board — the system of record for open threads
 
@@ -2212,7 +2269,9 @@ since the two pages merged.
 
 Add `--dry` to preview without sending.
 
-**Write the message to stand on its own.** Jack often reads only this. It should answer "what happened today and is anything on fire?" without the link. But keep it short — TL;DR, up to three flagged items, one stats line. If nothing is urgent, drop the ⚡ block rather than padding it.
+**Write the message to stand on its own.** Jack often reads only this. It should answer "what happened today and is anything on fire?" without the link. But keep it short — TL;DR, up to three flagged items, **the three questions from Step 26**, one stats line. If nothing is urgent, drop the ⚡ block rather than padding it.
+
+**The three questions belong here, not only on the page.** Jack, 2026-09-30: *"I'd rather just be able to see the questions every time in the text."* Three short lines under the flagged block, no preamble. They are the one part of the digest that asks something of him, and they only work if he can see them without pressing play.
 
 Send **once**, after the Notion page is confirmed created and both reading pages are published. If the page creation failed, send a message saying the digest failed and why — a silent failure is worse than a bad digest. Never send before the page exists; the link would 404.
 
