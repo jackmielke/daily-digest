@@ -253,8 +253,7 @@ have it. That is the most likely explanation for the 28 August gap; confirm rath
 assume, and report which it was.)
 
 
-**Verified working 2026-08-27.** Jack: *"There's a lot of the client updates and relevant
-the client info not only in Slack..."* The Slack connector reaches the full
+**Verified working 2026-08-27.** Jack: *"There's a lot of [client] updates and relevant [client] info not only in Slack…"* The Slack connector reaches the full
 `<the workspace>` workspace. Until now this digest reported the client from the
 database and from calls, and never from the room where the company actually talks.
 
@@ -352,7 +351,7 @@ run, and the file count it returns gets one clause in the digest's own sources l
 enough that a day it silently fails is visible to him, not just to the next run.
 
 **Call the shared drive by its actual name — never "the network".** Jack, 2026-09-10: *"rather than saying
-the network, u should say the client's shared drive, not the client's app."* They
+the network, u should say the '[shared drive]' which is different from the [app]."* They
 are two separate systems and "the network" blurs them: the Net is the OneDrive share this
 step reads, the Hub is the app with the parties and the offerings in it. Use the names, in
 the page and in the audio.
