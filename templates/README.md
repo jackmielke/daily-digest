@@ -140,15 +140,18 @@ Four things in it are deliberate:
   on a quiet day and drop its link too, or the link scrolls nowhere. Ids are `p1`, `p2`…
   in page order; a section added mid-page after publishing can take a suffixed id
   (`p1b`) rather than forcing a renumber.
-- **The world gets its own part and its own nav link.** Jack, 8 September, scanning the
-  nav: *"I'm also not seeing anything about the world. I definitely liked when we had
-  that be a section as well, like researching the world."* It had been folded into a
-  catch-all "Wider world" part alongside robotics, sport, adventure, SF, markets and
-  YouTube — present on the page, invisible in the nav, which is the same as absent. It is
-  the priority segment (SKILL.md Step 10) and it is the half of the page he cannot
-  reconstruct himself, so it is never a sub-heading inside something else. The split that
-  works: **The world** (global events, then markets) and **Tech, sport and the city**
-  (AI/robotics, sport, adventure, SF, YouTube), in that order.
+- **The world is FOUR parts with four nav links, never one.** Changed 2026-09-29 when Jack
+  asked for segments: *"the more segments, the better."* The parts are **Sports**, **The
+  city**, **Tech and the world**, **The fun stuff**, in that order, and each one is also its
+  own audio track. Any of the four can be dropped on an empty day — drop its nav link with
+  it, or it scrolls nowhere.
+
+  This replaces the two-part split (`The world` / `Tech, sport and the city`) that was in
+  force from 8 September, which itself replaced a single catch-all. The original reason
+  still holds and is why this keeps getting split rather than merged: Jack, scanning the
+  nav on 8 September, *"I'm also not seeing anything about the world. I definitely liked
+  when we had that be a section as well."* **A section present on the page but invisible in
+  the nav is the same as absent.** The more the research grows, the more nav links it gets.
 - **The nav script.** Two things look over-engineered and are not: jumps go through
   `scrollIntoView` rather than hand-rolled scroll math (the artifact viewer frames the
   page, so the scrolling box is sometimes an ancestor and sometimes the document — the
