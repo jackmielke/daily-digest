@@ -11,7 +11,7 @@ It has run every day since **21 August 2026**. In that time it has produced
 with **80 voice notes**, and those replies are the reason it is still worth opening.
 
 It is plain markdown, so it runs on whatever agent you already use — Claude Code, Codex,
-Cowork. The more tools that agent can reach, the better it gets.
+anything. The more tools that agent can reach, the better it gets.
 
 ---
 
