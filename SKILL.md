@@ -1205,11 +1205,54 @@ solve this problem today of having you be able to just look through my X account
 and even link some posts in the digest."*** So this section stops being an apology and
 becomes a route.
 
-**The route: a browser that is already signed in.** X walls `/home` behind a login and
-will not serve a timeline to anything anonymous, so every API-shaped approach is dead.
-What works is reading the page in a browser that already holds his session. Sign in once,
-by hand, in the browser the agent can drive — after that, reading a logged-in page needs
-no credentials at all, which means **it works from the unattended 6am run.**
+### WORKING since 2026-10-03. Just run the script.
+
+```
+bun x-timeline.ts --passes 10          # the feed, with permalinks
+bun x-timeline.ts --hours 24 --json
+```
+
+**It reads a pinned `x.com/home` tab in Arc, in the background.** It never touches the
+active tab, it is no longer a 6am-only tool, and it no longer collides with
+`youtube-watched.ts`. First real run returned **41 posts with permalinks** while Jack was
+using Arc for something else.
+
+**The belief that blocked this for a month was false.** `youtube-watched.ts` says, and
+SKILL.md repeated, that "Arc can only inject into the active tab." It cannot only do that.
+Arc's `execute` command takes a **tab specifier**, and `tab` responds to it, so any tab in
+any window works — measured 2026-10-03, `execute t javascript "1+1"` against a non-active
+tab returned 2 with another tab in front. The real constraint is narrower and still true:
+**a newly made tab is not reliably active**, and the old code worked around that by driving
+the tab it was already on. Addressing the tab by URL instead removes the whole problem.
+**`youtube-watched.ts` should be moved to the same approach** — it is still hijacking the
+active tab for no reason.
+
+**Two Arc limits to know before changing any of this.** `make new tab` is in the dictionary
+but **is not implemented** — it returns `missing value` and creates nothing, which is why
+the tab has to be pinned by hand, once. And `tab i of window` cannot be used as a specifier
+(`-1700`); iterate `every tab of w` and match on `URL of t`.
+
+**If the pinned tab is missing** the script says so and exits cleanly. If it lands on a
+login wall it says that instead. Either way: report it in one line, never silently thin the
+research.
+
+**Do not point this at a tab he might be typing in.** An earlier version drove the active
+tab and was run at 11am against a half-written post in `x.com/compose`; the Apple Event hung
+for two minutes. The pinned-tab design makes that impossible, and it should stay that way.
+
+---
+
+**Why it has to be a browser at all.** X walls `/home` behind a login and will not serve a
+timeline to anything anonymous, so every API-shaped approach is dead without paying. Sign in
+once, by hand, in the browser the agent can drive — after that, reading a logged-in page
+needs no credentials at all, which means **it works from the unattended 6am run.**
+
+**The paid alternatives, for when this breaks.** xAI's X Search (`x-search.ts`, written and
+waiting on a `console.x.ai` key, ~$5/1,000 calls) searches **public X, not his home feed** —
+a different product, good for topics and useless for "what did the people I follow post."
+The official X API's `GET /2/users/:id/timelines/reverse_chronological` **is** the real home
+timeline and costs **$200/month**, fourteen times what the rest of this digest costs to run.
+Neither is worth buying while the pinned tab works.
 
 **Do not try to sign in from a scheduled run.** The password-manager flow requires an
 attended session and will refuse; that was measured on 2026-09-30. If the timeline comes
@@ -1243,11 +1286,22 @@ every other source in this file applies, harder:
   written, say so once and note what he changed** — that is the only feedback loop Step 24
   has ever had.
 
-**The extractor, verified 2026-09-30 (31 posts, with permalinks).** Run it in the
-signed-in browser tab after navigating to `x.com/home`. Two things about it are load-bearing
-and both were learned the hard way: **use top-level `await` with a bare final expression** (an
-`async` IIFE returns `{}` through the JS bridge), and **key the map on the permalink** so the
-scroll passes dedupe against each other.
+**The extractor itself** lives in `x-timeline.ts` and you should not need to touch it.
+It is reproduced below because the three things it handles will bite anyone writing their
+own, and because the script is the only place they are encoded.
+
+**The feed is virtualised** — about five `article` elements mounted at a time, so one read
+returns five posts however long the feed is. Scroll and accumulate. **Key the map on the
+permalink**, or the passes fight each other instead of adding up. And **`eval` cannot
+`await`**: the injection goes through `eval(atob(...))`, where top-level `await` is a syntax
+error and an `async` IIFE comes back as `{}` through the bridge — so the scroll loop lives
+in TypeScript, outside the page, and the posts accumulate in `window.__xseen` between calls.
+(The 30 September note here said to use top-level `await` with a bare final expression. That
+was written against a different injection path and is wrong for this one.)
+
+Finally: **osascript returns the result double-encoded.** stdout is a quoted JSON string
+*containing* JSON, so one `JSON.parse` yields a string whose `.url` is `undefined` — which
+reads exactly like "we landed on the wrong page". Parse twice.
 
 ```js
 const seen = new Map();
