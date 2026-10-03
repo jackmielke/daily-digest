@@ -66,6 +66,7 @@ type Post = {
   ctx: string | null;
   text: string;
   url: string;
+  from?: string;
 };
 
 const args = process.argv.slice(2);
@@ -78,6 +79,20 @@ const HOURS = flag("hours", 0);
 const AS_JSON = args.includes("--json");
 const QUIET = args.includes("--quiet"); // skip the focus borrow, accept a shallow read
 const PATH = (() => { const i = args.indexOf("--path"); return i >= 0 && args[i + 1] ? args[i + 1] : ""; })();
+/**
+ * --all walks several logged-in surfaces in one borrow of the foreground and merges
+ * them, deduped on permalink. The home feed is the firehose; bookmarks are the half
+ * he curated himself and are consistently the better read; notifications are where
+ * replies to him live. Each surface is its own navigation, so `window.__xseen` is
+ * wiped between them — the accumulation has to happen out here in TypeScript.
+ */
+const SURFACES: Array<{ path: string; name: string }> = args.includes("--all")
+  ? [
+      { path: "/home", name: "feed" },
+      { path: "/i/bookmarks", name: "bookmark" },
+      { path: "/notifications", name: "notification" },
+    ]
+  : [{ path: PATH || "/home", name: PATH ? PATH.replace(/^\//, "") : "feed" }];
 
 const MARK = "x.com/";
 
@@ -163,9 +178,7 @@ const hisTab = QUIET
   ? ""
   : osa(`tell application "Arc" to return URL of active tab of front window`).stdout.trim();
 
-// --path reads another X surface through the same tab: /i/bookmarks, /notifications,
-// a list. This navigates OUR pinned tab, never one of his, and puts it back at the end.
-const target = PATH ? `https://x.com${PATH.startsWith("/") ? PATH : "/" + PATH}` : "https://x.com/home";
+// Navigating OUR pinned tab, never one of his, and putting it back at the end.
 const navPinned = (u: string) =>
   osa(`tell application "Arc"
     repeat with w in windows
@@ -177,21 +190,15 @@ const navPinned = (u: string) =>
       end repeat
     end repeat
   end tell`);
-navPinned(target);
 
-// Reload so we get this morning's feed rather than whatever was on screen last time.
-if (!QUIET) selectByUrl(MARK);
-
-await new Promise((r) => setTimeout(r, 8000)); // the timeline hydrates slowly
-
-// Give the foreground back. Never navigates anything — only changes the selection.
-const closeTab = () => {
-  // Put the pinned tab back on /home, or the next run cannot find it by URL.
-  if (PATH) navPinned("https://x.com/home");
+// Give the foreground back, and leave the pinned tab on /home so the next run finds it.
+const done = () => {
+  navPinned("https://x.com/home");
   if (!QUIET && hisTab && /^https?:/.test(hisTab)) selectByUrl(hisTab);
 };
-onExit = closeTab;
+onExit = done;
 
+/** Defines the collector on the page and runs one grab. Re-sent after every navigation. */
 const SETUP = `
   (function(){
     if(!window.__xseen) window.__xseen = {};
@@ -224,52 +231,50 @@ const SETUP = `
     return JSON.stringify({ n: window.__xgrab(), url: location.href });
   })()`;
 
-const first = inject(SETUP);
-if (first.status !== 0) {
-  closeTab();
-  fail(`Arc JS failed: ${first.stderr?.trim()}`);
-}
-if (first.stdout.includes("__NOTAB__")) fail("could not find or open an x.com/home tab");
+/** Read one X surface end to end. Returns its posts, tagged with where they came from. */
+async function readSurface(path: string, name: string): Promise<Post[]> {
+  navPinned(`https://x.com${path}`);
+  if (!QUIET) selectByUrl(MARK);
+  await new Promise((r) => setTimeout(r, 8000)); // the page hydrates slowly
 
-let state: any;
-try {
-  state = readResult(first.stdout);
-} catch {
-  closeTab();
-  fail(`could not read the page back: ${first.stdout.slice(0, 200)}`);
-}
+  const first = inject(SETUP);
+  if (first.status !== 0) { console.error(`  ${name}: Arc JS failed`); return []; }
+  if (first.stdout.includes("__NOTAB__")) { console.error(`  ${name}: pinned tab vanished`); return []; }
 
-if (/\/i\/flow\/login|\/login/.test(state.url || "")) {
-  closeTab();
-  fail(`Arc is signed out of X — it landed on ${state.url}`);
-}
+  let state: any;
+  try { state = readResult(first.stdout); }
+  catch { console.error(`  ${name}: could not read the page back`); return []; }
+  if (/\/i\/flow\/login|\/login/.test(state.url || "")) {
+    console.error(`  ${name}: signed out of X (landed on ${state.url})`);
+    return [];
+  }
 
-// The scroll loop lives out here, not in the page, because eval cannot await.
-for (let i = 0; i < PASSES; i++) {
-  const step = inject(
-    `(function(){ window.scrollBy(0, window.innerHeight * 1.4); return "ok"; })()`,
+  // The scroll loop lives out here, not in the page, because eval cannot await.
+  // A hidden tab will not lazy-load at all, which is why --quiet reads shallow.
+  for (let i = 0; i < PASSES; i++) {
+    if (inject(`(function(){ window.scrollBy(0, window.innerHeight * 1.4); return "ok"; })()`).status !== 0) break;
+    await new Promise((r) => setTimeout(r, 1200));
+    if (inject(`(function(){ return JSON.stringify({n: window.__xgrab()}); })()`).status !== 0) break;
+  }
+
+  const dump = inject(
+    `(function(){ return JSON.stringify({posts:Object.keys(window.__xseen).map(function(k){return window.__xseen[k];})}); })()`,
   );
-  if (step.status !== 0) break;
-  await new Promise((r) => setTimeout(r, 1200));
-  if (inject(`(function(){ return JSON.stringify({n: window.__xgrab()}); })()`).status !== 0)
-    break;
+  if (dump.status !== 0) { console.error(`  ${name}: final read failed`); return []; }
+  try {
+    const got: Post[] = (readResult(dump.stdout).posts || []).map((p: Post) => ({ ...p, from: name }));
+    console.error(`  ${name}: ${got.length}`);
+    return got;
+  } catch { console.error(`  ${name}: could not parse the posts`); return []; }
 }
 
-const dump = inject(
-  `(function(){ return JSON.stringify({url:location.href, posts:Object.keys(window.__xseen).map(function(k){return window.__xseen[k];})}); })()`,
-);
-closeTab();
+console.error(`reading ${SURFACES.length} surface(s)${QUIET ? " (quiet \u2014 expect a shallow read)" : ""}:`);
+const byUrl = new Map<string, Post>();
+for (const sfc of SURFACES) for (const post of await readSurface(sfc.path, sfc.name))
+  if (!byUrl.has(post.url)) byUrl.set(post.url, post);
+done();
 
-if (dump.status !== 0) fail(`Arc JS failed on the final read: ${dump.stderr?.trim()}`);
-
-let out: any;
-try {
-  out = readResult(dump.stdout);
-} catch {
-  fail(`could not read the posts back: ${dump.stdout.slice(0, 200)}`);
-}
-
-const posts: Post[] = (out.posts || []).sort((a: Post, b: Post) => (a.when < b.when ? 1 : -1));
+const posts: Post[] = [...byUrl.values()].sort((a, b) => (a.when < b.when ? 1 : -1));
 const cutoff = HOURS ? Date.now() - HOURS * 3600_000 : 0;
 const inWindow = cutoff
   ? posts.filter((p) => p.when && new Date(p.when).getTime() >= cutoff)
@@ -281,13 +286,13 @@ if (AS_JSON) {
   console.log(
     `=== X timeline — ${inWindow.length} post(s)` +
       (HOURS ? ` in the last ${HOURS}h` : "") +
-      ` from ${posts.length} scanned over ${PASSES} passes ===\n`,
+      ` from ${posts.length} across ${SURFACES.map((x) => x.name).join(', ')} ===\n`,
   );
   for (const p of inWindow) {
     const t = p.when
       ? new Date(p.when).toLocaleString("en-US", { timeZone: "America/Los_Angeles" })
       : "?";
-    console.log(`  ${p.who} ${p.handle}  ${t}`);
+    console.log(`  ${p.who} ${p.handle}  ${t}${p.from && p.from !== 'feed' ? `  [${p.from}]` : ''}`);
     if (p.ctx) console.log(`  (${p.ctx.replace(/\n/g, " ")})`);
     console.log(`  ${p.text.slice(0, 260)}`);
     console.log(`  ${p.url}\n`);
