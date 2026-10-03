@@ -24,11 +24,23 @@ Six steps. You need three things.
 files. **A cloud agent is the easier start**, because it runs without your laptop being
 open, and you can set the whole thing up from your phone.
 
-**An API key for the voice.** Worth being precise, because it confuses people: your agent
-does all the thinking and writing. The key is *only* for turning the finished script into
-speech. OpenAI's `gpt-4o-mini-tts` is ~1.5¢/minute — twenty minutes a day is about **$9 a
-month**. ElevenLabs sounds slightly better at ~14¢/minute, **nine times more**. Either
-works; `--provider elevenlabs` switches.
+**An API key for the voice. There is no way around this one.** Worth being precise,
+because it confuses people: your agent does all the thinking and writing. The key is
+*only* for turning the finished script into speech. OpenAI's `gpt-4o-mini-tts` is
+~1.5¢/minute — twenty minutes a day is about **$9 a month**. ElevenLabs sounds slightly
+better at ~14¢/minute, **nine times more**. Either works; `--provider elevenlabs` switches.
+
+Two things that stall people here, both worth knowing before you start:
+
+- **An OpenAI API key is not a ChatGPT subscription.** Different product, different site.
+  Go to [platform.openai.com](https://platform.openai.com), add a payment method, put $5
+  of credit on it, then create a key. Paying for ChatGPT Plus gets you nothing here, and
+  a key with no credit behind it fails with an error that does not say so.
+- **Your delivery channel has to be able to play voice messages**, not just text. Telegram
+  sends them natively, which is the only reason this repo uses it. If you are delivering
+  somewhere that cannot carry audio, you will quietly end up with a text-only digest —
+  which is the failure this whole setup is trying to avoid. Post the audio where it can
+  actually be played, even if that is a different place from the written briefing.
 
 **A Telegram bot.** Ten minutes, and it's the fastest way onto your phone.
 
