@@ -4,10 +4,15 @@
 that has run every morning since August 2026. It is a method to adapt, not a turnkey
 install — your agent reads it, asks you three questions, and writes you your own.
 
-**Start much smaller than what's in here.** Three sources and a written page is a real
-product. Mine began as one Telegram scrape and a Notion page. Everything else — the audio,
-the photos, the feedback loop — came later, and only because the small version was already
-worth reading.
+**Start much smaller than what's in here — on sources, not on outputs.** Three sources is
+a real product; mine began as one Telegram scrape. But build all three outputs on day one
+even if each is thin: **a page, audio tracks, and a message that links to both.**
+
+That distinction matters more than anything else on this page. The written recap needs no
+keys and no hosting, so it is the part an agent will happily ship on its own, and a digest
+that is only a block of text in a chat window stops getting opened in about a week. The
+audio is the part that turns it into a habit, and it is the part that gets quietly
+dropped. If your agent hands you a lovely written sample and no sound, it has not finished.
 
 ---
 

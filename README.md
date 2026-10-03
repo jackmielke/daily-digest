@@ -20,14 +20,43 @@ anything. The more tools that agent can reach, the better it gets.
 Paste this to your agent:
 
 ```
-Read https://raw.githubusercontent.com/jackmielke/daily-digest/main/SKILL.md
-and set it up for me. I'm not Jack — ask me what I actually want in mine,
-and which of my tools you can reach, before you build anything.
+Build me a daily digest. Read both of these first:
+https://raw.githubusercontent.com/jackmielke/daily-digest/main/SKILL.md
+https://raw.githubusercontent.com/jackmielke/daily-digest/main/SETUP.md
+
+Every run has to produce all three of these, not a sample in chat:
+  1. a page I can open and read
+  2. short audio tracks I can play on a walk
+  3. a short message on my phone that links to both
+
+The audio is the point. If you can't do it yet, tell me exactly what you
+need from me — an API key, a bot token — and don't ship text-only instead.
+
+I'm not Jack; this is my digest. Ask me what I want in mine and which of
+my tools you can actually reach before you build anything.
 ```
 
-That is the whole entry point. The agent reads the file, asks you what yours should
-contain, and the two of you cut it down from there. If you'd rather see what you're
-signing up for first, read [EXAMPLE.md](EXAMPLE.md).
+That is the whole entry point. If you'd rather see what you're signing up for first,
+read [EXAMPLE.md](EXAMPLE.md).
+
+### Why the paste block is that specific
+
+Because agents given a looser version of it write you one good briefing in the chat
+window and stop. That is the single most common way this gets built wrong — the written
+recap is the easy part and the only part that needs no keys, so it is the part that
+ships alone.
+
+**Three outputs, and they do different jobs:**
+
+| | What it's for | What happens without it |
+|---|---|---|
+| **The page** | The one you actually read | A wall of markdown in a chat window feels like enough. You stop opening it by about day four. |
+| **The audio** | A walk, a run, the commute | This is the habit. Thirty minutes you'd otherwise spend on nothing becomes the thing you look forward to. |
+| **The message** | A glance, and somewhere to reply | No reply channel means no feedback loop, and no feedback loop means it never gets better. |
+
+Start smaller than the full file by all means — three sources beats thirty. But start
+with all three *outputs*, even if each one is thin on day one. They are what make it a
+product rather than a very long answer.
 
 ---
 
