@@ -7,11 +7,58 @@ half an hour of audio in segments I listen to on a walk.** Then it does a shorte
 in the evening that corrects whatever the morning got wrong.
 
 It has run every day since **21 August 2026**. In that time it has produced
-**387 audio tracks — 23 hours of them**, averaging 34 minutes a day. I have replied to it
+**460 audio tracks — 26 hours of them**, averaging 33 minutes a day. I have replied to it
 with **80 voice notes**, and those replies are the reason it is still worth opening.
 
 It is plain markdown, so it runs on whatever agent you already use — Claude Code, Codex,
 anything. The more tools that agent can reach, the better it gets.
+
+---
+
+## Start here
+
+Paste this to your agent:
+
+```
+Read https://raw.githubusercontent.com/jackmielke/daily-digest/main/SKILL.md
+and set it up for me. I'm not Jack — ask me what I actually want in mine,
+and which of my tools you can reach, before you build anything.
+```
+
+That is the whole entry point. The agent reads the file, asks you what yours should
+contain, and the two of you cut it down from there. If you'd rather see what you're
+signing up for first, read [EXAMPLE.md](EXAMPLE.md).
+
+---
+
+## The part that makes it work: it rewrites itself
+
+Everything else in here is plumbing. This is the actual idea.
+
+**The digest is delivered somewhere I can reply to it.** Mine arrives in a Telegram chat
+that exists for nothing else, so any message I send back is unambiguously an instruction
+to it — typed, or more often a voice note while I'm walking, transcribed automatically.
+
+**Every reply is read before the next one is written**, once, off a watermark so nothing
+gets surfaced twice. A reply outranks everything else in the gather, because every other
+source is the agent guessing what matters to me and a reply is me saying it.
+
+**And then the important bit: a correction gets written into the skill file the same day.**
+Not remembered for the session. Edited into the instructions, with the date and my own
+words next to it, so it survives into every future run. "Stop comparing the prep rows to
+the guest counts" became a rule. "You say *actually* and *genuinely* too much" became a
+rule. "Don't write like a ledger" became a rule, and it changed the voice of the whole
+thing more than any other single edit.
+
+That is why the file is 29,000 words and why it reads like a pile of scar tissue. It is
+one. Forty-odd days of me saying *no, not like that* and the file growing a reason each
+time. A rule you can see the reason for is one an agent can apply intelligently; a rule
+without one gets followed stupidly — which is also why none of the old rules were ever
+compressed into tidy bullet points.
+
+**If you take one thing from this repo, take that loop.** Make replying trivial, read the
+replies first, and treat "stop doing X" as a permanent edit rather than a note. A digest
+that cannot be corrected gets muted in a week.
 
 ---
 
@@ -21,7 +68,7 @@ anything. The more tools that agent can reach, the better it gets.
 
 **The real one.** Not a starter, not a cleaned-up version for an audience: this is the
 working file my agent reads every morning, with the account identifiers stripped out and
-nothing else changed. About 27,000 words.
+nothing else changed. About 29,000 words.
 
 It is long on purpose. Almost every rule in it exists because something specific went
 wrong once, and it carries the date and the quote that produced it. A rule you can see
@@ -82,8 +129,9 @@ drifting is a bug.
 - **The four sections nobody skips** are the generative ones: the three funniest things
   that happened, the invented ideas, the one technique, the three questions. The recap is
   the part you'd shorten; those are the part you'd forward.
-- **Make replying trivial and act on the replies the same day.** This is the whole thing.
-  See the feedback loop section in `SKILL.md`.
+- **Make replying trivial and act on the replies the same day.** This is the whole thing —
+  see [the section above](#the-part-that-makes-it-work-it-rewrites-itself), and Step 3 in
+  `SKILL.md` for how the replies actually get read.
 
 ## What's not here
 

@@ -7,7 +7,7 @@ description: A personal morning briefing. Reads your own tools, researches what 
 > morning since 21 August 2026. Not a cleaned-up version written for an audience — this is
 > the working file, with the account identifiers stripped out and nothing else changed.
 >
-> It is long (~27,000 words) and that is the point. Almost every rule in here exists
+> It is long (~29,000 words) and that is the point. Almost every rule in here exists
 > because something specific went wrong once, and the rule carries the date and the quote
 > that produced it. A rule you can see the reason for is a rule an agent can apply
 > intelligently; a rule without one gets followed stupidly.
@@ -236,6 +236,11 @@ Also present and usually noise, but check before asserting a gap: Mars College 2
 Canvas, two residency calendars, three tide feeds, US
 holidays, a raw Supabase `calendar-feed` URL, and a personal address.
 **Re-run `list_calendars` occasionally** — he adds calendars when he starts something new.
+
+**EXCLUDE the `Daily Digest` calendar from this merge.** Since 2 October this skill
+writes its own all-day event there every morning (Step 38). It is this skill's output,
+not a source: nothing on it is ever a commitment, and reading it back means reporting
+the digest to itself as something Jack has to do.
 
 ## Step 8: the client's Slack — READ IT EVERY DAY, it is not optional
 
@@ -2682,3 +2687,32 @@ tracks, so it is safe to re-run any time a day looks missing.
 **The app lives at `~/dev/digest-ios`** (SwiftUI, XcodeGen, `./build.sh` to install on
 his phone, `./build.sh sim` to just compile). `build.sh` bakes the admin key in from
 `~/dev/clips/.adminkey`, so rotating that key means rebuilding the app.
+
+## Step 38: File the day as an all-day event
+
+**Added 2026-10-02.** The digest now writes itself onto a calendar of its own, so a
+year of themed titles is scannable in month view next to the life they describe.
+
+After Step 33 has the Notion row and Step 34 the reading page, create one **all-day
+event** on the **Daily Digest** calendar (its id is in `PRIVATE.md` → Calendars):
+
+- **Title: the row's Title, verbatim.** No emoji prefix — the calendar's own colour
+  already identifies it, and in month view Google truncates to roughly the first
+  four words, so every character spent on decoration is a word of the title lost.
+- **`availability: AVAILABILITY_FREE`** and **no reminders**. It is a record of a
+  day that already happened; it must never block time or buzz.
+- **Description:** the TL;DR, then the track count and total length, then the
+  reading-page URL and the Notion URL on their own lines.
+- **One event per date.** Re-check before writing on a re-run or a late fire, the
+  same way Step 33 checks for a duplicate row.
+
+### The feedback loop this creates — read before touching Step 7
+
+**Step 7 merges every calendar, and this calendar is now one of them.** Left alone,
+tomorrow's run reads yesterday's digest back as a commitment and reports the digest
+to itself. **Exclude the Daily Digest calendar from the Step 7 merge.** It is not a
+source; it is this skill's own output, and nothing in it is ever a thing Jack has to
+do. The same goes for the 5pm check-in.
+
+`backfill-archive.ts` has the matching history job if the calendar ever needs
+repopulating; the first seven days were written by hand on 2 October.
