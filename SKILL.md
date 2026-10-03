@@ -2602,3 +2602,83 @@ this directory's first, then `~/dev/vibey-robot/.env` as a fallback. **The Eleve
 key currently lives only in the vibey-robot `.env` and is flagged there as having been
 pasted into a chat transcript; it should be rotated and given its own entry here.**
 No key is ever logged.
+
+## Step 37: Publish to the Digest iOS app
+
+**Added 2026-10-02.** Jack has a native iPhone app for the digest — a proper audio
+player with lock-screen controls and background playback, plus the reading page.
+Telegram voice notes cannot do any of that, and the audio is the half he consumes
+on a walk, so this step is what makes the set usable mid-run.
+
+**Render the audio to disk as well as sending it.** Step 36's command gains `--out`:
+
+```
+bun speak-digest.ts --set "<e.g. Friday 2 October>" --out /tmp/digest-mp3 <<'EOF'
+…
+EOF
+```
+
+`--out` saves one mp3 per track alongside the Telegram send, so the set is
+synthesized **once** and costs nothing extra. Forgetting it means paying the whole
+set's cost again to re-render, which is the one real mistake available here.
+
+**Then publish**, after Steps 33–36 have all landed:
+
+```
+cd ~/dev/clips && bun publish-digest.ts \
+  --date <YYYY-MM-DD> \
+  --title "<the row's Title>" \
+  --tldr "<the TL;DR sentence>" \
+  --page /path/to/the/published/digest.html \
+  --audio /tmp/digest-mp3 \
+  --script /path/to/the/audio/script.txt \
+  --meta /tmp/digest-meta.json \
+  --notion "<the new Notion page URL>" \
+  --artifact "https://claude.ai/code/artifact/… (see PRIVATE.md)"
+```
+
+**`--meta` carries the two short lists onto the app's first screen**, which is where
+Jack asked for them — the flagged things and the three questions are what he wants
+without pressing play, and a question you have to rewind an audio track to hear is a
+question that does not get answered. Write it alongside the page:
+
+```json
+{ "flagged": ["…", "…"], "questions": ["…", "…", "…"] }
+```
+
+Same text as the ⚡ callout and the `Three questions for you` section; each flagged
+item should stand alone without the page around it.
+
+It copies the mp3s to `public/d/<date>/NN.mp3`, copies the reading page to
+`public/d/<date>.html` so the phone opens it without a claude.ai login, upserts
+`api/_digests.json`, prunes audio older than 21 days (`--keep N`), and deploys.
+`--no-deploy` stops before the deploy if you want to check the manifest first.
+
+**Track titles come from the `== Name ==` headers of the audio script**, so they are
+the same names the set already announces. Pass `--script` or they fall back to
+filenames.
+
+**Where the app reads from:** `GET /api/digests` (list) and `?date=` (one, with
+tracks), both behind `Authorization: Bearer <ADMIN_KEY>` — the same key the clips
+`/library` page uses. The audio and the page are static files under `public/d/`,
+which is deliberate: AVPlayer needs HTTP range requests to stream and scrub, the
+CDN gives those free on a static file, and proxying audio through a function to add
+auth would mean hand-rolling Range. Same posture as `public/v/` for the clips —
+unguessable paths, key-gated index.
+
+**Re-running a date replaces it.** A re-run with no `--audio` keeps the tracks it
+already had, so fixing a title is free.
+
+**If this step fails the digest is still fine** — the row, the page, the ping and the
+Telegram audio have all gone already. Say it failed and why; the app will simply
+show yesterday until the next run.
+
+**The archive is backfilled separately.** `bun backfill-archive.ts` in `~/dev/clips`
+walks the Daily Digest database and adds a row for every past digest — title, TL;DR
+and Notion link, no audio, `audioExpired` set so the app shows them as text rather
+than a play button that would do nothing. It never touches a date that already has
+tracks, so it is safe to re-run any time a day looks missing.
+
+**The app lives at `~/dev/digest-ios`** (SwiftUI, XcodeGen, `./build.sh` to install on
+his phone, `./build.sh sim` to just compile). `build.sh` bakes the admin key in from
+`~/dev/clips/.adminkey`, so rotating that key means rebuilding the app.
