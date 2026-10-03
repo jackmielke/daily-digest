@@ -306,7 +306,23 @@ if (!tracks.length) {
 }
 
 const words = (t: string) => t.split(/\s+/).filter(Boolean).length;
-const secs = (t: string) => Math.round((words(t) / 150) * 60); // ~150 wpm narration
+/**
+ * PRE-RENDER ESTIMATE ONLY — used for --dry, for the cost line, and for nothing else
+ * once the audio exists. 150 wpm was wrong and overstated every set by about 15%: the
+ * 2 Oct digest was captioned 34:19 and was really 29:52. Measured across all twelve
+ * tracks of 3 Oct, `fable` on a British read lands at ~178 wpm. The overnight gauntlet
+ * loop found this; it had been wrong since the script was written.
+ */
+const secs = (t: string) => Math.round((words(t) / 178) * 60);
+
+/**
+ * THE REAL DURATION, once a track is rendered. OpenAI's TTS returns 128 kbps CBR mp3,
+ * so bytes / 16000 is the length in seconds — verified against ffprobe on all twelve
+ * tracks of 3 Oct 2026 at 0.0% error on every one. Doing it this way rather than
+ * shelling out to ffprobe keeps the script dependency-free, which is the whole point
+ * of these three files.
+ */
+const mp3Secs = (mp3: Uint8Array) => Math.round(mp3.length / 16000);
 const clock = (n: number) => `${Math.floor(n / 60)}:${String(n % 60).padStart(2, "0")}`;
 
 const baseCast: Cast = {
@@ -438,19 +454,31 @@ async function synth(text: string, c: Cast): Promise<Uint8Array> {
 
 // Synthesize everything first: a failure on track 3 should not leave two
 // orphaned messages in the chat.
+// `realTotal` is filled in below from the rendered bytes, so the caption on track one
+// states the set's true length rather than the pre-render guess.
 const rendered: Array<{ title: string; mp3: Uint8Array; seconds: number; cast: Cast }> = [];
 for (const [n, t] of tracks.entries()) {
   try {
     const c = castFor(n);
     const mp3 = await synth(t.body, c);
-    rendered.push({ title: t.title, mp3, seconds: secs(t.body), cast: c });
-    console.log(`  ✓ ${n + 1}. ${t.title} — ${(mp3.length / 1024 / 1024).toFixed(2)} MB`);
+    rendered.push({ title: t.title, mp3, seconds: mp3Secs(mp3), cast: c });
+    console.log(
+      `  ✓ ${n + 1}. ${t.title} — ${(mp3.length / 1024 / 1024).toFixed(2)} MB, ${clock(mp3Secs(mp3))}`,
+    );
   } catch (err: any) {
     console.error(`Failed on track ${n + 1} (${t.title}): ${err.message}`);
     console.error("Nothing sent.");
     process.exit(1);
   }
 }
+
+/** The set's true length, from the rendered bytes rather than the pre-render guess. */
+const realTotal = rendered.reduce((n, r) => n + r.seconds, 0);
+if (realTotal && totalSecs)
+  console.log(
+    `Rendered ${clock(realTotal)} of audio` +
+      (Math.abs(realTotal - totalSecs) > 20 ? ` (estimated ${clock(totalSecs)})` : ""),
+  );
 
 const stamp = new Date().toISOString().slice(0, 10);
 
@@ -485,7 +513,7 @@ for (const [n, r] of rendered.entries()) {
   form.append(
     "caption",
     n === 0
-      ? `🎧 ${label} — ${rendered.length} parts, ~${clock(totalSecs)}. ${num} ${r.title} (${clock(r.seconds)})${tag}`
+      ? `🎧 ${label} — ${rendered.length} parts, ${clock(realTotal)}. ${num} ${r.title} (${clock(r.seconds)})${tag}`
       : `${num} ${r.title} (${clock(r.seconds)})${tag}`,
   );
   form.append("audio", new Blob([r.mp3], { type: "audio/mpeg" }), `digest-${stamp}-${n + 1}.mp3`);

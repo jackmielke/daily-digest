@@ -21,10 +21,21 @@
  * on. Measured 2026-10-03: `execute t javascript "1+1"` against a non-active GitHub tab
  * returned 2 while another tab stayed in front.
  *
- * So this version never touches what is on screen. It finds or makes an x.com tab,
- * addresses it by URL rather than by focus, and closes it again if it made it. That
- * removes the whole "this is a 6am tool because it hijacks your browser" constraint,
- * and it removes the collision with youtube-watched.ts that kept this from ever running.
+ * So this version never NAVIGATES anything of Jack's. It finds a pinned x.com tab by
+ * URL and drives that.
+ *
+ * IT DOES BORROW FOCUS, AND IT HAS TO. Measured 2026-10-03: in a hidden tab the feed
+ * freezes at whatever it had rendered — scrollHeight stuck at 12,565 across six
+ * attempts, 11 articles, nothing new. Scrolling works and spoofing the Page Visibility
+ * API works (document.hidden really does flip to false), and X still refuses to load
+ * more, so the gate is browser-level throttling of hidden tabs rather than anything in
+ * the page. `select` the tab and it comes alive immediately: scrollHeight 12,565 →
+ * 26,182 → 40,365 → 54,607 → 67,766 over four passes.
+ *
+ * So: select the pinned tab, scroll it, select his tab back. That is a ~30 second
+ * borrow of the foreground, and crucially it only ever changes which tab is SELECTED —
+ * it never changes the URL of a tab Jack owns, which is the mistake that nearly ate a
+ * half-written post. Pass --quiet to skip the borrow and accept the shallow read.
  *
  * Three more traps, all real:
  *
@@ -65,14 +76,17 @@ const flag = (name: string, dflt: number) => {
 const PASSES = flag("passes", 10);
 const HOURS = flag("hours", 0);
 const AS_JSON = args.includes("--json");
-const KEEP = args.includes("--keep");
+const QUIET = args.includes("--quiet"); // skip the focus borrow, accept a shallow read
+const PATH = (() => { const i = args.indexOf("--path"); return i >= 0 && args[i + 1] ? args[i + 1] : ""; })();
 
-const MARK = "x.com/home";
+const MARK = "x.com/";
 
 const osa = (script: string) =>
   spawnSync("osascript", ["-e", script], { encoding: "utf8", timeout: 90000 });
 
+let onExit: () => void = () => {};
 function fail(note: string): never {
+  onExit();
   if (AS_JSON) console.log(JSON.stringify({ posts: [], note }));
   else console.log(`x-timeline: ${note}`);
   process.exit(0);
@@ -126,28 +140,57 @@ const existing = osa(
 );
 if (existing.stdout.trim() !== "found")
   fail(
-    `no x.com/home tab in Arc. Open https://x.com/home once and pin it ` +
-      `(right-click the tab in the sidebar, Pin Tab). This reads that tab in the ` +
-      `background and never touches whatever you are looking at.`,
+    `no x.com tab in Arc. Open https://x.com/home once and pin it ` +
+      `(right-click the tab in the sidebar, Pin Tab). This drives that tab and ` +
+      `never changes the URL of any tab you own.`,
   );
 
-// Reload so we get this morning's feed rather than whatever was on screen last time.
-osa(`
-  tell application "Arc"
+const selectByUrl = (u: string) =>
+  osa(`tell application "Arc"
+    repeat with w in windows
+      repeat with t in (every tab of w)
+        if (URL of t) contains "${u.replace(/"/g, "")}" then
+          select t
+          return "selected"
+        end if
+      end repeat
+    end repeat
+    return "nomatch"
+  end tell`);
+
+// Remember which tab he is on so we can hand it straight back.
+const hisTab = QUIET
+  ? ""
+  : osa(`tell application "Arc" to return URL of active tab of front window`).stdout.trim();
+
+// --path reads another X surface through the same tab: /i/bookmarks, /notifications,
+// a list. This navigates OUR pinned tab, never one of his, and puts it back at the end.
+const target = PATH ? `https://x.com${PATH.startsWith("/") ? PATH : "/" + PATH}` : "https://x.com/home";
+const navPinned = (u: string) =>
+  osa(`tell application "Arc"
     repeat with w in windows
       repeat with t in (every tab of w)
         if (URL of t) contains "${MARK}" then
-          reload t
-          return "reloaded"
+          set URL of t to "${u}"
+          return "ok"
         end if
       end repeat
     end repeat
   end tell`);
+navPinned(target);
+
+// Reload so we get this morning's feed rather than whatever was on screen last time.
+if (!QUIET) selectByUrl(MARK);
 
 await new Promise((r) => setTimeout(r, 8000)); // the timeline hydrates slowly
 
-// Nothing to clean up: the tab is Jack's, pinned, and stays where it was.
-const closeTab = () => {};
+// Give the foreground back. Never navigates anything — only changes the selection.
+const closeTab = () => {
+  // Put the pinned tab back on /home, or the next run cannot find it by URL.
+  if (PATH) navPinned("https://x.com/home");
+  if (!QUIET && hisTab && /^https?:/.test(hisTab)) selectByUrl(hisTab);
+};
+onExit = closeTab;
 
 const SETUP = `
   (function(){

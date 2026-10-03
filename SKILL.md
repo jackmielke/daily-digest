@@ -1212,10 +1212,22 @@ bun x-timeline.ts --passes 10          # the feed, with permalinks
 bun x-timeline.ts --hours 24 --json
 ```
 
-**It reads a pinned `x.com/home` tab in Arc, in the background.** It never touches the
-active tab, it is no longer a 6am-only tool, and it no longer collides with
-`youtube-watched.ts`. First real run returned **41 posts with permalinks** while Jack was
-using Arc for something else.
+**It drives a pinned `x.com` tab in Arc.** It never changes the URL of a tab Jack owns,
+and it no longer collides with `youtube-watched.ts`. `--path /i/bookmarks` reads his
+bookmarks through the same tab; `--quiet` skips the focus borrow below.
+
+**It borrows the foreground for about thirty seconds, and it has to.** Measured
+2026-10-03: in a *hidden* tab the feed freezes at whatever it had already rendered —
+`scrollHeight` stuck at 12,565 across six attempts, eleven articles, nothing new.
+Scrolling works fine and spoofing the Page Visibility API works (`document.hidden` really
+does flip to `false`), and X still refuses to load more, so the gate is the browser
+throttling hidden tabs rather than anything in the page. `select` the tab and it comes
+alive at once: **12,565 → 26,182 → 40,365 → 54,607 → 67,766** over four passes, and a
+real run went from 8 posts to **56**.
+
+So it selects the pinned tab, scrolls, and selects his tab straight back. **Only the
+selection changes — never a URL on a tab he owns**, which is the distinction that matters
+after an earlier version nearly navigated over a half-written post.
 
 **The belief that blocked this for a month was false.** `youtube-watched.ts` says, and
 SKILL.md repeated, that "Arc can only inject into the active tab." It cannot only do that.
@@ -1231,6 +1243,14 @@ active tab for no reason.
 but **is not implemented** — it returns `missing value` and creates nothing, which is why
 the tab has to be pinned by hand, once. And `tab i of window` cannot be used as a specifier
 (`-1700`); iterate `every tab of w` and match on `URL of t`.
+
+**Bookmarks are the better half, and nothing had ever read them.** `--path /i/bookmarks`
+returned 38 saved posts going back to 2018 on the first run. The finding worth repeating:
+**his bookmarks predict his projects by weeks.** He saved a post describing a Notion board
+with backlog / blocked on me / waiting / complete that agents update, and then built
+exactly that; he saved one arguing every company needs a living skills library rather than
+a GitHub folder, and then published one. Read them as a roadmap, not as a reading list.
+Other logged-in surfaces work the same way — `/notifications`, a list, `/following`.
 
 **If the pinned tab is missing** the script says so and exits cleanly. If it lands on a
 login wall it says that instead. Either way: report it in one line, never silently thin the
@@ -2637,7 +2657,12 @@ The written digest is ~6,000 words and full of things meaningless aloud.
 Audio runs on OpenAI (`gpt-4o-mini-tts`, voice `fable`) at about **1.5 cents a
 minute** — a 22-minute set costs roughly a third of a dollar, and the script prints the
 figure every run. **Twenty minutes is the target, not the ceiling.** Reckon
-**~840 characters per spoken minute** when writing to length.
+**~1,000 characters per spoken minute** when writing to length. The figure here used to
+say 840, which is why every set overstated its own runtime by about 15% — 2 October was
+captioned 34:19 and was really 29:52. `speak-digest.ts` now measures the rendered audio
+instead of guessing: OpenAI returns **128 kbps CBR mp3**, so `bytes / 16000` is the length
+in seconds, verified against `ffprobe` on all twelve tracks of 3 October at 0.0% error on
+every one. Captions and the Telegram duration field both use the measured value now.
 
 **The hard limit: OpenAI caps one TTS request at 2,000 input tokens, roughly 9,600
 characters. Keep every track under ~8,800.** On 2026-08-29 a 10,083-character track
