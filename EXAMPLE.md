@@ -104,7 +104,7 @@ The day, reconstructed      a narrative of yesterday, hour by hour
 Email                       including the phishing, named
 What you shipped            17 commits as one story, not 17 bullets
 Sharpening                  one technique, aimed at something you did this week
-Action items                three, in the open
+Action items                three, in the open; the rest in the Review Queue
 Comedy                      the three funniest things, verbatim, speaker named
 Five new ideas              mechanisms, not suggestions
 Today in AI & tech          your stack first, then the wider conversation

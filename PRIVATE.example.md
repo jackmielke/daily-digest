@@ -9,8 +9,15 @@ you. The test: would someone building their own version need it? Then it's publi
 ## Accounts
 
 - **Telegram chat id** — from `@userinfobot`
-- **Notion data sources** — `collection://<id>` for the digest database, the task board,
-  and anything else the skill queries
+- **Notion data sources** — `collection://<id>` for each of these, and anything else the
+  skill queries:
+  - the digest database
+  - the **Review Queue**, the shared to-do list every agent reads and writes (database id
+    and `collection://<id>`)
+  - **Memories**, where dated Done facts are written back (database id and
+    `collection://<id>`)
+  - the **old Task Board**, read only, so the skill can refuse to write to it
+    (`collection://<id>`)
 - **Supabase project refs**, if you read a database. A project ref is the database's
   public hostname, so it does not belong in a public file.
 - **Calendar ids.** Names are not addressable — you need the ids. Most calendar APIs

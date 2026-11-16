@@ -150,7 +150,8 @@ drifting is a bug.
 - **Never write like a ledger.** Nothing is owed, overdue, or finally done. That one rule
   changed the tone more than anything else in the file.
 - **Three action items, maximum.** Nobody does eighteen. Eighteen makes it a chore list and
-  chore lists get muted.
+  chore lists get muted. The rest live in one shared Review Queue that every agent reads
+  and writes, one action per row, so nothing is tracked in two places.
 - **Read the verbatim transcript, not the summary.** Summaries are written to be useful,
   which is exactly what strips out the personality and the jokes.
 - **Omit any section with nothing to say.** A shorter digest you read beats a complete one
