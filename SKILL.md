@@ -1870,50 +1870,135 @@ substantial thing a night from the ideas block; this is the ten-minute fix you n
 while reading. If a thing is big enough to need a night, put it in the ideas block tagged
 `[overnight]` instead of building it here.
 
-## Step 32: The Work Board — the system of record for open threads
+## Step 32: The Review Queue — the shared system of record for open threads
 
-**Added 2026-08-30.** Jack asked for it after seeing someone's board on X:
-*"having a little database of all the tasks... a new method that's a little more organized."*
+**Added 2026-08-30 as the Work Board. Moved to the Review Queue 2026-11-15.** Jack asked
+for a board after seeing someone's on X: *"having a little database of all the tasks... a
+new method that's a little more organized."* On 15 November he made the Notion **Review
+Queue** the single to-do list for every agent, because two agents writing to two lists was
+the root cause of the digest re-raising things that were already half done. The old Task
+Board (this skill called it the "Work Board") is now a **read-only archive**; its live
+rows were copied into the Review Queue, each linking back to the original.
 
-Database: `Work Board`, data source `collection://…` (see `PRIVATE.md`).
-Group by `Status` for the board view.
+Database: `Review Queue`, data source `collection://…` (see `PRIVATE.md`).
+Memories: data source `collection://…` (see `PRIVATE.md`).
+Old Task Board, read only: data source `collection://…` (see `PRIVATE.md`).
 
-| Column | What belongs there |
+Target everything by ID, never by title. If a property fails to set, `notion-fetch` the
+data source and re-read the live schema; Jack renames things.
+
+| Property | Type | What goes in it |
+|---|---|---|
+| `Item` | title | **One** action, phrased as the thing Jack does |
+| `Status` | status | `Waiting on Jack`, `Approved`, `Changes requested`, `Waiting on someone`, `Done`, `Dropped` |
+| `Area` | select | The life areas (housing, client work, personal, agents); exact options in `PRIVATE.md` |
+| `Type` | select | Gmail draft, Task done, Demo, Decision, Purchase |
+| `Priority` | select | Red/urgent, Yellow, Green |
+| `Due` | date | |
+| `First asked` | date | Set once, never changed |
+| `Closed by` | text | The evidence, whenever a row is closed |
+| `Source bot` | text | `Claude digest` on every row this skill creates |
+| `Link` | url | Something openable: the draft, thread, PR, or source row |
+| `Feedback` | text | Jack's own words when he clears an item. **Append, never overwrite.** |
+| `Preview` | files | Optional screenshot |
+
+The old columns map like this:
+
+| Old Work Board column | Review Queue status |
 |---|---|
-| **Blocked on me** | Needs Jack's own hands or voice. Nothing else can move it. |
-| **Waiting on someone** | Sent, and now it's on them. Put the name in `Waiting on`. |
-| **Backlog** | Real but unscheduled. His to pace — **never chase these.** |
-| **Complete** | Done, with the evidence in `Closed by`. |
-| **Dropped** | Deliberately abandoned. Say so once and stop carrying it. |
+| Blocked on me / Waiting on me | **Waiting on Jack** |
+| Waiting on someone | **Waiting on someone**, with the name in `Feedback` (there is no Waiting on column) |
+| Complete | **Done**, with the evidence in `Closed by` |
+| Dropped | **Dropped**, with the reason in `Closed by` |
+| Backlog | **No equivalent. Don't add backlog rows.** A thought with no next action goes in Five New Ideas. |
 
-### The board replaces the action-items toggle
+### The queue replaces the action-items toggle
 
-**The page keeps only the top three.** Everything else lives here. That fixes the thing
-the weekly review has been watching for: items used to *vanish* — the count stayed level
-because things got quietly dropped and replaced, and nobody could tell the difference
-between finished and forgotten. A row cannot vanish. It moves to Complete with evidence,
-or to Dropped on purpose.
+**The page keeps only the top three**, and they come from **open Review Queue rows**.
+Everything else lives in the queue. That fixes the thing the weekly review has been watching
+for: items used to *vanish* — the count stayed level because things got quietly dropped and
+replaced, and nobody could tell the difference between finished and forgotten. A row cannot
+vanish. It moves to Done with evidence, or to Dropped on purpose.
 
 ### Every run
 
-1. **Query the board first**, before writing anything. It is the truth about what is open;
-   yesterday's digest is not.
-2. **Close what landed.** A commit, a sent message, a database row, a calendar entry — put
-   it in `Closed by` and set Status to Complete. **Evidence or it stays open.**
-3. **Move what changed hands.** He replied to someone → Waiting on someone, with the name.
-   They replied to him → Blocked on me.
-4. **Add what today surfaced**, with `First asked` set to today. **Set `First asked` once
-   and never touch it again** — it is the only thing that makes staleness visible.
-5. **Never silently delete a row.** If something is genuinely dead, set it to Dropped and
-   say so in the digest once.
+1. **Query the Review Queue first**, before writing anything, across every open status:
+   `Waiting on Jack`, `Approved`, `Changes requested`, `Waiting on someone`. It is the truth
+   about what is open; yesterday's digest is not. **Then check Memories** for a dated Done
+   fact on the same person or deliverable before calling anything still open.
+2. **Close what landed — evidence or it stays open.** Evidence is one of: a sent email, a
+   commit, a calendar entry, a database row, a dated Done fact in Memories, or **Jack's word
+   relayed by Chef** (a Memories line with Jack as the source, or a Feedback note Chef wrote
+   from what Jack said). Set Status to `Done` and fill `Closed by` with what the evidence was
+   and where, for example `Claude digest, Nov 16: sent mail to the landlord, 9:12am`.
+   "I can't see it" is not evidence either way; leave it open and say so once.
+3. **Dates in the past.** If a row is tied to a date that has passed (an event, a send-off, a
+   deadline), set it to `Done` if evidence shows it happened, otherwise `Dropped`. Say which
+   in `Closed by`. Don't leave it open.
+4. **Move what changed hands.** He replied to someone → `Waiting on someone`, name appended to
+   `Feedback`. They replied to him → `Waiting on Jack`.
+5. **Dedupe, then add what today surfaced.** Other agents (mainly Chef, Jack's other assistant)
+   write to this list too. Before creating a row, search the open rows for the same person, place, or
+   deliverable. If one exists, **update it** (append to `Feedback`, fix `Due` or `Link`)
+   rather than adding a second. Only then create, with `First asked` set to today,
+   `Source bot` set to `Claude digest`, `Status` `Waiting on Jack` (or `Waiting on someone`),
+   and `Link` set to something openable.
+6. **Respect Jack's decisions.** Never overwrite `Feedback`; append to it. Don't change the
+   Status of a row Jack set to `Approved` or `Changes requested` unless evidence closes it.
+   `Approved` never authorizes sending anything: an explicit send OK plus an approval card
+   is still required.
+7. **Never delete a row.** If something is genuinely dead, set it to `Dropped`, say why in
+   `Closed by`, and say so in the digest once.
+
+### One row, one action — never "X + Y"
+
+One row is one action with one owner and one way to know it's done. **Before every create,
+self-check the `Item`:** if it contains `+`, `and then`, or two verbs joined by "and" that
+would close separately, **split it into two rows** and mention the other row in each
+`Feedback`. "Apply for the role + text the referrer" is two rows: "Apply for the role" and
+"Tell the referrer you applied".
+
+Why: on 15 November a combined "apply + follow up with the referrer" row could only
+half-close. Jack had applied, but the follow-up was still his to do, so the row sat open and
+the digest kept re-raising the whole thing.
+
+### Never write to the old Task Board
+
+- **No creates, no updates, no status changes** on the old Task Board data source. It is a
+  read-only archive.
+- Reads are allowed **only for history** ("when was this first asked?"). Never use it for
+  open counts, the top three, or anything on the page.
+- **Guard:** before any `notion-create-pages` or `notion-update-page` call, check the parent
+  data source and the page's data source. If it is the old Task Board ID from `PRIVATE.md`,
+  **stop, don't make the call, and log it** in the run notes as `blocked write to archived
+  Task Board: <item>`.
+
+### Write Done facts back to Memories
+
+When a row closes and the outcome is a **durable fact** another agent would need later
+(applied somewhere, booked, paid, decided, passed on a place, chose X over Y), also record
+it in **Memories**:
+
+- **Update first.** Find the existing Memories row on that topic (the person, the project,
+  housing, money, the job search) and append **one dated line**, with its source:
+  `- Nov 13: Applied for the role. Source: Claude digest, confirmation email Nov 13.`
+- **Create a new Memories row only if no row covers the topic.** Its `Type` must be one of
+  `Profile`, `Preference`, `Work`, `People`, `Notes`; that list is Notion-managed and fixed.
+- **Never put contact details or secrets in Memories:** no phone numbers, email addresses,
+  street addresses, passwords, API keys, or bank or card details. Name the person; leave how
+  to reach them out.
+- **Routine closes don't need a line.** A bug fixed or a draft sent is not a fact anyone
+  will need next month.
 
 ### What not to do with it
 
-- **Don't nag from it.** A Backlog row nine months old gets mentioned once, flat, if at
-  all. The ledger rule in Step 25 governs the board exactly like everything else.
+- **Don't nag from it.** A row nine months old gets mentioned once, flat, if at all. The
+  ledger rule in Step 25 governs the queue exactly like everything else.
 - **Don't inflate it.** A thought is not a task. If it has no next action, it belongs in
   Five New Ideas, not here.
 - **Don't put routine intake on it.** Client inquiries are not tasks — see Step 15.
+- **Don't send anything from it.** Closing, approving or drafting a row is never permission
+  to send.
 
 ## Step 33: Add an Entry to the Daily Digest Database
 
@@ -2191,8 +2276,9 @@ in it actually moving — it gets a section. Otherwise it gets nothing, not a pl
 
 ## Action Items
 [The **top three only**, in the open — the ones that are genuinely time-bound or that he'd
-regret missing. Three, not five. Everything else lives on the Work Board, not in a toggle
-on this page. Link the board once, underneath.]
+regret missing. Three, not five, drawn from open Review Queue rows (Step 32). Everything
+else lives in the Review Queue, not in a toggle on this page. Link the Review Queue once,
+underneath.]
 
 ## Funny shit
 [**Three parts, every single day, never omitted.** His favourite part of the digest,
